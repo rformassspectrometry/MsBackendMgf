@@ -1,0 +1,101 @@
+---
+title: "Description and usage of MsBackendMgf"
+output:
+    BiocStyle::html_document:
+        toc_float: true
+vignette: >
+    %\VignetteIndexEntry{Description and usage of MsBackendMgf}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+    %\VignettePackage{Spectra}
+    %\VignetteDepends{Spectra,BiocStyle}
+---
+
+```{r style, echo = FALSE, results = 'asis', message=FALSE}
+BiocStyle::markdown()
+```
+
+**Package**: `r Biocpkg("MsBackendMgf")`<br />
+**Authors**: `r packageDescription("MsBackendMgf")[["Author"]] `<br />
+**Last modified:** `r file.info("MsBackendMgf.Rmd")$mtime`<br />
+**Compiled**: `r date()`
+
+```{r, echo = FALSE, message = FALSE}
+library(Spectra)
+library(BiocStyle)
+```
+
+# Introduction
+
+The `Spectra` package provides a central infrastructure for the
+handling of Mass Spectrometry (MS) data. The package supports
+interchangeable use of different *backends* to import MS data from a
+variety of sources (such as mzML files). The `MsBackendMgf` package
+allows the import of MS/MS data from mgf ([Mascot Generic
+Format](http://www.matrixscience.com/help/data_file_help.html))
+files. This vignette illustrates the usage of the `MsBackendMgf`
+package.
+
+# Importing MS/MS data from mgf files
+
+Mgf files store one to multiple spectra, typically centroided and of
+MS level 2. In our short example below, we load 2 mgf files which are
+provided with this package. Below we first load all required packages
+and define the paths to the mgf files.
+
+```{r load-libs}
+library(Spectra)
+library(MsBackendMgf)
+
+fls <- dir(system.file("extdata", package = "MsBackendMgf"),
+           full.names = TRUE, pattern = "mgf$")
+fls
+```
+
+MS data can be accessed and analyzed through `Spectra` objects. Below
+we create a `Spectra` with the data from these mgf files. To this end
+we provide the file names and specify to use a `MsBackendMgf()`
+backend as *source* to enable data import.
+
+```{r import}
+sps <- Spectra(fls, source = MsBackendMgf())
+```
+
+With that we have now full access to all imported spectra variables
+that we list below.
+
+
+```{r spectravars}
+spectraVariables(sps)
+```
+
+Besides default spectra variables, such as `msLevel`, `rtime`,
+`precursorMz`, we also have additional spectra variables such as the
+`title` of each spectrum in the mgf file.
+
+```{r instrument}
+sps$rtime
+sps$title
+```
+
+In addition we can also access the m/z and intensity values of each
+spectrum.
+
+```{r mz}
+mz(sps)
+intensity(sps)
+```
+
+When importing a large number of mgf files, setting `nonStop = TRUE`
+prevents the call to stop whenever problematic mgf files are
+encountered. 
+
+```{r all-import, eval = FALSE}
+sps <- Spectra(fls, source = MsBackendMgf(), nonStop = TRUE)
+```
+
+# Session information
+
+```{r}
+sessionInfo()
+```

@@ -13,4 +13,5 @@ The package defines the `MsBackendMgf` backend which can be used to
 import and use MS2 spectrum data from mgf files with the
 [Spectra](https://github.com/rformassspectrometry/Spectra) R package.
 
-For more information see the package vignette.
+For more information see the package
+[homepage](https://github.com/rformassspectrometry/MsBackendMgf).
