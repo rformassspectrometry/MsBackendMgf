@@ -23,6 +23,7 @@ Depends:
 Imports:
     BiocParallel,
     S4Vectors,
+    IRanges,
     methods    
 Suggests:
     testthat,

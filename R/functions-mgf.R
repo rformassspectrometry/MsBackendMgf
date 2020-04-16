@@ -1,15 +1,19 @@
-##' @param f
+##' @param f `character(1)` with the path to an mgf file.
 ##' 
 ##' @param msLevel `numeric(1)` with the MS level. Default is 2.
 ##' 
 ##' @param ... Additional parameters, currently ignored.
 ##'
 ##' @importFrom S4Vectors DataFrame
+##'
+##' @importFrom IRanges NumericList
 ##' 
 ##' @author Laurent Gatto
 ##' 
 ##' @noRd
 .read_mgf <- function(f, msLevel = 2L, ...) {
+    if (length(f) != 1L)
+        stop("Please provide a single mgf file.")
     mgf <- scan(file = f, what = "",
                 sep = "\n", quote = "",
                 allowEscapes = FALSE,
@@ -37,6 +41,8 @@
             res[[i]] <- unlist(res[[i]])
     }
 
+    res$mz <- IRanges::NumericList(res$mz)
+    res$intensity <- IRanges::NumericList(res$intensity)
     res$dataOrigin <- f
     res$msLevel <- as.integer(msLevel)
     res
@@ -48,7 +54,7 @@
 ##' @author Laurent Gatto
 ##' 
 ##' @importFrom stats setNames
-##' 
+##'
 ##' @noRd
 .extract_mgf_spectrum <- function(mgf) {
     ## grep description
