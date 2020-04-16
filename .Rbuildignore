@@ -1,0 +1,10 @@
+.editorconfig
+.gitignore
+.gitignores
+.travis.yml
+docs
+^docs$
+Makefile
+local_data
+NEWS.md
+README.Rmd
