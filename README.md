@@ -4,7 +4,7 @@
 
 The `MsBackendMgf` package provides functionality to import and handle
 MS/MS spectrum data from Mascot Generic Format
-([mgf](http://www.matrixscience.com/help/data_file_help.html)) files
+([mgf](http://www.matrixscience.com/help/data_file_help.html)) files.
 The package defines the `MsBackendMgf` backend which can be used to
 import and use MS2 spectrum data from mgf files with the
 [Spectra](https://github.com/rformassspectrometry/Spectra) R package.
