@@ -90,8 +90,6 @@
                      substring(desc, 1L, r - 1L))    
     desc <- as.list(desc)
 
-    browser()
-    
     if ("PEPMASS" %in% names(desc)) {
         ## PEPMASSMZ and PEPMASSINT can contain 2 numericals,
         ## corresponding to the precursorMz and precursorIntensity
