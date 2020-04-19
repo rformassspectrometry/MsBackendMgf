@@ -48,7 +48,7 @@ library(Spectra)
 library(MsBackendMgf)
 
 fls <- dir(system.file("extdata", package = "MsBackendMgf"),
-           full.names = TRUE, pattern = "mgf$")
+           full.names = TRUE, pattern = "spectra\\.mgf$")
 fls
 ```
 

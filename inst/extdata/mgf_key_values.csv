@@ -1,0 +1,9 @@
+key,value
+CHARGE,precursorCharge
+PEPMASSMZ,precursorMz
+PEPMASSINT,precursorIntensity
+IONMODE,polarity
+MSLEVEL,msLevel
+RTINSECONDS,rtime
+RT,rtime
+SCANS,scanIndex

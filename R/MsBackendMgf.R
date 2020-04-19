@@ -32,6 +32,9 @@ NULL
 #' @param files `character` with the (full) file name(s) of the mgf file(s)
 #'     from which MS/MS data should be imported.
 #'
+#' @param keyValues `data.frame` with key/value pairs to properly name
+#'     spectra variables. Default is [mgfKeyValues()].
+#'
 #' @param nonStop `logical(1)` whether import should be stopped if an
 #'     xml file does not contain all required fields. Defaults to
 #'     `nonStop = FALSE`.
@@ -81,7 +84,8 @@ setClass("MsBackendMgf",
 #'
 #' @rdname MsBackendMgf
 setMethod("backendInitialize", signature = "MsBackendMgf",
-          function(object, files, nonStop = FALSE, ..., BPPARAM = bpparam()) {
+          function(object, files, keyValues = mgfKeyValues(),
+                   nonStop = FALSE, ..., BPPARAM = bpparam()) {
               if (missing(files) || !length(files))
                   stop("Parameter 'files' is mandatory for ", class(object))
               if (!is.character(files))

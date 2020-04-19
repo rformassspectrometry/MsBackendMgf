@@ -1,6 +1,6 @@
 test_that("backendInitialize,MsBackendMgf works", {
     fls <- dir(system.file("extdata", package = "MsBackendMgf"),
-               full.names = TRUE, pattern = "mgf$")
+               full.names = TRUE, pattern = "spectra.+mgf$")
     be <- MsBackendMgf()
 
     ## Import a single file.
@@ -33,4 +33,13 @@ test_that("backendInitialize,MsBackendMgf works", {
     expect_error(backendInitialize(be), "'files' is mandatory")
     expect_error(backendInitialize(be, 4), "expected to be a character")
     expect_error(backendInitialize(be, "a"), "a not found")
+})
+
+
+test_that("mgf key value parsing", {
+    f <- dir(system.file("extdata", package = "MsBackendMgf"),
+             full.names = TRUE, pattern = "^key_values\\.mgf$")
+    sp <- Spectra(f, source = MsBackendMgf())
+    expect_identcal(sp[1], sp[2])
+    expect_identcal(sp[1], sp[3])
 })

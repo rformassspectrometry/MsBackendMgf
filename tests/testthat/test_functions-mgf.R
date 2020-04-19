@@ -1,6 +1,6 @@
 test_that(".read_mgf works", {
     fls <- dir(system.file("extdata", package = "MsBackendMgf"),
-               full.names = TRUE, pattern = "mgf$")
+               full.names = TRUE, pattern = "spectra.+mgf$")
 
     expect_error(.read_mgf(fls), "Please provide a single mgf file.")
 

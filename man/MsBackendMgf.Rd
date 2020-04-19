@@ -6,7 +6,14 @@
 \alias{backendInitialize,MsBackendMgf-method}
 \title{MS data backend for mgf files}
 \usage{
-\S4method{backendInitialize}{MsBackendMgf}(object, files, nonStop = FALSE, ..., BPPARAM = bpparam())
+\S4method{backendInitialize}{MsBackendMgf}(
+  object,
+  files,
+  keyValues = mgfKeyValues(),
+  nonStop = FALSE,
+  ...,
+  BPPARAM = bpparam()
+)
 
 MsBackendMgf()
 }
@@ -15,6 +22,9 @@ MsBackendMgf()
 
 \item{files}{\code{character} with the (full) file name(s) of the mgf file(s)
 from which MS/MS data should be imported.}
+
+\item{keyValues}{\code{data.frame} with key/value pairs to properly name
+spectra variables. Default is \code{\link[=mgfKeyValues]{mgfKeyValues()}}.}
 
 \item{nonStop}{\code{logical(1)} whether import should be stopped if an
 xml file does not contain all required fields. Defaults to
