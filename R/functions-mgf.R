@@ -41,8 +41,6 @@
     for (i in seq(along = sp)) 
         sp[[i]] <- .extract_mgf_spectrum(mgf[begin[i]:end[i]],
                                          keyValues)
-    browser()
-    
     res <- DataFrame(do.call(rbind, sp))
 
     for (i in seq_along(res)) {
