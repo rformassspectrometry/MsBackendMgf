@@ -4,11 +4,20 @@
 \alias{MsBackendMgf}
 \alias{MsBackendMgf-class}
 \alias{backendInitialize,MsBackendMgf-method}
+\alias{spectraVariableMapping}
 \title{MS data backend for mgf files}
 \usage{
-\S4method{backendInitialize}{MsBackendMgf}(object, files, nonStop = FALSE, ..., BPPARAM = bpparam())
+\S4method{backendInitialize}{MsBackendMgf}(
+  object,
+  files,
+  mapping = spectraVariableMapping(),
+  ...,
+  BPPARAM = bpparam()
+)
 
 MsBackendMgf()
+
+spectraVariableMapping(format = c("mgf"))
 }
 \arguments{
 \item{object}{Instance of \code{MsBackendMgf} class.}
@@ -16,14 +25,20 @@ MsBackendMgf()
 \item{files}{\code{character} with the (full) file name(s) of the mgf file(s)
 from which MS/MS data should be imported.}
 
-\item{nonStop}{\code{logical(1)} whether import should be stopped if an
-xml file does not contain all required fields. Defaults to
-\code{nonStop = FALSE}.}
+\item{mapping}{for \code{backendInitialize} and \code{export}: named \code{character} vector
+allowing to specify how fields from the MGF file should be renamed. Names
+are supposed to be the spectra variable name and values of the vector
+the field names in the MGF file. See output of \code{spectraVariableMapping()}
+for the expected format and examples below or description above for
+details.}
 
 \item{...}{Currently ignored.}
 
 \item{BPPARAM}{Parameter object defining the parallel processing
 setup to import data in parallel. Defaults to \code{BPPARAM = bpparam()}. See \code{\link[=bpparam]{bpparam()}} for more information.}
+
+\item{format}{for \code{spectraVariableMapping}: \code{character(1)} defining the
+format to be used. Currently only \code{format = "mgf"} is supported.}
 }
 \description{
 The \code{MsBackendMgf} class supports import of MS/MS spectra data from
@@ -32,22 +47,24 @@ files in Mascot Generic Format
 files. After initial import, the full MS data is kept in
 memory. \code{MsBackendMgf} extends the \code{\link[=MsBackendDataFrame]{MsBackendDataFrame()}} backend
 directly and supports thus the \code{\link[=applyProcessing]{applyProcessing()}} function to make
-data manipulations persistent. The backend does however not
-support export to mgf files yet.
+data manipulations persistent.
 
 New objects are created with the \code{MsBackendMgf} function. The
 \code{backendInitialize} method has to be subsequently called to
 initialize the object and import MS/MS data from (one or more) mgf
-files.  Optional parameter \code{nonStop} allows to specify whether the
-import returns with an error if one of the xml files lacks required
-data, such as \code{mz} and \code{intensity} values (default \code{nonStop = FALSE}), or whether only affected file(s) is(are) skipped and a
-warning is shown (\code{nonStop = TRUE}). Note that any other error
-(such as xml import error) will abort import regardless of
-parameter \code{nonStop}.
+files.
+
+Default mappings from fields in the MGF file to spectra variable names are
+provided by the \code{spectraVariableMapping} function. This function returns a
+named character vector were names are the spectra variable names and the
+values the respective field names in the MGF files. This named character
+vector is submitted to the import and export function with parameter
+\code{mapping}. It is also possible to pass own mappings (e.g. for special
+MGF dialects) with the \code{mapping} parameter.
 }
 \examples{
 
-## Create an MsBackendHmdbXml backend and import data from test xml files.
+## Create an MsBackendMgf backend and import data from test mgf files.
 fls <- dir(system.file("extdata", package = "MsBackendMgf"),
     full.names = TRUE, pattern = "mgf$")
 be <- backendInitialize(MsBackendMgf(), fls)
@@ -56,6 +73,30 @@ be
 be$msLevel
 be$intensity
 be$mz
+
+## The spectra variables that are available; note that not all of them
+## have been imported from the MGF files.
+spectraVariables(be)
+
+## The variable "TITLE" represents the title of the spectrum defined in the
+## MGF file
+be$TITLE
+
+## The default mapping of MGF fields to spectra variables is provided by
+## the spectraVariableMapping function
+spectraVariableMapping()
+
+## We can provide our own mapping e.g. to map the MGF field "TITLE" to a
+## variable named "spectrumName":
+map <- c(spectrumName = "TITLE", spectraVariableMapping())
+map
+
+## We can then pass this mapping with parameter `mapping` to the
+## backendInitialize method:
+be <- backendInitialize(MsBackendMgf(), fls, mapping = map)
+
+## The title is now available as variable named spectrumName
+be$spectrumName
 }
 \author{
 Laurent Gatto and Johannes Rainer

@@ -14,7 +14,7 @@ test_that("backendInitialize,MsBackendMgf works", {
 
     res2 <- backendInitialize(be, fls[2])
     n2 <- length(res2) ## 4
-    
+
     ## Import multiple files.
     res_all <- backendInitialize(be, fls)
     expect_true(length(res_all) == n1 + n2)
@@ -28,9 +28,17 @@ test_that("backendInitialize,MsBackendMgf works", {
 
     ## TODO: Import with failing file.
     ## TODO: Import with failing file and nonStop = TRUE
-    
+
     ## errors
     expect_error(backendInitialize(be), "'files' is mandatory")
     expect_error(backendInitialize(be, 4), "expected to be a character")
     expect_error(backendInitialize(be, "a"), "a not found")
+})
+
+test_that("spectraVariableMapping works", {
+    res <- spectraVariableMapping()
+    expect_true(is.character(res))
+    expect_true(length(names(res)) == length(res))
+
+    expect_error(spectraVariableMapping(format = "other"))
 })
