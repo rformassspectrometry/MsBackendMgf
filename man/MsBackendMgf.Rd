@@ -5,6 +5,7 @@
 \alias{MsBackendMgf-class}
 \alias{backendInitialize,MsBackendMgf-method}
 \alias{spectraVariableMapping}
+\alias{export,MsBackendMgf-method}
 \title{MS data backend for mgf files}
 \usage{
 \S4method{backendInitialize}{MsBackendMgf}(
@@ -18,6 +19,8 @@
 MsBackendMgf()
 
 spectraVariableMapping(format = c("mgf"))
+
+\S4method{export}{MsBackendMgf}(object, x, file = tempfile(), mapping = spectraVariableMapping(), ...)
 }
 \arguments{
 \item{object}{Instance of \code{MsBackendMgf} class.}
@@ -39,10 +42,16 @@ setup to import data in parallel. Defaults to \code{BPPARAM = bpparam()}. See \c
 
 \item{format}{for \code{spectraVariableMapping}: \code{character(1)} defining the
 format to be used. Currently only \code{format = "mgf"} is supported.}
+
+\item{x}{for \code{export}: an instance of \code{\link[=Spectra]{Spectra()}} class with the data that
+should be exported.}
+
+\item{file}{\code{character(1)} with the (full) file name to which the data
+should be exported.}
 }
 \description{
-The \code{MsBackendMgf} class supports import of MS/MS spectra data from
-files in Mascot Generic Format
+The \code{MsBackendMgf} class supports import and export of MS/MS spectra data
+from/to files in Mascot Generic Format
 (\href{http://www.matrixscience.com/help/data_file_help.html}{mgf})
 files. After initial import, the full MS data is kept in
 memory. \code{MsBackendMgf} extends the \code{\link[=MsBackendDataFrame]{MsBackendDataFrame()}} backend
@@ -53,6 +62,10 @@ New objects are created with the \code{MsBackendMgf} function. The
 \code{backendInitialize} method has to be subsequently called to
 initialize the object and import MS/MS data from (one or more) mgf
 files.
+
+The \code{MsBackendMgf} backend provides an \code{export} method that allows to export
+the data from the \code{Spectra} object (parameter \code{x}) to a file in mgf format.
+See the package vignette for details and examples.
 
 Default mappings from fields in the MGF file to spectra variable names are
 provided by the \code{spectraVariableMapping} function. This function returns a
@@ -97,6 +110,7 @@ be <- backendInitialize(MsBackendMgf(), fls, mapping = map)
 
 ## The title is now available as variable named spectrumName
 be$spectrumName
+
 }
 \author{
 Laurent Gatto and Johannes Rainer

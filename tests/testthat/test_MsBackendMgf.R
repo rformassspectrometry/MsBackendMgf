@@ -42,3 +42,17 @@ test_that("spectraVariableMapping works", {
 
     expect_error(spectraVariableMapping(format = "other"))
 })
+
+test_that("export,MsBackendMgf works", {
+    spd <- DataFrame(msLevel = c(2L, 2L, 2L), rtime = c(1, 2, 3))
+    spd$mz <- list(c(12, 14, 45, 56), c(14.1, 34, 56.1), c(12.1, 14.15, 34.1))
+    spd$intensity <- list(c(10, 20, 30, 40), c(11, 21, 31), c(12, 22, 32))
+
+    sps <- Spectra(spd)
+
+    fl <- tempfile()
+    export(MsBackendMgf(), sps, file = fl)
+    res <- backendInitialize(MsBackendMgf(), fl)
+    expect_equal(rtime(res), rtime(sps))
+    expect_equal(as.list(res), as.list(sps@backend))
+})

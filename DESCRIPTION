@@ -19,7 +19,7 @@ Description: Mass spectrometry (MS) data backend supporting import and
 	     (mgf) files.
 Depends:
     R (>= 3.5.0),
-    Spectra (>= 0.5.0)
+    Spectra (>= 0.99.1)
 Imports:
     BiocParallel,
     S4Vectors,

@@ -7,8 +7,8 @@ NULL
 #'
 #' @description
 #'
-#' The `MsBackendMgf` class supports import of MS/MS spectra data from
-#' files in Mascot Generic Format
+#' The `MsBackendMgf` class supports import and export of MS/MS spectra data
+#' from/to files in Mascot Generic Format
 #' ([mgf](http://www.matrixscience.com/help/data_file_help.html))
 #' files. After initial import, the full MS data is kept in
 #' memory. `MsBackendMgf` extends the [MsBackendDataFrame()] backend
@@ -20,6 +20,10 @@ NULL
 #' initialize the object and import MS/MS data from (one or more) mgf
 #' files.
 #'
+#' The `MsBackendMgf` backend provides an `export` method that allows to export
+#' the data from the `Spectra` object (parameter `x`) to a file in mgf format.
+#' See the package vignette for details and examples.
+#'
 #' Default mappings from fields in the MGF file to spectra variable names are
 #' provided by the `spectraVariableMapping` function. This function returns a
 #' named character vector were names are the spectra variable names and the
@@ -29,6 +33,9 @@ NULL
 #' MGF dialects) with the `mapping` parameter.
 #'
 #' @param object Instance of `MsBackendMgf` class.
+#'
+#' @param file `character(1)` with the (full) file name to which the data
+#'     should be exported.
 #'
 #' @param files `character` with the (full) file name(s) of the mgf file(s)
 #'     from which MS/MS data should be imported.
@@ -42,6 +49,9 @@ NULL
 #'     the field names in the MGF file. See output of `spectraVariableMapping()`
 #'     for the expected format and examples below or description above for
 #'     details.
+#'
+#' @param x for `export`: an instance of [Spectra()] class with the data that
+#'     should be exported.
 #'
 #' @param BPPARAM Parameter object defining the parallel processing
 #'     setup to import data in parallel. Defaults to `BPPARAM =
@@ -92,6 +102,7 @@ NULL
 #'
 #' ## The title is now available as variable named spectrumName
 #' be$spectrumName
+#'
 NULL
 
 setClass("MsBackendMgf",
@@ -165,3 +176,14 @@ spectraVariableMapping <- function(format = c("mgf")) {
            )
            )
 }
+
+#' @importMethodsFrom Spectra export
+#'
+#' @exportMethod export
+#'
+#' @rdname MsBackendMgf
+setMethod("export", "MsBackendMgf", function(object, x, file = tempfile(),
+                                             mapping = spectraVariableMapping(),
+                                             ...) {
+    .export_mgf(x = x, con = file, mapping = mapping)
+})
