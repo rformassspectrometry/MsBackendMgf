@@ -71,11 +71,44 @@ spectraVariables(sps)
 
 Besides default spectra variables, such as `msLevel`, `rtime`,
 `precursorMz`, we also have additional spectra variables such as the
-`title` of each spectrum in the mgf file.
+`TITLE` of each spectrum in the mgf file.
 
 ```{r instrument}
 sps$rtime
-sps$title
+sps$TITLE
+```
+
+By default, fields in the mgf file are mapped to spectra variable names using
+the mapping returned by the `spectraVariableMapping()` function:
+
+```{r spectravariables}
+spectraVariableMapping()
+```
+
+The names of this `character` vector are the spectra variable names (such as
+`"rtime"`) and the field in the mgf file that contains that information are the
+values (such as `"RTINSECONDS"`). Note that it is also possible to overwrite
+this mapping (e.g. for certain mgf *dialects*) or to add additional
+mappings. Below we add the mapping of the mgf field `"TITLE"` to a spectra
+variable called `"spectrumName"`.
+
+```{r map}
+map <- c(spectrumName = "TITLE", spectraVariableMapping())
+map
+```
+
+We can then pass this mapping to the `backendInitialize` method, or the
+`Spectra` constructor.
+
+```{r import2}
+sps <- Spectra(fls, source = MsBackendMgf(), mapping = map)
+```
+
+We can now access the spectrum's title with the newly created spectra variable
+`"spectrumName"`:
+
+```{r spectrumName}
+sps$spectrumName
 ```
 
 In addition we can also access the m/z and intensity values of each
@@ -86,13 +119,47 @@ mz(sps)
 intensity(sps)
 ```
 
-When importing a large number of mgf files, setting `nonStop = TRUE`
-prevents the call to stop whenever problematic mgf files are
-encountered. 
+The `MsBackendMgf` backend allows also to export data in mgf format. Below we
+export the data to a temporary file. Note that we use again our custom mapping
+of variables such that the spectra variable `"spectrumName"` will be exported as
+the spectrums' title.
 
-```{r all-import, eval = FALSE}
-sps <- Spectra(fls, source = MsBackendMgf(), nonStop = TRUE)
+```{r export}
+fl <- tempfile()
+export(sps, file = fl, mapping = map)
 ```
+
+We next read the first lines from the exported file to verify that the title was
+exported properly.
+
+```{r export-check}
+readLines(fl)[1:12]
+```
+
+Note that we can also use the `MsBackendMgf` to export data from a `Spectra`
+that uses a different backend to a file in mgf format. For this we change first
+the backend of our `Spectra` object to `MsBackendDataFrame`, a backend that
+keeps all data in memory. Subsequently we add also an additional spectra
+variable we might want to export to the mgf file too.
+
+```{r}
+sps2 <- setBackend(sps, MsBackendDataFrame())
+sps2$new_variable <- "A"
+```
+
+Directly calling `export` on `sps2` would throw an error because the
+`MsBackendDataFrame` does not provide an `export` method. Thus we tell the
+function to use the export method from the `MsBackendMgf` by setting `backend =
+MsBackendMgf()`.
+
+```{r}
+export(sps2, backend = MsBackendMgf(), file = fl)
+readLines(fl)[1:12]
+```
+
+We can see that also our newly defined variable was exported. Also, because we
+did not provide our custom variable mapping this time, the variable
+`"spectrumName"` was **not** used as the spectrum's title.
 
 # Session information
 

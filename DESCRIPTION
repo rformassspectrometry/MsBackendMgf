@@ -1,7 +1,7 @@
 Package: MsBackendMgf
 Title: Mass Spectrometry Data Backend for Mascot Generic Format (mgf) Files
-Version: 0.1.0
-Authors@R: 
+Version: 0.2.0
+Authors@R:
     c(person(given = "Laurent", family = "Gatto",
              role = c("aut", "cre"),
              email = "laurent.gatto@uclouvain.be",
@@ -19,12 +19,13 @@ Description: Mass spectrometry (MS) data backend supporting import and
 	     (mgf) files.
 Depends:
     R (>= 3.5.0),
-    Spectra (>= 0.5.0)
+    Spectra (>= 0.99.1)
 Imports:
     BiocParallel,
     S4Vectors,
     IRanges,
-    methods    
+    MsCoreUtils,
+    methods
 Suggests:
     testthat,
     knitr (>= 1.1.0),
@@ -41,8 +42,8 @@ BugReports: https://github.com/RforMassSpectrometry/MsBackendMgf/issues
 URL: https://github.com/RforMassSpectrometry/MsBackendMgf
 biocViews: Infrastructure, Proteomics, MassSpectrometry, Metabolomics
 Roxygen: list(markdown=TRUE)
-RoxygenNote: 7.1.0
-Collate: 
+RoxygenNote: 7.1.1
+Collate:
     'hidden_aliases.R'
     'MsBackendMgf.R'
     'functions-mgf.R'
