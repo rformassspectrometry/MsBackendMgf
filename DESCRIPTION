@@ -1,9 +1,12 @@
 Package: MsBackendMgf
 Title: Mass Spectrometry Data Backend for Mascot Generic Format (mgf) Files
-Version: 0.2.0
+Version: 0.2.1
 Authors@R:
-    c(person(given = "Laurent", family = "Gatto",
-             role = c("aut", "cre"),
+    c(person(given = "RforMassSpectrometry Package Maintainer",
+             email = "maintainer@rformassspectrometry.org",
+             role = "cre"),
+      person(given = "Laurent", family = "Gatto",
+             role = "aut",
              email = "laurent.gatto@uclouvain.be",
              comment = c(ORCID = "0000-0002-1520-2268")),
       person(given = "Johannes", family = "Rainer",
