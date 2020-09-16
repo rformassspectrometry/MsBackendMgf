@@ -125,7 +125,7 @@
 #'
 #' @author Johannes Rainer
 #'
-#' @importMethodsFrom Spectra spectraVariables spectraNames as.list spectraData
+#' @importMethodsFrom Spectra spectraVariables spectraNames peaksData spectraData
 #'
 #' @noRd
 #'
@@ -155,7 +155,7 @@
                             spd$rtime, "; scanNum ", spd$acquisitionNum, "\n")
         tmp <- c(list(title), tmp)
     }
-    pks <- vapply(as.list(x), function(z)
+    pks <- vapply(peaksData(x), function(z)
         paste0(paste0(z[, 1], " ", z[, 2], "\n"), collapse = ""),
         character(1))
     tmp <- do.call(cbind, c(list(rep_len("BEGIN IONS\n", l)),
