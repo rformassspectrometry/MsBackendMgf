@@ -111,7 +111,7 @@ setClass("MsBackendMgf",
                                readonly = FALSE,
                                version = "0.1"))
 
-#' @importMethodsFrom Spectra backendInitialize asDataFrame<- $<- $
+#' @importMethodsFrom Spectra backendInitialize spectraData<- $<- $
 #'
 #' @importFrom BiocParallel bpparam
 #'
@@ -144,7 +144,7 @@ setMethod("backendInitialize", signature = "MsBackendMgf",
                               BPPARAM = BPPARAM)
               message("done")
               res <- do.call(rbindFill, res)
-              asDataFrame(object) <- res
+              spectraData(object) <- res
               object$dataStorage <- "<memory>"
               object$centroided <- TRUE
               validObject(object)

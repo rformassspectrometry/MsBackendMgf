@@ -120,13 +120,15 @@ intensity(sps)
 ```
 
 The `MsBackendMgf` backend allows also to export data in mgf format. Below we
-export the data to a temporary file. Note that we use again our custom mapping
-of variables such that the spectra variable `"spectrumName"` will be exported as
-the spectrums' title.
+export the data to a temporary file. We hence call the `export` function on our
+`Spectra` object specifying `backend = MsBackendMgf()` to use this backend for
+the export of the data. Note that we use again our custom mapping of variables
+such that the spectra variable `"spectrumName"` will be exported as the
+spectrums' title.
 
 ```{r export}
 fl <- tempfile()
-export(sps, file = fl, mapping = map)
+export(sps, backend = MsBackendMgf(), file = fl, mapping = map)
 ```
 
 We next read the first lines from the exported file to verify that the title was
@@ -136,24 +138,13 @@ exported properly.
 readLines(fl)[1:12]
 ```
 
-Note that we can also use the `MsBackendMgf` to export data from a `Spectra`
-that uses a different backend to a file in mgf format. For this we change first
-the backend of our `Spectra` object to `MsBackendDataFrame`, a backend that
-keeps all data in memory. Subsequently we add also an additional spectra
-variable we might want to export to the mgf file too.
+Note that the `MsBackendMgf` exports all spectra variables as fields in the mgf
+file. To illustrate this we add below a new spectra variable to the object and
+export the data.
 
 ```{r}
-sps2 <- setBackend(sps, MsBackendDataFrame())
-sps2$new_variable <- "A"
-```
-
-Directly calling `export` on `sps2` would throw an error because the
-`MsBackendDataFrame` does not provide an `export` method. Thus we tell the
-function to use the export method from the `MsBackendMgf` by setting `backend =
-MsBackendMgf()`.
-
-```{r}
-export(sps2, backend = MsBackendMgf(), file = fl)
+sps$new_variable <- "A"
+export(sps, backend = MsBackendMgf(), file = fl)
 readLines(fl)[1:12]
 ```
 
