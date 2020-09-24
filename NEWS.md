@@ -1,5 +1,9 @@
 # MsBackendMgf 0.2
 
+## Changes in 0.2.1
+
+- Adapt to `Spectra::spectraData`/`Spectra::peaksData`.
+
 ## Changes in 0.2.0
 
 - Add `export` method to support exporting of data from a `Spectra` object in

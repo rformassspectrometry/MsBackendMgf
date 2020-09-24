@@ -54,5 +54,5 @@ test_that("export,MsBackendMgf works", {
     export(MsBackendMgf(), sps, file = fl)
     res <- backendInitialize(MsBackendMgf(), fl)
     expect_equal(rtime(res), rtime(sps))
-    expect_equal(as.list(res), as.list(sps@backend))
+    expect_equal(peaksData(res), peaksData(sps@backend))
 })
