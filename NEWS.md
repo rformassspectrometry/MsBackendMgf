@@ -1,5 +1,12 @@
 # MsBackendMgf 0.2
 
+## Changes in 0.2.2
+
+- Add examples how to use the `MsBackendMgf` backend to export data to mgf
+  files (issue
+  [#4](https://github.com/rformassspectrometry/MsBackendMgf/issues/4).
+
+
 ## Changes in 0.2.0
 
 - Add `export` method to support exporting of data from a `Spectra` object in
