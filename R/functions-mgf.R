@@ -141,6 +141,11 @@
 .export_mgf <- function(x, con = stdout(), mapping = spectraVariableMapping()) {
     spv <- spectraVariables(x)
     spd <- spectraData(x, spv[!(spv %in% c("dataOrigin", "dataStorage"))])
+    col_not_ok <- !vapply(spd, is.vector, logical(1))
+    if (any(col_not_ok))
+        stop("Column(s) ", paste(colnames(spd)[col_not_ok], collapse = ", "),
+             " contain multiple elements per row. Please either drop this ",
+             "column or reduce its elements to a single value per row.")
     idx <- match(colnames(spd), names(mapping))
     colnames(spd)[!is.na(idx)] <- mapping[idx[!is.na(idx)]]
     l <- nrow(spd)

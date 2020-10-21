@@ -103,6 +103,22 @@ NULL
 #' ## The title is now available as variable named spectrumName
 #' be$spectrumName
 #'
+#' ## Next we create a Spectra object with this data
+#' sps <- Spectra(be)
+#'
+#' ## We can use the 'MsBackendMgf' also to export spectra data in mgf format.
+#' out_file <- tempfile()
+#' export(sps, backend = MsBackendMgf(), file = out_file, map = map)
+#'
+#' ## The first 20 lines of the generated file:
+#' readLines(out_file, n = 20)
+#'
+#' ## Next we add a new spectra variable to each spectrum
+#' sps$spectrum_idx <- seq_along(sps)
+#'
+#' ## This new spectra variable will also be exported to the mgf file:
+#' export(sps, backend = MsBackendMgf(), file = out_file, map = map)
+#' readLines(out_file, n = 20)
 NULL
 
 setClass("MsBackendMgf",
@@ -185,5 +201,11 @@ spectraVariableMapping <- function(format = c("mgf")) {
 setMethod("export", "MsBackendMgf", function(object, x, file = tempfile(),
                                              mapping = spectraVariableMapping(),
                                              ...) {
+    if (missing(x))
+        stop("Required parameter 'x' is missing. 'x' should be a 'Spectra' ",
+             "object with the full spectra data.")
+    if (!inherits(x, "Spectra"))
+        stop("Parameter 'x' is supposed to be a 'Spectra' object with the full",
+             " spectra data to be exported.")
     .export_mgf(x = x, con = file, mapping = mapping)
 })

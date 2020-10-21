@@ -55,4 +55,13 @@ test_that("export,MsBackendMgf works", {
     res <- backendInitialize(MsBackendMgf(), fl)
     expect_equal(rtime(res), rtime(sps))
     expect_equal(peaksData(res), peaksData(sps@backend))
+
+    expect_error(export(MsBackendMgf(), file = fl), "missing")
+    expect_error(export(MsBackendMgf(), x = spd, file = fl), "spectra data to")
+
+    sps$lst <- list(1:3, c(4, 5, 2), c("a", "b"))
+    export(MsBackendMgf(), sps, file = fl)
+
+    sps$fail <- sps$mz
+    expect_error(export(MsBackendMgf(), sps, file = fl), "multiple elements")
 })
