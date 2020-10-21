@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • MsBackendMgf</title>
+<title>Changelog • MsBackendMgf</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Changelog" />
 
 
 
@@ -58,7 +58,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -105,40 +105,33 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/RforMassSpectrometry/MsBackendMgf/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <table class="ref-index">
-
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="MsBackendMgf.html">backendInitialize(<i>&lt;MsBackendMgf&gt;</i>)</a></code> <code><a href="MsBackendMgf.html">MsBackendMgf()</a></code> <code><a href="MsBackendMgf.html">spectraVariableMapping()</a></code> <code><a href="MsBackendMgf.html">export(<i>&lt;MsBackendMgf&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>MS data backend for mgf files</p></td>
-      </tr>
-    </tbody>
-    </table>
+    <div id="msbackendmgf-02" class="section level1">
+<h1 class="page-header" data-toc-text="0.2">
+<a href="#msbackendmgf-02" class="anchor"></a>MsBackendMgf 0.2</h1>
+<div id="changes-in-022" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-in-022" class="anchor"></a>Changes in 0.2.2</h2>
+<ul>
+<li>Add examples how to use the <code>MsBackendMgf</code> backend to export data to mgf files (issue <a href="https://github.com/rformassspectrometry/MsBackendMgf/issues/4"><a href='https://github.com/RforMassSpectrometry/MsBackendMgf/issues/4'>#4</a></a>.</li>
+</ul>
+</div>
+<div id="changes-in-020" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-in-020" class="anchor"></a>Changes in 0.2.0</h2>
+<ul>
+<li>Add <code>export</code> method to support exporting of data from a <code>Spectra</code> object in mgf file format.</li>
+<li>Import all fields from an MGF file.</li>
+<li>Rename MGF field names to spectra variables based on <code>spectraVariableMapping</code>.</li>
+<li>Support for MGF files with different field names.</li>
+</ul>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -146,6 +139,7 @@
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
+
 </div>
 
 

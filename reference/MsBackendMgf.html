@@ -40,23 +40,27 @@
 
 
 <meta property="og:title" content="MS data backend for mgf files — MsBackendMgf" />
-<meta property="og:description" content="The MsBackendMgf class supports import of MS/MS spectra data from
-files in Mascot Generic Format
+<meta property="og:description" content="The MsBackendMgf class supports import and export of MS/MS spectra data
+from/to files in Mascot Generic Format
 (mgf)
 files. After initial import, the full MS data is kept in
 memory. MsBackendMgf extends the MsBackendDataFrame() backend
 directly and supports thus the applyProcessing() function to make
-data manipulations persistent. The backend does however not
-support export to mgf files yet.
+data manipulations persistent.
 New objects are created with the MsBackendMgf function. The
 backendInitialize method has to be subsequently called to
 initialize the object and import MS/MS data from (one or more) mgf
-files.  Optional parameter nonStop allows to specify whether the
-import returns with an error if one of the xml files lacks required
-data, such as mz and intensity values (default nonStop = FALSE), or whether only affected file(s) is(are) skipped and a
-warning is shown (nonStop = TRUE). Note that any other error
-(such as xml import error) will abort import regardless of
-parameter nonStop." />
+files.
+The MsBackendMgf backend provides an export method that allows to export
+the data from the Spectra object (parameter x) to a file in mgf format.
+See the package vignette for details and examples.
+Default mappings from fields in the MGF file to spectra variable names are
+provided by the spectraVariableMapping function. This function returns a
+named character vector were names are the spectra variable names and the
+values the respective field names in the MGF files. This named character
+vector is submitted to the import and export function with parameter
+mapping. It is also possible to pass own mappings (e.g. for special
+MGF dialects) with the mapping parameter." />
 
 
 
@@ -88,23 +92,20 @@ parameter nonStop." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MsBackendMgf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/MsBackendMgf.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -133,29 +134,44 @@ parameter nonStop." />
     </div>
 
     <div class="ref-description">
-    <p>The <code>MsBackendMgf</code> class supports import of MS/MS spectra data from
-files in Mascot Generic Format
+    <p>The <code>MsBackendMgf</code> class supports import and export of MS/MS spectra data
+from/to files in Mascot Generic Format
 (<a href='http://www.matrixscience.com/help/data_file_help.html'>mgf</a>)
 files. After initial import, the full MS data is kept in
 memory. <code>MsBackendMgf</code> extends the <code>MsBackendDataFrame()</code> backend
 directly and supports thus the <code>applyProcessing()</code> function to make
-data manipulations persistent. The backend does however not
-support export to mgf files yet.</p>
+data manipulations persistent.</p>
 <p>New objects are created with the <code>MsBackendMgf</code> function. The
 <code>backendInitialize</code> method has to be subsequently called to
 initialize the object and import MS/MS data from (one or more) mgf
-files.  Optional parameter <code>nonStop</code> allows to specify whether the
-import returns with an error if one of the xml files lacks required
-data, such as <code>mz</code> and <code>intensity</code> values (default <code>nonStop = FALSE</code>), or whether only affected file(s) is(are) skipped and a
-warning is shown (<code>nonStop = TRUE</code>). Note that any other error
-(such as xml import error) will abort import regardless of
-parameter <code>nonStop</code>.</p>
+files.</p>
+<p>The <code>MsBackendMgf</code> backend provides an <code>export</code> method that allows to export
+the data from the <code>Spectra</code> object (parameter <code>x</code>) to a file in mgf format.
+See the package vignette for details and examples.</p>
+<p>Default mappings from fields in the MGF file to spectra variable names are
+provided by the <code>spectraVariableMapping</code> function. This function returns a
+named character vector were names are the spectra variable names and the
+values the respective field names in the MGF files. This named character
+vector is submitted to the import and export function with parameter
+<code>mapping</code>. It is also possible to pass own mappings (e.g. for special
+MGF dialects) with the <code>mapping</code> parameter.</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for MsBackendMgf</span>
-<span class='fu'>backendInitialize</span>(<span class='no'>object</span>, <span class='no'>files</span>, <span class='kw'>nonStop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>())
+<span class='fu'>backendInitialize</span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>files</span>,
+  mapping <span class='op'>=</span> <span class='fu'>spectraVariableMapping</span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='va'>...</span>,
+  BPPARAM <span class='op'>=</span> <span class='fu'>bpparam</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'>MsBackendMgf</span>()</pre>
+<span class='fu'>MsBackendMgf</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'>spectraVariableMapping</span><span class='op'>(</span>format <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mgf"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># S4 method for MsBackendMgf</span>
+<span class='fu'>export</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>x</span>, file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>, mapping <span class='op'>=</span> <span class='fu'>spectraVariableMapping</span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,10 +186,13 @@ parameter <code>nonStop</code>.</p>
 from which MS/MS data should be imported.</p></td>
     </tr>
     <tr>
-      <th>nonStop</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether import should be stopped if an
-xml file does not contain all required fields. Defaults to
-<code>nonStop = FALSE</code>.</p></td>
+      <th>mapping</th>
+      <td><p>for <code>backendInitialize</code> and <code>export</code>: named <code>character</code> vector
+allowing to specify how fields from the MGF file should be renamed. Names
+are supposed to be the spectra variable name and values of the vector
+the field names in the MGF file. See output of <code>spectraVariableMapping()</code>
+for the expected format and examples below or description above for
+details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -184,40 +203,169 @@ xml file does not contain all required fields. Defaults to
       <td><p>Parameter object defining the parallel processing
 setup to import data in parallel. Defaults to <code>BPPARAM = bpparam()</code>. See <code>bpparam()</code> for more information.</p></td>
     </tr>
+    <tr>
+      <th>format</th>
+      <td><p>for <code>spectraVariableMapping</code>: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> defining the
+format to be used. Currently only <code>format = "mgf"</code> is supported.</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>for <code>export</code>: an instance of <code>Spectra()</code> class with the data that
+should be exported.</p></td>
+    </tr>
+    <tr>
+      <th>file</th>
+      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the (full) file name to which the data
+should be exported.</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Laurent Gatto and Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='co'>## Create an MsBackendHmdbXml backend and import data from test xml files.</span>
-<span class='no'>fls</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"MsBackendMgf"</span>),
-    <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"mgf$"</span>)
-<span class='no'>be</span> <span class='kw'>&lt;-</span> <span class='fu'>backendInitialize</span>(<span class='fu'>MsBackendMgf</span>(), <span class='no'>fls</span>)</div><div class='output co'>#&gt; <span class='message'>Start data import from 2 files ... </span></div><div class='output co'>#&gt; <span class='message'>done</span></div><div class='input'><span class='no'>be</span></div><div class='output co'>#&gt; MsBackendMgf with 7 spectra
+<span class='co'>## Create an MsBackendMgf backend and import data from test mgf files.</span>
+<span class='va'>fls</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, package <span class='op'>=</span> <span class='st'>"MsBackendMgf"</span><span class='op'>)</span>,
+    full.names <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"mgf$"</span><span class='op'>)</span>
+<span class='va'>be</span> <span class='op'>&lt;-</span> <span class='fu'>backendInitialize</span><span class='op'>(</span><span class='fu'>MsBackendMgf</span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>fls</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Start data import from 2 files ... </span></div><div class='output co'>#&gt; <span class='message'>done</span></div><div class='input'><span class='va'>be</span>
+</div><div class='output co'>#&gt; MsBackendMgf with 7 spectra
 #&gt;     msLevel     rtime scanIndex
 #&gt;   &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;
-#&gt; 1         2   1028.00      2162
-#&gt; 2         2   1117.00      2406
-#&gt; 3         2   1127.00      2432
-#&gt; 4         2   2678.94         0
-#&gt; 5         2   2373.51         0
-#&gt; 6         2   2511.03         0
-#&gt; 7         2      0.00         0
+#&gt; 1         2   1028.00        NA
+#&gt; 2         2   1117.00        NA
+#&gt; 3         2   1127.00        NA
+#&gt; 4         2   2678.94        NA
+#&gt; 5         2   2373.51        NA
+#&gt; 6         2   2511.03        NA
+#&gt; 7         2        NA        NA
 #&gt;  ... 17 more variables/columns.</div><div class='input'>
-<span class='no'>be</span>$<span class='no'>msLevel</span></div><div class='output co'>#&gt; [1] 2 2 2 2 2 2 2</div><div class='input'><span class='no'>be</span>$<span class='no'>intensity</span></div><div class='output co'>#&gt; NumericList of length 7
+<span class='va'>be</span><span class='op'>$</span><span class='va'>msLevel</span>
+</div><div class='output co'>#&gt; [1] 2 2 2 2 2 2 2</div><div class='input'><span class='va'>be</span><span class='op'>$</span><span class='va'>intensity</span>
+</div><div class='output co'>#&gt; NumericList of length 7
 #&gt; [[1]] 753.738 385.376 315.441 413.206 ... 3038.73 2016.43 1146.04 704.175
 #&gt; [[2]] 1228.93 1424.66 1550.9 1455.45 ... 7380.41 4960.92 5743.83 1780.76
 #&gt; [[3]] 1340.44 1714.76 1938.82 1450.36 2019 ... 5323.02 2265.43 4768.14 1532.12
 #&gt; [[4]] 81011.57 4123.349 4006.9321 66933.17 ... 22042.248 18096.48 12666.438
 #&gt; [[5]] 14.1766004562378 18.5806427001953 ... 22.7096385955811 14.864013671875
 #&gt; [[6]] 1748.57495117188 8689.9951171875 ... 2907.08422851562 2663.30908203125
-#&gt; [[7]] 65.219513 178.758606 13.01786 119.898499 ... 22.05921 30.57095 14.11111</div><div class='input'><span class='no'>be</span>$<span class='no'>mz</span></div><div class='output co'>#&gt; NumericList of length 7
+#&gt; [[7]] 65.219513 178.758606 13.01786 119.898499 ... 22.05921 30.57095 14.11111</div><div class='input'><span class='va'>be</span><span class='op'>$</span><span class='va'>mz</span>
+</div><div class='output co'>#&gt; NumericList of length 7
 #&gt; [[1]] 102.0548 103.00494 103.03531 ... 1388.58691 1405.59729 1406.57666
 #&gt; [[2]] 101.07074 102.05486 103.00227 ... 1331.56726 1348.58496 1349.59241
 #&gt; [[3]] 102.05556 103.00014 115.05058 ... 1333.599 1334.61304 1335.64368
 #&gt; [[4]] 101.07122 109.68925 115.86999 120.0811 ... 1260.6073 1261.614 1272.6572
 #&gt; [[5]] 130.164459228516 144.150299072266 ... 1019.23852539062 1020.52404785156
 #&gt; [[6]] 110.070594787598 120.080627441406 ... 887.756652832031 998.447387695312
-#&gt; [[7]] 51.022404 57.033543 57.060638 ... 636.130188 660.481445 753.358521</div></pre>
+#&gt; [[7]] 51.022404 57.033543 57.060638 ... 636.130188 660.481445 753.358521</div><div class='input'>
+<span class='co'>## The spectra variables that are available; note that not all of them</span>
+<span class='co'>## have been imported from the MGF files.</span>
+<span class='fu'>spectraVariables</span><span class='op'>(</span><span class='va'>be</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "msLevel"                 "rtime"                  
+#&gt;  [3] "acquisitionNum"          "scanIndex"              
+#&gt;  [5] "mz"                      "intensity"              
+#&gt;  [7] "dataStorage"             "dataOrigin"             
+#&gt;  [9] "centroided"              "smoothed"               
+#&gt; [11] "polarity"                "precScanNum"            
+#&gt; [13] "precursorMz"             "precursorIntensity"     
+#&gt; [15] "precursorCharge"         "collisionEnergy"        
+#&gt; [17] "isolationWindowLowerMz"  "isolationWindowTargetMz"
+#&gt; [19] "isolationWindowUpperMz"  "TITLE"                  </div><div class='input'>
+<span class='co'>## The variable "TITLE" represents the title of the spectrum defined in the</span>
+<span class='co'>## MGF file</span>
+<span class='va'>be</span><span class='op'>$</span><span class='va'>TITLE</span>
+</div><div class='output co'>#&gt; [1] "File193 Spectrum1719 scans: 2162"                                                         
+#&gt; [2] "File193 Spectrum1944 scans: 2406"                                                         
+#&gt; [3] "File193 Spectrum1968 scans: 2432"                                                         
+#&gt; [4] "mzspec:PXD004732:01650b_BC2-TUM_first_pool_53_01_01-3xHCD-1h-R2:scan:41840:WNQLQAFWGTGK/2"
+#&gt; [5] "mzspec:PXD002084:TCGA-AA-A01D-01A-23_W_VU_20121106_A0218_5I_R_FR15:scan:5209:DLTDYLMK/2"  
+#&gt; [6] "mzspec:MSV000080679:j11962_C1orf144:scan:10671:DLTDYLMK/2"                                
+#&gt; [7] "CCMSLIB00000840351"                                                                       </div><div class='input'>
+<span class='co'>## The default mapping of MGF fields to spectra variables is provided by</span>
+<span class='co'>## the spectraVariableMapping function</span>
+<span class='fu'>spectraVariableMapping</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;              rtime     acquisitionNum        precursorMz precursorIntensity 
+#&gt;      "RTINSECONDS"            "SCANS"          "PEPMASS"       "PEPMASSINT" 
+#&gt;    precursorCharge 
+#&gt;           "CHARGE" </div><div class='input'>
+<span class='co'>## We can provide our own mapping e.g. to map the MGF field "TITLE" to a</span>
+<span class='co'>## variable named "spectrumName":</span>
+<span class='va'>map</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>spectrumName <span class='op'>=</span> <span class='st'>"TITLE"</span>, <span class='fu'>spectraVariableMapping</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>map</span>
+</div><div class='output co'>#&gt;       spectrumName              rtime     acquisitionNum        precursorMz 
+#&gt;            "TITLE"      "RTINSECONDS"            "SCANS"          "PEPMASS" 
+#&gt; precursorIntensity    precursorCharge 
+#&gt;       "PEPMASSINT"           "CHARGE" </div><div class='input'>
+<span class='co'>## We can then pass this mapping with parameter `mapping` to the</span>
+<span class='co'>## backendInitialize method:</span>
+<span class='va'>be</span> <span class='op'>&lt;-</span> <span class='fu'>backendInitialize</span><span class='op'>(</span><span class='fu'>MsBackendMgf</span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>fls</span>, mapping <span class='op'>=</span> <span class='va'>map</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Start data import from 2 files ... </span></div><div class='output co'>#&gt; <span class='message'>done</span></div><div class='input'>
+<span class='co'>## The title is now available as variable named spectrumName</span>
+<span class='va'>be</span><span class='op'>$</span><span class='va'>spectrumName</span>
+</div><div class='output co'>#&gt; [1] "File193 Spectrum1719 scans: 2162"                                                         
+#&gt; [2] "File193 Spectrum1944 scans: 2406"                                                         
+#&gt; [3] "File193 Spectrum1968 scans: 2432"                                                         
+#&gt; [4] "mzspec:PXD004732:01650b_BC2-TUM_first_pool_53_01_01-3xHCD-1h-R2:scan:41840:WNQLQAFWGTGK/2"
+#&gt; [5] "mzspec:PXD002084:TCGA-AA-A01D-01A-23_W_VU_20121106_A0218_5I_R_FR15:scan:5209:DLTDYLMK/2"  
+#&gt; [6] "mzspec:MSV000080679:j11962_C1orf144:scan:10671:DLTDYLMK/2"                                
+#&gt; [7] "CCMSLIB00000840351"                                                                       </div><div class='input'>
+<span class='co'>## Next we create a Spectra object with this data</span>
+<span class='va'>sps</span> <span class='op'>&lt;-</span> <span class='fu'>Spectra</span><span class='op'>(</span><span class='va'>be</span><span class='op'>)</span>
+
+<span class='co'>## We can use the 'MsBackendMgf' also to export spectra data in mgf format.</span>
+<span class='va'>out_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>export</span><span class='op'>(</span><span class='va'>sps</span>, backend <span class='op'>=</span> <span class='fu'>MsBackendMgf</span><span class='op'>(</span><span class='op'>)</span>, file <span class='op'>=</span> <span class='va'>out_file</span>, map <span class='op'>=</span> <span class='va'>map</span><span class='op'>)</span>
+
+<span class='co'>## The first 20 lines of the generated file:</span>
+<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>out_file</span>, n <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "BEGIN IONS"                            
+#&gt;  [2] "msLevel=2"                             
+#&gt;  [3] "RTINSECONDS=1028"                      
+#&gt;  [4] "SCANS=2162"                            
+#&gt;  [5] "centroided=TRUE"                       
+#&gt;  [6] "PEPMASS=816.33826"                     
+#&gt;  [7] "CHARGE=2"                              
+#&gt;  [8] "TITLE=File193 Spectrum1719 scans: 2162"
+#&gt;  [9] "102.0548 753.738"                      
+#&gt; [10] "103.00494 385.376"                     
+#&gt; [11] "103.03531 315.441"                     
+#&gt; [12] "115.05001 413.206"                     
+#&gt; [13] "115.08686 588.273"                     
+#&gt; [14] "120.08063 800.016"                     
+#&gt; [15] "124.10555 526.761"                     
+#&gt; [16] "124.20652 326.013"                     
+#&gt; [17] "1369.57385 1485.17"                    
+#&gt; [18] "1370.57495 1280.2"                     
+#&gt; [19] "1387.59021 3038.73"                    
+#&gt; [20] "1388.58691 2016.43"                    </div><div class='input'>
+<span class='co'>## Next we add a new spectra variable to each spectrum</span>
+<span class='va'>sps</span><span class='op'>$</span><span class='va'>spectrum_idx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>sps</span><span class='op'>)</span>
+
+<span class='co'>## This new spectra variable will also be exported to the mgf file:</span>
+<span class='fu'>export</span><span class='op'>(</span><span class='va'>sps</span>, backend <span class='op'>=</span> <span class='fu'>MsBackendMgf</span><span class='op'>(</span><span class='op'>)</span>, file <span class='op'>=</span> <span class='va'>out_file</span>, map <span class='op'>=</span> <span class='va'>map</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>out_file</span>, n <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "BEGIN IONS"                            
+#&gt;  [2] "msLevel=2"                             
+#&gt;  [3] "RTINSECONDS=1028"                      
+#&gt;  [4] "SCANS=2162"                            
+#&gt;  [5] "centroided=TRUE"                       
+#&gt;  [6] "PEPMASS=816.33826"                     
+#&gt;  [7] "CHARGE=2"                              
+#&gt;  [8] "TITLE=File193 Spectrum1719 scans: 2162"
+#&gt;  [9] "spectrum_idx=1"                        
+#&gt; [10] "102.0548 753.738"                      
+#&gt; [11] "103.00494 385.376"                     
+#&gt; [12] "103.03531 315.441"                     
+#&gt; [13] "115.05001 413.206"                     
+#&gt; [14] "115.08686 588.273"                     
+#&gt; [15] "120.08063 800.016"                     
+#&gt; [16] "124.10555 526.761"                     
+#&gt; [17] "124.20652 326.013"                     
+#&gt; [18] "1369.57385 1485.17"                    
+#&gt; [19] "1370.57495 1280.2"                     
+#&gt; [20] "1387.59021 3038.73"                    </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -229,11 +377,11 @@ setup to import data in parallel. Defaults to <code>BPPARAM = bpparam()</code>. 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p>Developed by RforMassSpectrometry Package Maintainer, Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
