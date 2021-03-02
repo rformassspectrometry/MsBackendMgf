@@ -49,6 +49,9 @@ should be exported.}
 \item{file}{\code{character(1)} with the (full) file name to which the data
 should be exported.}
 }
+\value{
+See description above.
+}
 \description{
 The \code{MsBackendMgf} class supports import and export of MS/MS spectra data
 from/to files in Mascot Generic Format

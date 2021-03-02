@@ -67,6 +67,10 @@ NULL
 #'
 #' @name MsBackendMgf
 #'
+#' @return
+#'
+#' See description above.
+#'
 #' @examples
 #'
 #' ## Create an MsBackendMgf backend and import data from test mgf files.
