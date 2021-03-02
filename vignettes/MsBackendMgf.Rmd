@@ -36,6 +36,13 @@ Format](http://www.matrixscience.com/help/data_file_help.html))
 files. This vignette illustrates the usage of the `MsBackendMgf`
 package.
 
+# Installation
+
+The package can be installed with the `BiocManager` package. To
+install `BiocManager` use `install.packages("BiocManager")` and, after that,
+`BiocManager::install("MsBackendMgf")` to install this package.
+
+
 # Importing MS/MS data from mgf files
 
 Mgf files store one to multiple spectra, typically centroided and of

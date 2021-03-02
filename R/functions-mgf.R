@@ -95,7 +95,7 @@
     title <- unname(desc["TITLE"])
 
     desc[c("PEPMASS", "PEPMASSINT")] <-
-        strsplit(desc["PEPMASS"], "[[:space:]]+")[[1L]][1:2]
+        strsplit(desc["PEPMASS"], "[[:space:]]+")[[1L]][seq_len(2)]
 
     ## Use all fields in the MGF renaming the ones specified by mapping.
     desc["CHARGE"] <- sub("[+-]", "", desc["CHARGE"])
