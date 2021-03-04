@@ -23,7 +23,7 @@ Description: Mass spectrometry (MS) data backend supporting import and
 	     used with the Spectra Bioconductor package. This package thus
 	     adds mgf file support to the Spectra package.
 Depends:
-    R (>= 4.1),
+    R (>= 4.0),
     Spectra (>= 1.0)
 Imports:
     BiocParallel,
