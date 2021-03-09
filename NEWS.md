@@ -1,3 +1,11 @@
+# MsBackendMgf 0.99
+
+## Changes in 0.99.1
+
+- Directly call internal function from `MsBackendMgf` to avoid parallel
+  processing error (function not found) on Windows.
+
+
 # MsBackendMgf 0.2
 
 ## Changes in 0.2.2

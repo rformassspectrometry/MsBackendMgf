@@ -40,8 +40,8 @@
     sp <- vector("list", length = n)
 
     for (i in seq(along = sp))
-        sp[[i]] <- .extract_mgf_spectrum(mgf[begin[i]:end[i]],
-                                         mapping = mapping)
+        sp[[i]] <- MsBackendMgf:::.extract_mgf_spectrum(mgf[begin[i]:end[i]],
+                                                        mapping = mapping)
 
     res <- DataFrame(rbindFill(sp))
 
