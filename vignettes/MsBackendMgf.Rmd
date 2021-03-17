@@ -38,9 +38,16 @@ package.
 
 # Installation
 
-The package can be installed with the `BiocManager` package. To
-install `BiocManager` use `install.packages("BiocManager")` and, after that,
-`BiocManager::install("MsBackendMgf")` to install this package.
+To install this package, start `R` and enter:
+
+```{r, eval = FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("MsBackendMgf")
+```
+
+This will install this package and all eventually missing dependencies.
 
 
 # Importing MS/MS data from mgf files

@@ -1,5 +1,9 @@
 # MsBackendMgf 0.99
 
+## Changes in 0.99.2
+
+- Update installation description in the vignette.
+
 ## Changes in 0.99.1
 
 - Directly call internal function from `MsBackendMgf` to avoid parallel
