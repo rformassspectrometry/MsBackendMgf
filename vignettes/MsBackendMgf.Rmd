@@ -8,7 +8,7 @@ vignette: >
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
     %\VignettePackage{Spectra}
-    %\VignetteDepends{Spectra,BiocStyle}
+    %\VignetteDepends{Spectra,BiocStyle,BiocParallel}
 ---
 
 ```{r style, echo = FALSE, results = 'asis', message=FALSE}
@@ -27,7 +27,7 @@ library(BiocStyle)
 
 # Introduction
 
-The `Spectra` package provides a central infrastructure for the
+The `r Biocpkg("Spectra")` package provides a central infrastructure for the
 handling of Mass Spectrometry (MS) data. The package supports
 interchangeable use of different *backends* to import MS data from a
 variety of sources (such as mzML files). The `MsBackendMgf` package
@@ -69,15 +69,20 @@ fls
 MS data can be accessed and analyzed through `Spectra` objects. Below
 we create a `Spectra` with the data from these mgf files. To this end
 we provide the file names and specify to use a `MsBackendMgf()`
-backend as *source* to enable data import.
+backend as *source* to enable data import. Note that below we also disable
+parallel processing by specifically *registering* the serial processing as the
+default. See `?bpparam` for more details on parallel processing options with the
+`r Biocpkg("BiocParallel")` package.
 
 ```{r import}
+library(BiocParallel)
+register(SerialParam())
+
 sps <- Spectra(fls, source = MsBackendMgf())
 ```
 
 With that we have now full access to all imported spectra variables
 that we list below.
-
 
 ```{r spectravars}
 spectraVariables(sps)

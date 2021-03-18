@@ -1,3 +1,8 @@
+##' @title Reading MGF files
+##'
+##' The `readMgf` function imports the data from a file in MGF format reading
+##' all specified fields and returning the data as a [DataFrame()].
+##'
 ##' @param f `character(1)` with the path to an mgf file.
 ##'
 ##' @param msLevel `numeric(1)` with the MS level. Default is 2.
@@ -6,6 +11,14 @@
 ##'     variables.
 ##'
 ##' @param ... Additional parameters, currently ignored.
+##'
+##' @return
+##'
+##' A `DataFrame` with each row containing the data from one spectrum
+##' in the MGF file. m/z and intensity values are available in columns `"mz"`
+##' and `"intensity"` in a list representation.
+##'
+##' @export
 ##'
 ##' @importFrom S4Vectors DataFrame
 ##'
@@ -17,9 +30,15 @@
 ##'
 ##' @author Laurent Gatto, Johannes Rainer
 ##'
-##' @noRd
-.read_mgf <- function(f, msLevel = 2L,
-                      mapping = spectraVariableMapping(), ...) {
+##' @examples
+##'
+##' fls <- dir(system.file("extdata", package = "MsBackendMgf"),
+##'     full.names = TRUE, pattern = "mgf$")[1L]
+##'
+##' readMgf(fls)
+readMgf <- function(f, msLevel = 2L,
+                    mapping = spectraVariableMapping(), ...) {
+    requireNamespace("MsBackendMgf", quietly = TRUE)
     if (length(f) != 1L)
         stop("Please provide a single mgf file.")
     mgf <- scan(file = f, what = "",
@@ -40,8 +59,8 @@
     sp <- vector("list", length = n)
 
     for (i in seq(along = sp))
-        sp[[i]] <- MsBackendMgf:::.extract_mgf_spectrum(mgf[begin[i]:end[i]],
-                                                        mapping = mapping)
+        sp[[i]] <- .extract_mgf_spectrum(mgf[begin[i]:end[i]],
+                                         mapping = mapping)
 
     res <- DataFrame(rbindFill(sp))
 
