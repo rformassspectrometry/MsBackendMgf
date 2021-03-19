@@ -1,5 +1,9 @@
 # MsBackendMgf 0.99
 
+## Changes in 0.99.3
+
+- Export `readMgf` function.
+
 ## Changes in 0.99.2
 
 - Update installation description in the vignette.
