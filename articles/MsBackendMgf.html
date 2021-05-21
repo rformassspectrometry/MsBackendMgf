@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MsBackendMgf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -66,7 +66,7 @@
 
       
 
-      </header><script src="MsBackendMgf_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><script src="MsBackendMgf_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Description and usage of MsBackendMgf</h1>
@@ -90,15 +90,15 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Package</strong>: <em><a href="https://bioconductor.org/packages/3.13/MsBackendMgf" class="external-link">MsBackendMgf</a></em><br><strong>Authors</strong>: RforMassSpectrometry Package Maintainer [cre], Laurent Gatto [aut] (<a href="https://orcid.org/0000-0002-1520-2268" class="external-link uri">https://orcid.org/0000-0002-1520-2268</a>), Johannes Rainer [aut] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Sebastian Gibb [aut] (<a href="https://orcid.org/0000-0001-7406-4443" class="external-link uri">https://orcid.org/0000-0001-7406-4443</a>)<br><strong>Last modified:</strong> 2021-03-19 10:46:01<br><strong>Compiled</strong>: Fri Mar 19 10:50:40 2021</p>
+</script><p><strong>Package</strong>: <em><a href="https://bioconductor.org/packages/3.13/MsBackendMgf" class="external-link">MsBackendMgf</a></em><br><strong>Authors</strong>: RforMassSpectrometry Package Maintainer [cre], Laurent Gatto [aut] (<a href="https://orcid.org/0000-0002-1520-2268" class="external-link uri">https://orcid.org/0000-0002-1520-2268</a>), Johannes Rainer [aut] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Sebastian Gibb [aut] (<a href="https://orcid.org/0000-0001-7406-4443" class="external-link uri">https://orcid.org/0000-0001-7406-4443</a>)<br><strong>Last modified:</strong> 2021-05-21 07:00:33<br><strong>Compiled</strong>: Fri May 21 07:23:08 2021</p>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
+<a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h1>
 <p>The <em><a href="https://bioconductor.org/packages/3.13/Spectra" class="external-link">Spectra</a></em> package provides a central infrastructure for the handling of Mass Spectrometry (MS) data. The package supports interchangeable use of different <em>backends</em> to import MS data from a variety of sources (such as mzML files). The <code>MsBackendMgf</code> package allows the import of MS/MS data from mgf (<a href="http://www.matrixscience.com/help/data_file_help.html" class="external-link">Mascot Generic Format</a>) files. This vignette illustrates the usage of the <code>MsBackendMgf</code> package.</p>
 </div>
 <div id="installation" class="section level1">
 <h1 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h1>
+<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h1>
 <p>To install this package, start <code>R</code> and enter:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 <div id="importing-msms-data-from-mgf-files" class="section level1">
 <h1 class="hasAnchor">
-<a href="#importing-msms-data-from-mgf-files" class="anchor"></a>Importing MS/MS data from mgf files</h1>
+<a href="#importing-msms-data-from-mgf-files" class="anchor" aria-hidden="true"></a>Importing MS/MS data from mgf files</h1>
 <p>Mgf files store one to multiple spectra, typically centroided and of MS level 2. In our short example below, we load 2 mgf files which are provided with this package. Below we first load all required packages and define the paths to the mgf files.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span>
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <pre><code>## Start data import from 2 files ... done</code></pre>
 <p>With that we have now full access to all imported spectra variables that we list below.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">spectraVariables</span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] "msLevel"                 "rtime"                  
 ##  [3] "acquisitionNum"          "scanIndex"              
 ##  [5] "dataStorage"             "dataOrigin"             
@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##           "CHARGE"</code></pre>
 <p>The names of this <code>character</code> vector are the spectra variable names (such as <code>"rtime"</code>) and the field in the mgf file that contains that information are the values (such as <code>"RTINSECONDS"</code>). Note that it is also possible to overwrite this mapping (e.g. for certain mgf <em>dialects</em>) or to add additional mappings. Below we add the mapping of the mgf field <code>"TITLE"</code> to a spectra variable called <code>"spectrumName"</code>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>spectrumName <span class="op">=</span> <span class="st">"TITLE"</span>, <span class="fu"><a href="../reference/MsBackendMgf.html">spectraVariableMapping</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span>spectrumName <span class="op">=</span> <span class="st">"TITLE"</span>, <span class="fu"><a href="../reference/MsBackendMgf.html">spectraVariableMapping</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="va">map</span></code></pre></div>
 <pre><code>##       spectrumName              rtime     acquisitionNum        precursorMz 
 ##            "TITLE"      "RTINSECONDS"            "SCANS"          "PEPMASS" 
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [7] "CCMSLIB00000840351"</code></pre>
 <p>In addition we can also access the m/z and intensity values of each spectrum.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mz</span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
 <pre><code>## NumericList of length 7
 ## [[1]] 102.0548 103.00494 103.03531 ... 1388.58691 1405.59729 1406.57666
 ## [[2]] 101.07074 102.05486 103.00227 ... 1331.56726 1348.58496 1349.59241
@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [[6]] 110.070594787598 120.080627441406 ... 887.756652832031 998.447387695312
 ## [[7]] 51.022404 57.033543 57.060638 ... 636.130188 660.481445 753.358521</code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">intensity</span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">intensity</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
 <pre><code>## NumericList of length 7
 ## [[1]] 753.738 385.376 315.441 413.206 ... 3038.73 2016.43 1146.04 704.175
 ## [[2]] 1228.93 1424.66 1550.9 1455.45 ... 7380.41 4960.92 5743.83 1780.76
@@ -242,10 +242,10 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 <div id="session-information" class="section level1">
 <h1 class="hasAnchor">
-<a href="#session-information" class="anchor"></a>Session information</h1>
+<a href="#session-information" class="anchor" aria-hidden="true"></a>Session information</h1>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## R Under development (unstable) (2021-03-14 r80087)
+<pre><code>## R Under development (unstable) (2021-04-15 r80175)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 20.04.2 LTS
 ## 
@@ -265,23 +265,23 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] MsBackendMgf_0.99.3 Spectra_1.1.15      ProtGenerics_1.23.7
-## [4] BiocParallel_1.25.5 S4Vectors_0.29.9    BiocGenerics_0.37.1
-## [7] BiocStyle_2.19.1   
+## [1] MsBackendMgf_1.1.0  Spectra_1.2.0       ProtGenerics_1.24.0
+## [4] BiocParallel_1.26.0 S4Vectors_0.30.0    BiocGenerics_0.38.0
+## [7] BiocStyle_2.20.0   
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] bslib_0.2.4         compiler_4.1.0      BiocManager_1.30.10
-##  [4] jquerylib_0.1.3     tools_4.1.0         digest_0.6.27      
+##  [1] bslib_0.2.5.1       compiler_4.1.0      BiocManager_1.30.15
+##  [4] jquerylib_0.1.4     tools_4.1.0         digest_0.6.27      
 ##  [7] jsonlite_1.7.2      evaluate_0.14       memoise_2.0.0      
-## [10] clue_0.3-58         rlang_0.4.10        yaml_2.2.1         
-## [13] pkgdown_1.6.1.9000  xfun_0.22           fastmap_1.1.0      
-## [16] stringr_1.4.0       knitr_1.31          cluster_2.1.1      
-## [19] desc_1.3.0          fs_1.5.0            sass_0.3.1         
-## [22] systemfonts_1.0.1   IRanges_2.25.6      MsCoreUtils_1.3.3  
-## [25] rprojroot_2.0.2     R6_2.5.0            textshaping_0.3.3  
-## [28] rmarkdown_2.7       bookdown_0.21       magrittr_2.0.1     
-## [31] htmltools_0.5.1.1   MASS_7.3-53.1       ragg_1.1.2         
-## [34] stringi_1.5.3       cachem_1.0.4        crayon_1.4.1</code></pre>
+## [10] clue_0.3-59         rlang_0.4.11        yaml_2.2.1         
+## [13] pkgdown_1.6.1.9001  xfun_0.23           fastmap_1.1.0      
+## [16] stringr_1.4.0       knitr_1.33          cluster_2.1.2      
+## [19] desc_1.3.0          fs_1.5.0            sass_0.4.0         
+## [22] systemfonts_1.0.2   IRanges_2.26.0      MsCoreUtils_1.4.0  
+## [25] rprojroot_2.0.2     R6_2.5.0            textshaping_0.3.4  
+## [28] rmarkdown_2.8       bookdown_0.22       magrittr_2.0.1     
+## [31] htmltools_0.5.1.1   MASS_7.3-54         ragg_1.1.2         
+## [34] stringi_1.6.2       cachem_1.0.5        crayon_1.4.1</code></pre>
 </div>
   </div>
 
@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
