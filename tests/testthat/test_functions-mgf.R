@@ -1,10 +1,10 @@
-test_that(".read_mgf works", {
+test_that("readMgf works", {
     fls <- dir(system.file("extdata", package = "MsBackendMgf"),
                full.names = TRUE, pattern = "mgf$")
 
-    expect_error(.read_mgf(fls), "Please provide a single mgf file.")
+    expect_error(readMgf(fls), "Please provide a single mgf file.")
 
-    res1 <- .read_mgf(fls[1])
+    res1 <- readMgf(fls[1])
     cns <- c("rtime", "acquisitionNum", "precursorMz", "precursorIntensity",
              "precursorCharge", "mz", "intensity", "dataOrigin",
              "msLevel", "TITLE")
@@ -19,7 +19,7 @@ test_that(".read_mgf works", {
                        "File193 Spectrum1944 scans: 2406",
                        "File193 Spectrum1968 scans: 2432"))
 
-    res2 <- .read_mgf(fls[2])
+    res2 <- readMgf(fls[2])
     cns <- c("rtime", "precursorMz", "precursorIntensity",
              "precursorCharge", "mz", "intensity", "dataOrigin",
              "msLevel", "TITLE")

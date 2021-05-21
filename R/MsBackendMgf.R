@@ -73,9 +73,15 @@ NULL
 #'
 #' @examples
 #'
-#' ## Create an MsBackendMgf backend and import data from test mgf files.
+#' library(BiocParallel)
 #' fls <- dir(system.file("extdata", package = "MsBackendMgf"),
 #'     full.names = TRUE, pattern = "mgf$")
+#'
+#' ## Parallel processing setup: disabling parallel processing by registering
+#' ## serial processing. See ?bbparam for details and other options
+#' register(SerialParam())
+#'
+#' ## Create an MsBackendMgf backend and import data from test mgf files.
 #' be <- backendInitialize(MsBackendMgf(), fls)
 #' be
 #'
@@ -159,7 +165,7 @@ setMethod("backendInitialize", signature = "MsBackendMgf",
               ## Import data and rbind.
               message("Start data import from ", length(files), " files ... ",
                       appendLF = FALSE)
-              res <- bplapply(files, FUN = .read_mgf,
+              res <- bplapply(files, FUN = readMgf,
                               mapping = mapping,
                               BPPARAM = BPPARAM)
               message("done")

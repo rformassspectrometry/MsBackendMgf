@@ -80,9 +80,15 @@ MGF dialects) with the \code{mapping} parameter.
 }
 \examples{
 
-## Create an MsBackendMgf backend and import data from test mgf files.
+library(BiocParallel)
 fls <- dir(system.file("extdata", package = "MsBackendMgf"),
     full.names = TRUE, pattern = "mgf$")
+
+## Parallel processing setup: disabling parallel processing by registering
+## serial processing. See ?bbparam for details and other options
+register(SerialParam())
+
+## Create an MsBackendMgf backend and import data from test mgf files.
 be <- backendInitialize(MsBackendMgf(), fls)
 be
 
