@@ -1,3 +1,10 @@
+# MsBackendMgf 1.1
+
+## Changes in 1.1.1
+
+- Add an example to the vignette describing how to export only selected spectra
+  variables to the MGF file.
+
 # MsBackendMgf 0.99
 
 ## Changes in 0.99.3

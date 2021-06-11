@@ -171,6 +171,21 @@ We can see that also our newly defined variable was exported. Also, because we
 did not provide our custom variable mapping this time, the variable
 `"spectrumName"` was **not** used as the spectrum's title.
 
+Sometimes it might be required to not export all spectra variables since some
+exported fields might not be recognized/supported by external tools. Using the
+`selectSpectraVariables` function we can reduce our `Spectra` object to export
+to contain only relevant spectra variables. Below we restrict the data to only
+m/z, intensity, retention time, acquisition number, precursor m/z and precursor
+charge and export these to an mgf file.
+
+```{r}
+sps_ex <- selectSpectraVariables(sps, c("mz", "intensity", "rtime",
+                                        "acquisitionNum", "precursorMz",
+                                        "precursorCharge"))
+export(sps_ex, backend = MsBackendMgf(), file = fl)
+readLines(fl)[1:12]
+```
+
 # Session information
 
 ```{r}
