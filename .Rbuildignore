@@ -1,5 +1,6 @@
 .editorconfig
 .gitignore
+.github
 .gitignores
 .travis.yml
 docs

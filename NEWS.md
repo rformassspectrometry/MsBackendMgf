@@ -1,5 +1,10 @@
 # MsBackendMgf 1.1
 
+## Changes in 1.1.2
+
+- Export precursor charge in the expected format (issue
+  [#16](https://github.com/rformassspectrometry/MsBackendMgf/issues/16)).
+
 ## Changes in 1.1.1
 
 - Add an example to the vignette describing how to export only selected spectra

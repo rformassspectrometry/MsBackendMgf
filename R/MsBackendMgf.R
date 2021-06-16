@@ -50,6 +50,13 @@ NULL
 #'     for the expected format and examples below or description above for
 #'     details.
 #'
+#' @param exportTitle `logical(1)` whether the *TITLE* field should be included
+#'     in the exported MGF file. If `TRUE` (the default) a `spectraVariable`
+#'     called `"TITLE"` will be used, if no such variable is present either the
+#'     `spectraNames(object)` will be used or, if they are empty, a title will
+#'     be generated including the MS level, retention time and acquisition
+#'     number of the spectrum.
+#'
 #' @param x for `export`: an instance of [Spectra()] class with the data that
 #'     should be exported.
 #'
@@ -210,12 +217,12 @@ spectraVariableMapping <- function(format = c("mgf")) {
 #' @rdname MsBackendMgf
 setMethod("export", "MsBackendMgf", function(object, x, file = tempfile(),
                                              mapping = spectraVariableMapping(),
-                                             ...) {
+                                             exportTitle = TRUE, ...) {
     if (missing(x))
         stop("Required parameter 'x' is missing. 'x' should be a 'Spectra' ",
              "object with the full spectra data.")
     if (!inherits(x, "Spectra"))
         stop("Parameter 'x' is supposed to be a 'Spectra' object with the full",
              " spectra data to be exported.")
-    .export_mgf(x = x, con = file, mapping = mapping)
+    .export_mgf(x = x, con = file, mapping = mapping, exportTitle = exportTitle)
 })

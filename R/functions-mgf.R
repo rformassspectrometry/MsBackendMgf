@@ -117,8 +117,8 @@ readMgf <- function(f, msLevel = 2L,
         strsplit(desc["PEPMASS"], "[[:space:]]+")[[1L]][seq_len(2)]
 
     ## Use all fields in the MGF renaming the ones specified by mapping.
-    desc["CHARGE"] <- sub("[+-]", "", desc["CHARGE"])
-
+    if ("CHARGE" %in% names(desc))
+        desc["CHARGE"] <- .format_charge(desc["CHARGE"])
     idx <- match(names(desc), mapping)
     not_na <- !is.na(idx)
     if (any(not_na))
@@ -127,6 +127,17 @@ readMgf <- function(f, msLevel = 2L,
                              dimnames = list(NULL, names(desc))))
     res$mz = list(ms[, 1L])
     res$intensity = list(ms[, 2L])
+    res
+}
+
+#' Convert a MGF charge string to an integer.
+#'
+#' @noRd
+.format_charge <- function(x) {
+    res <- sub("[+-]", "", x)
+    negs <- grep("-$", x)
+    if (length(negs))
+        res[negs] <- paste0("-", res[negs])
     res
 }
 
@@ -157,7 +168,8 @@ readMgf <- function(f, msLevel = 2L,
 #' sps <- Spectra(spd)
 #'
 #' .export_mgf(sps)
-.export_mgf <- function(x, con = stdout(), mapping = spectraVariableMapping()) {
+.export_mgf <- function(x, con = stdout(), mapping = spectraVariableMapping(),
+                        exportTitle = TRUE) {
     spv <- spectraVariables(x)
     spd <- spectraData(x, spv[!(spv %in% c("dataOrigin", "dataStorage"))])
     col_not_ok <- !vapply(spd, is.vector, logical(1))
@@ -167,11 +179,19 @@ readMgf <- function(f, msLevel = 2L,
              "column or reduce its elements to a single value per row.")
     idx <- match(colnames(spd), names(mapping))
     colnames(spd)[!is.na(idx)] <- mapping[idx[!is.na(idx)]]
+    if (any(colnames(spd) == "CHARGE")) {
+        sign_char <- ifelse(spd$CHARGE > 0, "+", "-")
+        nas <- is.na(spd$CHARGE)
+        spd$CHARGE <- paste0(abs(spd$CHARGE), sign_char)
+        spd$CHARGE[nas] <- ""
+    }
+    if (!exportTitle)
+        spd$TITLE <- NULL
     l <- nrow(spd)
     tmp <- lapply(colnames(spd), function(z) {
         paste0(z, "=", spd[, z], "\n")
     })
-    if (!any(colnames(spd) == "TITLE")) {
+    if (exportTitle && !any(colnames(spd) == "TITLE")) {
         if (!is.null(spectraNames(x)))
             title <- paste0("TITLE=", spectraNames(x), "\n")
         else
