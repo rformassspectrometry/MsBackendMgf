@@ -56,6 +56,11 @@ test_that("export,MsBackendMgf works", {
     expect_equal(rtime(res), rtime(sps))
     expect_equal(peaksData(res), peaksData(sps@backend))
 
+    sps$precursorCharge <- c(2L, NA_integer_, -4L)
+    export(MsBackendMgf(), sps, file = fl)
+    res <- backendInitialize(MsBackendMgf(), fl)
+    expect_equal(precursorCharge(res), precursorCharge(sps))
+
     expect_error(export(MsBackendMgf(), file = fl), "missing")
     expect_error(export(MsBackendMgf(), x = spd, file = fl), "spectra data to")
 

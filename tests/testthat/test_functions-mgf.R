@@ -66,3 +66,8 @@ test_that(".extract_mgf_spectrum works", {
                                "mz", "intensity"))
     expect_true(!is.na(res$precursorIntensity))
 })
+
+test_that(".format_charge works", {
+    res <- .format_charge(c("4+", "3-", NA, "45"))
+    expect_equal(res, c("4", "-3", NA_character_, "45"))
+})
