@@ -176,13 +176,15 @@ exported fields might not be recognized/supported by external tools. Using the
 `selectSpectraVariables` function we can reduce our `Spectra` object to export
 to contain only relevant spectra variables. Below we restrict the data to only
 m/z, intensity, retention time, acquisition number, precursor m/z and precursor
-charge and export these to an mgf file.
+charge and export these to an mgf file. Also, some external tools don't support
+the `"TITLE"` field in the MGF file. To disable export of the spectrum ID/title
+`exportTitle = FALSE` can be used.
 
 ```{r}
 sps_ex <- selectSpectraVariables(sps, c("mz", "intensity", "rtime",
                                         "acquisitionNum", "precursorMz",
                                         "precursorCharge"))
-export(sps_ex, backend = MsBackendMgf(), file = fl)
+export(sps_ex, backend = MsBackendMgf(), file = fl, exportTitle = FALSE)
 readLines(fl)[1:12]
 ```
 

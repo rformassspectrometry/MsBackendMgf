@@ -20,7 +20,14 @@ MsBackendMgf()
 
 spectraVariableMapping(format = c("mgf"))
 
-\S4method{export}{MsBackendMgf}(object, x, file = tempfile(), mapping = spectraVariableMapping(), ...)
+\S4method{export}{MsBackendMgf}(
+  object,
+  x,
+  file = tempfile(),
+  mapping = spectraVariableMapping(),
+  exportTitle = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{Instance of \code{MsBackendMgf} class.}
@@ -48,6 +55,13 @@ should be exported.}
 
 \item{file}{\code{character(1)} with the (full) file name to which the data
 should be exported.}
+
+\item{exportTitle}{\code{logical(1)} whether the \emph{TITLE} field should be included
+in the exported MGF file. If \code{TRUE} (the default) a \code{spectraVariable}
+called \code{"TITLE"} will be used, if no such variable is present either the
+\code{spectraNames(object)} will be used or, if they are empty, a title will
+be generated including the MS level, retention time and acquisition
+number of the spectrum.}
 }
 \value{
 See description above.

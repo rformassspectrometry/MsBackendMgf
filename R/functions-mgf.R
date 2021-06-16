@@ -168,7 +168,8 @@ readMgf <- function(f, msLevel = 2L,
 #' sps <- Spectra(spd)
 #'
 #' .export_mgf(sps)
-.export_mgf <- function(x, con = stdout(), mapping = spectraVariableMapping()) {
+.export_mgf <- function(x, con = stdout(), mapping = spectraVariableMapping(),
+                        exportTitle = TRUE) {
     spv <- spectraVariables(x)
     spd <- spectraData(x, spv[!(spv %in% c("dataOrigin", "dataStorage"))])
     col_not_ok <- !vapply(spd, is.vector, logical(1))
@@ -184,11 +185,13 @@ readMgf <- function(f, msLevel = 2L,
         spd$CHARGE <- paste0(abs(spd$CHARGE), sign_char)
         spd$CHARGE[nas] <- ""
     }
+    if (!exportTitle)
+        spd$TITLE <- NULL
     l <- nrow(spd)
     tmp <- lapply(colnames(spd), function(z) {
         paste0(z, "=", spd[, z], "\n")
     })
-    if (!any(colnames(spd) == "TITLE")) {
+    if (exportTitle && !any(colnames(spd) == "TITLE")) {
         if (!is.null(spectraNames(x)))
             title <- paste0("TITLE=", spectraNames(x), "\n")
         else
