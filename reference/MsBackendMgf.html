@@ -108,7 +108,7 @@ MGF dialects) with the mapping parameter." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MsBackendMgf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
       </span>
     </div>
 
@@ -187,7 +187,14 @@ MGF dialects) with the <code>mapping</code> parameter.</p>
 <span class='fu'>spectraVariableMapping</span><span class='op'>(</span>format <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mgf"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># S4 method for MsBackendMgf</span>
-<span class='fu'>export</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>x</span>, file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>, mapping <span class='op'>=</span> <span class='fu'>spectraVariableMapping</span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
+<span class='fu'>export</span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>x</span>,
+  file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>,
+  mapping <span class='op'>=</span> <span class='fu'>spectraVariableMapping</span><span class='op'>(</span><span class='op'>)</span>,
+  exportTitle <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -233,6 +240,15 @@ should be exported.</p></td>
       <th>file</th>
       <td><p><code>character(1)</code> with the (full) file name to which the data
 should be exported.</p></td>
+    </tr>
+    <tr>
+      <th>exportTitle</th>
+      <td><p><code>logical(1)</code> whether the <em>TITLE</em> field should be included
+in the exported MGF file. If <code>TRUE</code> (the default) a <code>spectraVariable</code>
+called <code>"TITLE"</code> will be used, if no such variable is present either the
+<code>spectraNames(object)</code> will be used or, if they are empty, a title will
+be generated including the MS level, retention time and acquisition
+number of the spectrum.</p></td>
     </tr>
     </table>
 
@@ -364,7 +380,7 @@ should be exported.</p></td>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [4] "SCANS=2162"                            </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "centroided=TRUE"                       </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] "PEPMASS=816.33826"                     </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "CHARGE=2"                              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "CHARGE=2+"                             </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "TITLE=File193 Spectrum1719 scans: 2162"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "102.0548 753.738"                      </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [10] "103.00494 385.376"                     </span>
@@ -391,7 +407,7 @@ should be exported.</p></td>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [4] "SCANS=2162"                            </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "centroided=TRUE"                       </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] "PEPMASS=816.33826"                     </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "CHARGE=2"                              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "CHARGE=2+"                             </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "TITLE=File193 Spectrum1719 scans: 2162"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "spectrum_idx=1"                        </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [10] "102.0548 753.738"                      </span>

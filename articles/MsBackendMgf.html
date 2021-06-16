@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MsBackendMgf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
       </span>
     </div>
 
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Package</strong>: <em><a href="https://bioconductor.org/packages/3.14/MsBackendMgf" class="external-link">MsBackendMgf</a></em><br><strong>Authors</strong>: RforMassSpectrometry Package Maintainer [cre], Laurent Gatto [aut] (<a href="https://orcid.org/0000-0002-1520-2268" class="external-link uri">https://orcid.org/0000-0002-1520-2268</a>), Johannes Rainer [aut] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Sebastian Gibb [aut] (<a href="https://orcid.org/0000-0001-7406-4443" class="external-link uri">https://orcid.org/0000-0001-7406-4443</a>)<br><strong>Last modified:</strong> 2021-06-11 12:04:23<br><strong>Compiled</strong>: Fri Jun 11 12:11:46 2021</p>
+</script><p><strong>Package</strong>: <em><a href="https://bioconductor.org/packages/3.14/MsBackendMgf" class="external-link">MsBackendMgf</a></em><br><strong>Authors</strong>: RforMassSpectrometry Package Maintainer [cre], Laurent Gatto [aut] (<a href="https://orcid.org/0000-0002-1520-2268" class="external-link uri">https://orcid.org/0000-0002-1520-2268</a>), Johannes Rainer [aut] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Sebastian Gibb [aut] (<a href="https://orcid.org/0000-0001-7406-4443" class="external-link uri">https://orcid.org/0000-0001-7406-4443</a>)<br><strong>Last modified:</strong> 2021-06-16 10:44:47<br><strong>Compiled</strong>: Wed Jun 16 10:47:46 2021</p>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h1>
@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##  [4] "SCANS=2162"                            
 ##  [5] "centroided=TRUE"                       
 ##  [6] "PEPMASS=816.33826"                     
-##  [7] "CHARGE=2"                              
+##  [7] "CHARGE=2+"                             
 ##  [8] "TITLE=File193 Spectrum1719 scans: 2162"
 ##  [9] "102.0548 753.738"                      
 ## [10] "103.00494 385.376"                     
@@ -240,31 +240,23 @@ document.addEventListener("DOMContentLoaded", function() {
 ##  [5] "SCANS=2162"                                   
 ##  [6] "centroided=TRUE"                              
 ##  [7] "PEPMASS=816.33826"                            
-##  [8] "CHARGE=2"                                     
+##  [8] "CHARGE=2+"                                    
 ##  [9] "spectrumName=File193 Spectrum1719 scans: 2162"
 ## [10] "new_variable=A"                               
 ## [11] "102.0548 753.738"                             
 ## [12] "103.00494 385.376"</code></pre>
 <p>We can see that also our newly defined variable was exported. Also, because we did not provide our custom variable mapping this time, the variable <code>"spectrumName"</code> was <strong>not</strong> used as the spectrum’s title.</p>
-<p>Sometimes it might be required to not export all spectra variables since some exported fields might not be recognized/supported by external tools. Using the <code>selectSpectraVariables</code> function we can reduce our <code>Spectra</code> object to export to contain only relevant spectra variables. Below we restrict the data to only m/z, intensity, retention time, acquisition number, precursor m/z and precursor charge and export these to an mgf file.</p>
+<p>Sometimes it might be required to not export all spectra variables since some exported fields might not be recognized/supported by external tools. Using the <code>selectSpectraVariables</code> function we can reduce our <code>Spectra</code> object to export to contain only relevant spectra variables. Below we restrict the data to only m/z, intensity, retention time, acquisition number, precursor m/z and precursor charge and export these to an mgf file. Also, some external tools don’t support the <code>"TITLE"</code> field in the MGF file. To disable export of the spectrum ID/title <code>exportTitle = FALSE</code> can be used.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps_ex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">selectSpectraVariables</a></span><span class="op">(</span><span class="va">sps</span>, <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mz"</span>, <span class="st">"intensity"</span>, <span class="st">"rtime"</span>,
                                         <span class="st">"acquisitionNum"</span>, <span class="st">"precursorMz"</span>,
                                         <span class="st">"precursorCharge"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">export</a></span><span class="op">(</span><span class="va">sps_ex</span>, backend <span class="op">=</span> <span class="fu"><a href="../reference/MsBackendMgf.html">MsBackendMgf</a></span><span class="op">(</span><span class="op">)</span>, file <span class="op">=</span> <span class="va">fl</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">export</a></span><span class="op">(</span><span class="va">sps_ex</span>, backend <span class="op">=</span> <span class="fu"><a href="../reference/MsBackendMgf.html">MsBackendMgf</a></span><span class="op">(</span><span class="op">)</span>, file <span class="op">=</span> <span class="va">fl</span>, exportTitle <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">fl</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">]</span></code></pre></div>
-<pre><code>##  [1] "BEGIN IONS"                                
-##  [2] "TITLE=msLevel NA; retentionTime ; scanNum "
-##  [3] "RTINSECONDS=1028"                          
-##  [4] "SCANS=2162"                                
-##  [5] "PEPMASS=816.33826"                         
-##  [6] "CHARGE=2"                                  
-##  [7] "102.0548 753.738"                          
-##  [8] "103.00494 385.376"                         
-##  [9] "103.03531 315.441"                         
-## [10] "115.05001 413.206"                         
-## [11] "115.08686 588.273"                         
-## [12] "120.08063 800.016"</code></pre>
+<pre><code>##  [1] "BEGIN IONS"        "RTINSECONDS=1028"  "SCANS=2162"       
+##  [4] "PEPMASS=816.33826" "CHARGE=2+"         "102.0548 753.738" 
+##  [7] "103.00494 385.376" "103.03531 315.441" "115.05001 413.206"
+## [10] "115.08686 588.273" "120.08063 800.016" "124.10555 526.761"</code></pre>
 </div>
 <div id="session-information" class="section level1">
 <h1 class="hasAnchor">
@@ -291,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] MsBackendMgf_1.1.1  Spectra_1.3.1       ProtGenerics_1.25.0
+## [1] MsBackendMgf_1.1.2  Spectra_1.3.1       ProtGenerics_1.25.0
 ## [4] BiocParallel_1.27.0 S4Vectors_0.31.0    BiocGenerics_0.39.1
 ## [7] BiocStyle_2.21.2   
 ## 
