@@ -105,7 +105,7 @@ readMgf <- function(f, msLevel = 2L,
     ms <- do.call(rbind, strsplit(spec, "[[:space:]]+"))
     mode(ms) <- "double"
 
-    if (!length(ms))
+    if (!length(ms) || length(ms) == 1L)
         ms <- matrix(numeric(), ncol = 2L)
 
     r <- regexpr("=", desc, fixed = TRUE)
