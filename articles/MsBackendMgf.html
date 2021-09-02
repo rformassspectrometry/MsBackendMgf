@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MsBackendMgf</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -73,7 +73,7 @@
 
       
 
-      </header><script src="MsBackendMgf_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="MsBackendMgf_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Description and usage of MsBackendMgf</h1>
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Package</strong>: <em><a href="https://bioconductor.org/packages/3.14/MsBackendMgf" class="external-link">MsBackendMgf</a></em><br><strong>Authors</strong>: RforMassSpectrometry Package Maintainer [cre], Laurent Gatto [aut] (<a href="https://orcid.org/0000-0002-1520-2268" class="external-link uri">https://orcid.org/0000-0002-1520-2268</a>), Johannes Rainer [aut] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Sebastian Gibb [aut] (<a href="https://orcid.org/0000-0001-7406-4443" class="external-link uri">https://orcid.org/0000-0001-7406-4443</a>)<br><strong>Last modified:</strong> 2021-06-16 10:44:47<br><strong>Compiled</strong>: Wed Jun 16 10:47:46 2021</p>
+</script><p><strong>Package</strong>: <em><a href="https://bioconductor.org/packages/3.14/MsBackendMgf" class="external-link">MsBackendMgf</a></em><br><strong>Authors</strong>: RforMassSpectrometry Package Maintainer [cre], Laurent Gatto [aut] (<a href="https://orcid.org/0000-0002-1520-2268" class="external-link uri">https://orcid.org/0000-0002-1520-2268</a>), Johannes Rainer [aut] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Sebastian Gibb [aut] (<a href="https://orcid.org/0000-0001-7406-4443" class="external-link uri">https://orcid.org/0000-0001-7406-4443</a>)<br><strong>Last modified:</strong> 2021-09-02 10:42:27<br><strong>Compiled</strong>: Thu Sep 2 10:49:41 2021</p>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h1>
@@ -125,15 +125,16 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="va">fls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MsBackendMgf"</span><span class="op">)</span>,
            full.names <span class="op">=</span> <span class="cn">TRUE</span>, pattern <span class="op">=</span> <span class="st">"mgf$"</span><span class="op">)</span>
 <span class="va">fls</span></code></pre></div>
-<pre><code>## [1] "/__w/_temp/Library/MsBackendMgf/extdata/spectra.mgf" 
-## [2] "/__w/_temp/Library/MsBackendMgf/extdata/spectra2.mgf"</code></pre>
+<pre><code>## [1] "/__w/_temp/Library/MsBackendMgf/extdata/spectra.mgf"             
+## [2] "/__w/_temp/Library/MsBackendMgf/extdata/spectra2.mgf"            
+## [3] "/__w/_temp/Library/MsBackendMgf/extdata/spectra3_empty_peaks.mgf"</code></pre>
 <p>MS data can be accessed and analyzed through <code>Spectra</code> objects. Below we create a <code>Spectra</code> with the data from these mgf files. To this end we provide the file names and specify to use a <code><a href="../reference/MsBackendMgf.html">MsBackendMgf()</a></code> backend as <em>source</em> to enable data import. Note that below we also disable parallel processing by specifically <em>registering</em> the serial processing as the default. See <code><a href="https://rdrr.io/pkg/BiocParallel/man/register.html" class="external-link">?bpparam</a></code> for more details on parallel processing options with the <em><a href="https://bioconductor.org/packages/3.14/BiocParallel" class="external-link">BiocParallel</a></em> package.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Bioconductor/BiocParallel" class="external-link">BiocParallel</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/register.html" class="external-link">register</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html" class="external-link">SerialParam</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">fls</span>, source <span class="op">=</span> <span class="fu"><a href="../reference/MsBackendMgf.html">MsBackendMgf</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Start data import from 2 files ... done</code></pre>
+<pre><code>## Start data import from 3 files ... done</code></pre>
 <p>With that we have now full access to all imported spectra variables that we list below.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
@@ -145,11 +146,12 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [11] "precursorMz"             "precursorIntensity"     
 ## [13] "precursorCharge"         "collisionEnergy"        
 ## [15] "isolationWindowLowerMz"  "isolationWindowTargetMz"
-## [17] "isolationWindowUpperMz"  "TITLE"</code></pre>
+## [17] "isolationWindowUpperMz"  "TITLE"                  
+## [19] "RAWFILE"                 "CLUSTER_ID"</code></pre>
 <p>Besides default spectra variables, such as <code>msLevel</code>, <code>rtime</code>, <code>precursorMz</code>, we also have additional spectra variables such as the <code>TITLE</code> of each spectrum in the mgf file.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span><span class="op">$</span><span class="va">rtime</span></code></pre></div>
-<pre><code>## [1] 1028.000 1117.000 1127.000 2678.940 2373.511 2511.030       NA</code></pre>
+<pre><code>## [1] 1028.000 1117.000 1127.000 2678.940 2373.511 2511.030       NA  162.070</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span><span class="op">$</span><span class="va">TITLE</span></code></pre></div>
 <pre><code>## [1] "File193 Spectrum1719 scans: 2162"                                                         
@@ -158,7 +160,8 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [4] "mzspec:PXD004732:01650b_BC2-TUM_first_pool_53_01_01-3xHCD-1h-R2:scan:41840:WNQLQAFWGTGK/2"
 ## [5] "mzspec:PXD002084:TCGA-AA-A01D-01A-23_W_VU_20121106_A0218_5I_R_FR15:scan:5209:DLTDYLMK/2"  
 ## [6] "mzspec:MSV000080679:j11962_C1orf144:scan:10671:DLTDYLMK/2"                                
-## [7] "CCMSLIB00000840351"</code></pre>
+## [7] "CCMSLIB00000840351"                                                                       
+## [8] "blank_2-A,1_01_29559.812.812.1"</code></pre>
 <p>By default, fields in the mgf file are mapped to spectra variable names using the mapping returned by the <code><a href="../reference/MsBackendMgf.html">spectraVariableMapping()</a></code> function:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/MsBackendMgf.html">spectraVariableMapping</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -177,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>We can then pass this mapping to the <code>backendInitialize</code> method, or the <code>Spectra</code> constructor.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">fls</span>, source <span class="op">=</span> <span class="fu"><a href="../reference/MsBackendMgf.html">MsBackendMgf</a></span><span class="op">(</span><span class="op">)</span>, mapping <span class="op">=</span> <span class="va">map</span><span class="op">)</span></code></pre></div>
-<pre><code>## Start data import from 2 files ... done</code></pre>
+<pre><code>## Start data import from 3 files ... done</code></pre>
 <p>We can now access the spectrum’s title with the newly created spectra variable <code>"spectrumName"</code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span><span class="op">$</span><span class="va">spectrumName</span></code></pre></div>
@@ -187,28 +190,31 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [4] "mzspec:PXD004732:01650b_BC2-TUM_first_pool_53_01_01-3xHCD-1h-R2:scan:41840:WNQLQAFWGTGK/2"
 ## [5] "mzspec:PXD002084:TCGA-AA-A01D-01A-23_W_VU_20121106_A0218_5I_R_FR15:scan:5209:DLTDYLMK/2"  
 ## [6] "mzspec:MSV000080679:j11962_C1orf144:scan:10671:DLTDYLMK/2"                                
-## [7] "CCMSLIB00000840351"</code></pre>
+## [7] "CCMSLIB00000840351"                                                                       
+## [8] "blank_2-A,1_01_29559.812.812.1"</code></pre>
 <p>In addition we can also access the m/z and intensity values of each spectrum.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
-<pre><code>## NumericList of length 7
+<pre><code>## NumericList of length 8
 ## [[1]] 102.0548 103.00494 103.03531 ... 1388.58691 1405.59729 1406.57666
 ## [[2]] 101.07074 102.05486 103.00227 ... 1331.56726 1348.58496 1349.59241
 ## [[3]] 102.05556 103.00014 115.05058 ... 1333.599 1334.61304 1335.64368
 ## [[4]] 101.07122 109.68925 115.86999 120.0811 ... 1260.6073 1261.614 1272.6572
 ## [[5]] 130.164459228516 144.150299072266 ... 1019.23852539062 1020.52404785156
 ## [[6]] 110.070594787598 120.080627441406 ... 887.756652832031 998.447387695312
-## [[7]] 51.022404 57.033543 57.060638 ... 636.130188 660.481445 753.358521</code></pre>
+## [[7]] 51.022404 57.033543 57.060638 ... 636.130188 660.481445 753.358521
+## [[8]] numeric(0)</code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">intensity</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
-<pre><code>## NumericList of length 7
+<pre><code>## NumericList of length 8
 ## [[1]] 753.738 385.376 315.441 413.206 ... 3038.73 2016.43 1146.04 704.175
 ## [[2]] 1228.93 1424.66 1550.9 1455.45 ... 7380.41 4960.92 5743.83 1780.76
 ## [[3]] 1340.44 1714.76 1938.82 1450.36 2019 ... 5323.02 2265.43 4768.14 1532.12
 ## [[4]] 81011.57 4123.349 4006.9321 66933.17 ... 22042.248 18096.48 12666.438
 ## [[5]] 14.1766004562378 18.5806427001953 ... 22.7096385955811 14.864013671875
 ## [[6]] 1748.57495117188 8689.9951171875 ... 2907.08422851562 2663.30908203125
-## [[7]] 65.219513 178.758606 13.01786 119.898499 ... 22.05921 30.57095 14.11111</code></pre>
+## [[7]] 65.219513 178.758606 13.01786 119.898499 ... 22.05921 30.57095 14.11111
+## [[8]] numeric(0)</code></pre>
 <p>The <code>MsBackendMgf</code> backend allows also to export data in mgf format. Below we export the data to a temporary file. We hence call the <code>export</code> function on our <code>Spectra</code> object specifying <code>backend = MsBackendMgf()</code> to use this backend for the export of the data. Note that we use again our custom mapping of variables such that the spectra variable <code>"spectrumName"</code> will be exported as the spectrums’ title.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>
@@ -283,23 +289,23 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] MsBackendMgf_1.1.2  Spectra_1.3.1       ProtGenerics_1.25.0
-## [4] BiocParallel_1.27.0 S4Vectors_0.31.0    BiocGenerics_0.39.1
-## [7] BiocStyle_2.21.2   
+## [1] MsBackendMgf_1.1.3  Spectra_1.3.7       ProtGenerics_1.25.1
+## [4] BiocParallel_1.27.4 S4Vectors_0.31.3    BiocGenerics_0.39.2
+## [7] BiocStyle_2.21.3   
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] bslib_0.2.5.1       compiler_4.1.0      BiocManager_1.30.15
+##  [1] bslib_0.2.5.1       compiler_4.1.0      BiocManager_1.30.16
 ##  [4] jquerylib_0.1.4     tools_4.1.0         digest_0.6.27      
 ##  [7] jsonlite_1.7.2      evaluate_0.14       memoise_2.0.0      
 ## [10] clue_0.3-59         rlang_0.4.11        yaml_2.2.1         
-## [13] parallel_4.1.0      pkgdown_1.6.1.9001  xfun_0.23          
+## [13] parallel_4.1.0      pkgdown_1.6.1.9001  xfun_0.25          
 ## [16] fastmap_1.1.0       stringr_1.4.0       knitr_1.33         
 ## [19] cluster_2.1.2       desc_1.3.0          fs_1.5.0           
-## [22] sass_0.4.0          systemfonts_1.0.2   IRanges_2.27.0     
+## [22] sass_0.4.0          systemfonts_1.0.2   IRanges_2.27.2     
 ## [25] MsCoreUtils_1.5.0   rprojroot_2.0.2     R6_2.5.0           
-## [28] textshaping_0.3.5   rmarkdown_2.8       bookdown_0.22      
+## [28] textshaping_0.3.5   rmarkdown_2.10      bookdown_0.22      
 ## [31] magrittr_2.0.1      htmltools_0.5.1.1   MASS_7.3-54        
-## [34] ragg_1.1.3          stringi_1.6.2       cachem_1.0.5       
+## [34] ragg_1.1.3          stringi_1.7.3       cachem_1.0.5       
 ## [37] crayon_1.4.1</code></pre>
 </div>
   </div>
