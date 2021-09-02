@@ -1,6 +1,6 @@
 test_that("backendInitialize,MsBackendMgf works", {
     fls <- dir(system.file("extdata", package = "MsBackendMgf"),
-               full.names = TRUE, pattern = "mgf$")
+               full.names = TRUE, pattern = "mgf$")[1:2]
     be <- MsBackendMgf()
 
     ## Import a single file.

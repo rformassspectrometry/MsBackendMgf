@@ -30,6 +30,10 @@ test_that("readMgf works", {
     expect_equal(length(res2$intensity[[2]]), length(res2$mz[[2]]))
     expect_equal(length(res2$intensity[[3]]), length(res2$mz[[3]]))
     expect_true(is.na(res2$rtime[4]))
+
+    res3 <- readMgf(fls[3])
+    expect_true(length(res3$mz[[1L]]) == 0)
+    expect_true(length(res3$intensity[[1L]]) == 0)
 })
 
 test_that(".extract_mgf_spectrum works", {

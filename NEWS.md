@@ -1,5 +1,9 @@
 # MsBackendMgf 1.1
 
+## Changes in 1.1.3
+
+- Fix issue with MGF files lacking peak data.
+
 ## Changes in 1.1.2
 
 - Export precursor charge in the expected format (issue
