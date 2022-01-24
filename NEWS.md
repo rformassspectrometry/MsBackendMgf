@@ -1,3 +1,9 @@
+# MsBackendMgf 1.3
+
+## Changes in 1.3.1
+
+- Run additional unit test suits defined in `Spectra`.
+
 # MsBackendMgf 1.1
 
 ## Changes in 1.1.3
