@@ -4,27 +4,27 @@
 \alias{MsBackendMgf}
 \alias{MsBackendMgf-class}
 \alias{backendInitialize,MsBackendMgf-method}
-\alias{spectraVariableMapping}
+\alias{spectraVariableMapping,MsBackendMgf-method}
 \alias{export,MsBackendMgf-method}
 \title{MS data backend for mgf files}
 \usage{
 \S4method{backendInitialize}{MsBackendMgf}(
   object,
   files,
-  mapping = spectraVariableMapping(),
+  mapping = spectraVariableMapping(object),
   ...,
   BPPARAM = bpparam()
 )
 
 MsBackendMgf()
 
-spectraVariableMapping(format = c("mgf"))
+\S4method{spectraVariableMapping}{MsBackendMgf}(object, format = c("mgf"))
 
 \S4method{export}{MsBackendMgf}(
   object,
   x,
   file = tempfile(),
-  mapping = spectraVariableMapping(),
+  mapping = spectraVariableMapping(object),
   exportTitle = TRUE,
   ...
 )
@@ -120,11 +120,11 @@ be$TITLE
 
 ## The default mapping of MGF fields to spectra variables is provided by
 ## the spectraVariableMapping function
-spectraVariableMapping()
+spectraVariableMapping(MsBackendMgf())
 
 ## We can provide our own mapping e.g. to map the MGF field "TITLE" to a
 ## variable named "spectrumName":
-map <- c(spectrumName = "TITLE", spectraVariableMapping())
+map <- c(spectrumName = "TITLE", spectraVariableMapping(MsBackendMgf()))
 map
 
 ## We can then pass this mapping with parameter `mapping` to the
