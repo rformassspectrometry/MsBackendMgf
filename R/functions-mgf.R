@@ -37,7 +37,7 @@
 ##'
 ##' readMgf(fls)
 readMgf <- function(f, msLevel = 2L,
-                    mapping = spectraVariableMapping(), ...) {
+                    mapping = spectraVariableMapping(MsBackendMgf()), ...) {
     requireNamespace("MsBackendMgf", quietly = TRUE)
     if (length(f) != 1L)
         stop("Please provide a single mgf file.")
@@ -96,7 +96,7 @@ readMgf <- function(f, msLevel = 2L,
 ##' @importFrom stats setNames
 ##'
 ##' @noRd
-.extract_mgf_spectrum <- function(mgf, mapping = spectraVariableMapping()) {
+.extract_mgf_spectrum <- function(mgf, mapping) {
     ## grep description
     desc.idx <- grep("=", mgf)
     desc <- mgf[desc.idx]
@@ -168,7 +168,8 @@ readMgf <- function(f, msLevel = 2L,
 #' sps <- Spectra(spd)
 #'
 #' .export_mgf(sps)
-.export_mgf <- function(x, con = stdout(), mapping = spectraVariableMapping(),
+.export_mgf <- function(x, con = stdout(),
+                        mapping = spectraVariableMapping(MsBackendMgf()),
                         exportTitle = TRUE) {
     spv <- spectraVariables(x)
     spd <- spectraData(x, spv[!(spv %in% c("dataOrigin", "dataStorage"))])

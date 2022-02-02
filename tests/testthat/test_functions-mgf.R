@@ -49,7 +49,8 @@ test_that(".extract_mgf_spectrum works", {
     end <- grep("END IONS", mgf) - 1L
     n <- length(begin)
 
-    res <- .extract_mgf_spectrum(mgf[begin[1]:end[1]])
+    mapping <- spectraVariableMapping(MsBackendMgf())
+    res <- .extract_mgf_spectrum(mgf[begin[1]:end[1]], mapping = mapping)
     expect_true(is.data.frame(res))
     expect_equal(names(res), c("TITLE", "precursorMz", "precursorCharge",
                                "rtime", "acquisitionNum", "precursorIntensity",
@@ -63,7 +64,7 @@ test_that(".extract_mgf_spectrum works", {
 
     expect_true(is.na(res$PEPMASSINT))
 
-    res <- .extract_mgf_spectrum(mgf[begin[2]:end[2]])
+    res <- .extract_mgf_spectrum(mgf[begin[2]:end[2]], mapping = mapping)
     expect_true(is.data.frame(res))
     expect_equal(names(res), c("TITLE", "precursorMz", "precursorCharge",
                                "rtime", "acquisitionNum", "precursorIntensity",

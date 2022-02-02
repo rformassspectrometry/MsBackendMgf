@@ -36,11 +36,11 @@ test_that("backendInitialize,MsBackendMgf works", {
 })
 
 test_that("spectraVariableMapping works", {
-    res <- spectraVariableMapping()
+    res <- spectraVariableMapping(MsBackendMgf())
     expect_true(is.character(res))
     expect_true(length(names(res)) == length(res))
 
-    expect_error(spectraVariableMapping(format = "other"))
+    expect_error(spectraVariableMapping(MsBackendMgf(), format = "other"))
 })
 
 test_that("export,MsBackendMgf works", {

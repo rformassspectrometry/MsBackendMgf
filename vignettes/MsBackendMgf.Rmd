@@ -98,10 +98,10 @@ sps$TITLE
 ```
 
 By default, fields in the mgf file are mapped to spectra variable names using
-the mapping returned by the `spectraVariableMapping()` function:
+the mapping returned by the `spectraVariableMapping` function:
 
 ```{r spectravariables}
-spectraVariableMapping()
+spectraVariableMapping(MsBackendMgf())
 ```
 
 The names of this `character` vector are the spectra variable names (such as
@@ -112,7 +112,7 @@ mappings. Below we add the mapping of the mgf field `"TITLE"` to a spectra
 variable called `"spectrumName"`.
 
 ```{r map}
-map <- c(spectrumName = "TITLE", spectraVariableMapping())
+map <- c(spectrumName = "TITLE", spectraVariableMapping(MsBackendMgf()))
 map
 ```
 

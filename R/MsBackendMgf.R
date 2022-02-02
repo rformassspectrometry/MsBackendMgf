@@ -106,11 +106,11 @@ NULL
 #'
 #' ## The default mapping of MGF fields to spectra variables is provided by
 #' ## the spectraVariableMapping function
-#' spectraVariableMapping()
+#' spectraVariableMapping(MsBackendMgf())
 #'
 #' ## We can provide our own mapping e.g. to map the MGF field "TITLE" to a
 #' ## variable named "spectrumName":
-#' map <- c(spectrumName = "TITLE", spectraVariableMapping())
+#' map <- c(spectrumName = "TITLE", spectraVariableMapping(MsBackendMgf()))
 #' map
 #'
 #' ## We can then pass this mapping with parameter `mapping` to the
@@ -156,7 +156,7 @@ setClass("MsBackendMgf",
 #'
 #' @rdname MsBackendMgf
 setMethod("backendInitialize", signature = "MsBackendMgf",
-          function(object, files, mapping = spectraVariableMapping(),
+          function(object, files, mapping = spectraVariableMapping(object),
                    ..., BPPARAM = bpparam()) {
               if (missing(files) || !length(files))
                   stop("Parameter 'files' is mandatory for ", class(object))
@@ -193,36 +193,39 @@ MsBackendMgf <- function() {
     new("MsBackendMgf")
 }
 
-#' @export
+#' @importMethodsFrom Spectra spectraVariableMapping
+#'
+#' @exportMethod spectraVariableMapping
 #'
 #' @rdname MsBackendMgf
-spectraVariableMapping <- function(format = c("mgf")) {
-    ## In future eventually define that in a text file and import upon package
-    ## init.
-    switch(match.arg(format),
-           "mgf" = c(
-               rtime = "RTINSECONDS",
-               acquisitionNum = "SCANS",
-               precursorMz = "PEPMASS",
-               precursorIntensity = "PEPMASSINT",
-               precursorCharge = "CHARGE"
-           )
-           )
-}
+setMethod("spectraVariableMapping", "MsBackendMgf",
+          function(object, format = c("mgf")) {
+              switch(match.arg(format),
+                     "mgf" = c(
+                         rtime = "RTINSECONDS",
+                         acquisitionNum = "SCANS",
+                         precursorMz = "PEPMASS",
+                         precursorIntensity = "PEPMASSINT",
+                         precursorCharge = "CHARGE"
+                     )
+                     )
+          })
 
 #' @importMethodsFrom Spectra export
 #'
 #' @exportMethod export
 #'
 #' @rdname MsBackendMgf
-setMethod("export", "MsBackendMgf", function(object, x, file = tempfile(),
-                                             mapping = spectraVariableMapping(),
-                                             exportTitle = TRUE, ...) {
-    if (missing(x))
-        stop("Required parameter 'x' is missing. 'x' should be a 'Spectra' ",
-             "object with the full spectra data.")
-    if (!inherits(x, "Spectra"))
-        stop("Parameter 'x' is supposed to be a 'Spectra' object with the full",
-             " spectra data to be exported.")
-    .export_mgf(x = x, con = file, mapping = mapping, exportTitle = exportTitle)
-})
+setMethod("export", "MsBackendMgf",
+          function(object, x, file = tempfile(),
+                   mapping = spectraVariableMapping(object),
+                   exportTitle = TRUE, ...) {
+              if (missing(x))
+                  stop("Required parameter 'x' is missing. 'x' should be a ",
+                       "'Spectra' object with the full spectra data.")
+              if (!inherits(x, "Spectra"))
+                  stop("Parameter 'x' is supposed to be a 'Spectra' object ",
+                       "with the full spectra data to be exported.")
+              .export_mgf(x = x, con = file, mapping = mapping,
+                          exportTitle = exportTitle)
+          })

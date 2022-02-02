@@ -7,7 +7,7 @@
 The \code{readMgf} function imports the data from a file in MGF format reading
 all specified fields and returning the data as a \code{\link[=DataFrame]{DataFrame()}}.}
 \usage{
-readMgf(f, msLevel = 2L, mapping = spectraVariableMapping(), ...)
+readMgf(f, msLevel = 2L, mapping = spectraVariableMapping(MsBackendMgf()), ...)
 }
 \arguments{
 \item{f}{\code{character(1)} with the path to an mgf file.}
