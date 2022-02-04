@@ -6,8 +6,8 @@
 [![license](https://img.shields.io/badge/license-Artistic--2.0-brightgreen.svg)](https://opensource.org/licenses/Artistic-2.0)
 [![years in bioc](http://bioconductor.org/shields/years-in-bioc/MsBackendMgf.svg)](https://bioconductor.org/packages/release/bioc/html/MsBackendMgf.html)
 [![Ranking by downloads](http://bioconductor.org/shields/downloads/release/MsBackendMgf.svg)](https://bioconductor.org/packages/stats/bioc/MsBackendMgf/)
-Release: [![build release](http://bioconductor.org/shields/build/release/bioc/MsBackendMgf.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/MsBackendMgf/)
-Devel: [![build devel](http://bioconductor.org/shields/build/devel/bioc/MsBackendMgf.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/MsBackendMgf/)
+[![build release](http://bioconductor.org/shields/build/release/bioc/MsBackendMgf.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/MsBackendMgf/)
+[![build devel](http://bioconductor.org/shields/build/devel/bioc/MsBackendMgf.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/MsBackendMgf/)
 
 The `MsBackendMgf` package provides functionality to import and handle
 MS/MS spectrum data from Mascot Generic Format
