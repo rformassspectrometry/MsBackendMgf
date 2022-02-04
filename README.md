@@ -6,9 +6,7 @@
 [![codecov.io](http://codecov.io/github/rformassspectrometry/MsBackendMgf/coverage.svg?branch=master)](http://codecov.io/github/rformassspectrometry/MsBackendMgf?branch=master)
 [![license](https://img.shields.io/badge/license-Artistic--2.0-brightgreen.svg)](https://opensource.org/licenses/Artistic-2.0)
 
-<img
-src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/MsBackendMgf/MsBackendMgf.png"
-height="150">
+<img src="logo.png" width="100" height="116">
 
 The `MsBackendMgf` package provides functionality to import and handle
 MS/MS spectrum data from Mascot Generic Format
