@@ -10,3 +10,4 @@ local_data
 NEWS.md
 README.Rmd
 logo.png
+_pkgdown.yml
