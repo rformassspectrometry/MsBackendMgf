@@ -7,7 +7,7 @@ vignette: >
     %\VignetteIndexEntry{Description and usage of MsBackendMgf}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
-    %\VignettePackage{Spectra}
+    %\VignettePackage{MsBackendMgf}
     %\VignetteDepends{Spectra,BiocStyle,BiocParallel}
 ---
 

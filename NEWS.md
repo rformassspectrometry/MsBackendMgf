@@ -1,5 +1,9 @@
 # MsBackendMgf 1.3
 
+## Changes in 1.3.3
+
+- Import `coreSpectraVariables` from `Spectra`.
+
 ## Changes in 1.3.2
 
 - Adapt the `spectraVariableMapping` to `Spectra` version >= 1.5.8.
