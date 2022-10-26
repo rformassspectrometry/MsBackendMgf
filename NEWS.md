@@ -1,3 +1,10 @@
+# MsBackendMgf 1.5
+
+## Changes in 1.5.1
+
+- Fix `export` method to fail if one or more columns contain either S4 classes
+  or `list`-like structures.
+
 # MsBackendMgf 1.3
 
 ## Changes in 1.3.3

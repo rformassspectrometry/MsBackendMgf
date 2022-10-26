@@ -79,8 +79,8 @@ test_that("export,MsBackendMgf works", {
     expect_error(export(MsBackendMgf(), x = spd, file = fl), "spectra data to")
 
     sps$lst <- list(1:3, c(4, 5, 2), c("a", "b"))
-    export(MsBackendMgf(), sps, file = fl)
+    expect_error(export(MsBackendMgf(), sps, file = fl), "multiple elements")
 
-    sps$fail <- sps$mz
+    sps$fail <- IRanges::NumericList(sps$mz, compress = FALSE)
     expect_error(export(MsBackendMgf(), sps, file = fl), "multiple elements")
 })

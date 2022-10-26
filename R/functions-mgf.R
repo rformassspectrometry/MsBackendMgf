@@ -1,5 +1,7 @@
 ##' @title Reading MGF files
 ##'
+##' @description
+##'
 ##' The `readMgf` function imports the data from a file in MGF format reading
 ##' all specified fields and returning the data as a [DataFrame()].
 ##'
@@ -175,7 +177,8 @@ readMgf <- function(f, msLevel = 2L,
                         exportTitle = TRUE) {
     spv <- spectraVariables(x)
     spd <- spectraData(x, spv[!(spv %in% c("dataOrigin", "dataStorage"))])
-    col_not_ok <- !vapply(spd, is.vector, logical(1))
+    col_not_ok <- !vapply(spd, function(z) is.vector(z) & !is.list(z),
+                          logical(1))
     if (any(col_not_ok))
         stop("Column(s) ", paste(colnames(spd)[col_not_ok], collapse = ", "),
              " contain multiple elements per row. Please either drop this ",
