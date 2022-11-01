@@ -1,6 +1,6 @@
 Package: MsBackendMgf
 Title: Mass Spectrometry Data Backend for Mascot Generic Format (mgf) Files
-Version: 1.6.0
+Version: 1.7.0
 Authors@R:
     c(person(given = "RforMassSpectrometry Package Maintainer",
              email = "maintainer@rformassspectrometry.org",
