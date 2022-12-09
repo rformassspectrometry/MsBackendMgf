@@ -77,8 +77,8 @@ readMgf <- function(f, msLevel = 2L,
             res[[i]] <- as(res[[i]], spv[col][1])
     }
 
-    res$mz <- IRanges::NumericList(res$mz)
-    res$intensity <- IRanges::NumericList(res$intensity)
+    res$mz <- IRanges::NumericList(res$mz, compress = FALSE)
+    res$intensity <- IRanges::NumericList(res$intensity, compress = FALSE)
     res$dataOrigin <- f
     res$msLevel <- as.integer(msLevel)
     res

@@ -1,3 +1,14 @@
+# MsBackendMgf 1.7
+
+## Changes in 1.7.1
+
+- Use `compress = FALSE` for `NumericList`.
+
+## Changes in 1.7.0
+
+- Bioconductor 3.17 developmental branch.
+
+
 # MsBackendMgf 1.5
 
 ## Changes in 1.5.1
