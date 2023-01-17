@@ -1,5 +1,11 @@
 # MsBackendMgf 1.7
 
+## Changes in 1.7.2
+
+- Run the full unit test suite from the `Spectra` package to check validity of
+  the `MsBackendMgf`.
+
+
 ## Changes in 1.7.1
 
 - Use `compress = FALSE` for `NumericList`.

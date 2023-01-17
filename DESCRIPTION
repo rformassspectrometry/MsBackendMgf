@@ -1,6 +1,6 @@
 Package: MsBackendMgf
 Title: Mass Spectrometry Data Backend for Mascot Generic Format (mgf) Files
-Version: 1.7.1
+Version: 1.7.2
 Authors@R:
     c(person(given = "RforMassSpectrometry Package Maintainer",
              email = "maintainer@rformassspectrometry.org",
@@ -46,7 +46,7 @@ BugReports: https://github.com/RforMassSpectrometry/MsBackendMgf/issues
 URL: https://github.com/RforMassSpectrometry/MsBackendMgf
 biocViews: Infrastructure, Proteomics, MassSpectrometry, Metabolomics, DataImport
 Roxygen: list(markdown=TRUE)
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Collate:
     'hidden_aliases.R'
     'MsBackendMgf.R'
