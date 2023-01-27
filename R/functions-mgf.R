@@ -111,6 +111,10 @@ readMgf <- function(f, msLevel = 2L,
 
     if (!length(ms) || length(ms) == 1L)
         ms <- matrix(numeric(), ncol = 2L)
+    
+    if(nrow(ms) > 1) {
+      ms <- ms[order(ms[, 1L]),]
+    }
 
     r <- regexpr("=", desc, fixed = TRUE)
     desc <- setNames(substring(desc, r + 1L, nchar(desc)),
