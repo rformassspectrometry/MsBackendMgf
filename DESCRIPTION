@@ -16,7 +16,11 @@ Authors@R:
       person(given = "Sebastian", family = "Gibb",
              comment = c(ORCID = "0000-0001-7406-4443"),
              email = "mail@sebastiangibb.de",
-             role = "aut"))
+             role = "aut"),
+      person(given = "Michael", family = "Witting",
+             comment = c(ORCID = "0000-0002-1462-4426"),
+             email = "michael.witting@helmholtz-muenchen.de",
+             role = "ctb"))
 Description: Mass spectrometry (MS) data backend supporting import and
 	     export of MS/MS spectra data from Mascot Generic Format
 	     (mgf) files. Objects defined in this package are supposed to be
