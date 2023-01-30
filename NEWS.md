@@ -1,5 +1,9 @@
 # MsBackendMgf 1.7
 
+## Changes in 1.7.3
+
+- Enforce m/z values to be increasingly ordered while importing.
+
 ## Changes in 1.7.2
 
 - Run the full unit test suite from the `Spectra` package to check validity of
