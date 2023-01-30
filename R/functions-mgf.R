@@ -113,7 +113,9 @@ readMgf <- function(f, msLevel = 2L,
         ms <- matrix(numeric(), ncol = 2L)
     
     if(nrow(ms) > 1) {
-      ms <- ms[order(ms[, 1L]),]
+      if (is.unsorted(ms[, 1L])) {
+        ms <- ms[order(mz[, 1L]), , drop = FALSE]
+      }
     }
 
     r <- regexpr("=", desc, fixed = TRUE)
