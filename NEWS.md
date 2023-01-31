@@ -1,5 +1,9 @@
 # MsBackendMgf 1.7
 
+## Changes in 1.7.4
+
+- Fix bug in import when m/z values are not sorted.
+
 ## Changes in 1.7.3
 
 - Enforce m/z values to be increasingly ordered while importing.
