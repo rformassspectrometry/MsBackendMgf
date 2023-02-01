@@ -80,7 +80,10 @@ readMgf <- function(f, msLevel = 2L,
     res$mz <- IRanges::NumericList(res$mz, compress = FALSE)
     res$intensity <- IRanges::NumericList(res$intensity, compress = FALSE)
     res$dataOrigin <- f
-    res$msLevel <- as.integer(msLevel)
+    if(!"msLevel" %in% colnames(res)) {
+      res$msLevel <- as.integer(msLevel)
+    }
+    
     res
 }
 

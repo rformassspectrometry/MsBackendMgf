@@ -43,6 +43,27 @@ test_that("spectraVariableMapping works", {
     expect_error(spectraVariableMapping(MsBackendMgf(), format = "other"))
 })
 
+test_that("mixed MS level import works", {
+  
+  fls <- dir(system.file("extdata", package = "MsBackendMgf"),
+             full.names = TRUE, pattern = "mgf$")[4]
+  
+  custom_mapping <- c(rtime = "RTINSECONDS",
+                      acquisitionNum = "SCANS",
+                      precursorMz = "PEPMASS",
+                      precursorIntensity = "PEPMASSINT",
+                      precursorCharge = "CHARGE",
+                      msLevel = "MSLEVEL")
+  
+  res <- Spectra(fls,
+                 source = MsBackendMgf(),
+                 backend = MsBackendDataFrame(),
+                 mapping = custom_mapping)
+  
+  expect_identical(length(res), 2L)
+  expect_identical(res$msLevel, c(1L, 2L))
+})
+
 test_that("export,MsBackendMgf works", {
     spd <- DataFrame(msLevel = c(2L, 2L, 2L), rtime = c(1, 2, 3))
     spd$mz <- list(c(12, 14, 45, 56), c(14.1, 34, 56.1), c(12.1, 14.15, 34.1))
