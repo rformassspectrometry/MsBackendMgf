@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
 Laurent Gatto [aut] (<a href="https://orcid.org/0000-0002-1520-2268" class="external-link uri">https://orcid.org/0000-0002-1520-2268</a>), Johannes Rainer
 [aut] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Sebastian Gibb
 [aut] (<a href="https://orcid.org/0000-0001-7406-4443" class="external-link uri">https://orcid.org/0000-0001-7406-4443</a>), Michael Witting
-[ctb] (<a href="https://orcid.org/0000-0002-1462-4426" class="external-link uri">https://orcid.org/0000-0002-1462-4426</a>)<br><strong>Last modified:</strong> 2023-01-31 06:30:41.686741<br><strong>Compiled</strong>: Tue Jan 31 06:34:18 2023</p>
+[ctb] (<a href="https://orcid.org/0000-0002-1462-4426" class="external-link uri">https://orcid.org/0000-0002-1462-4426</a>)<br><strong>Last modified:</strong> 2023-02-02 08:27:13.56502<br><strong>Compiled</strong>: Thu Feb 2 08:31:19 2023</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -140,7 +140,8 @@ and define the paths to the mgf files.</p>
 <span><span class="va">fls</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "/__w/_temp/Library/MsBackendMgf/extdata/spectra.mgf"             </span></span>
 <span><span class="co">## [2] "/__w/_temp/Library/MsBackendMgf/extdata/spectra2.mgf"            </span></span>
-<span><span class="co">## [3] "/__w/_temp/Library/MsBackendMgf/extdata/spectra3_empty_peaks.mgf"</span></span></code></pre>
+<span><span class="co">## [3] "/__w/_temp/Library/MsBackendMgf/extdata/spectra3_empty_peaks.mgf"</span></span>
+<span><span class="co">## [4] "/__w/_temp/Library/MsBackendMgf/extdata/spectra4.mgf"</span></span></code></pre>
 <p>MS data can be accessed and analyzed through <code>Spectra</code>
 objects. Below we create a <code>Spectra</code> with the data from these
 mgf files. To this end we provide the file names and specify to use a
@@ -155,7 +156,7 @@ package.</p>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/register.html" class="external-link">register</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html" class="external-link">SerialParam</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">fls</span>, source <span class="op">=</span> <span class="fu"><a href="../reference/MsBackendMgf.html">MsBackendMgf</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Start data import from 3 files ... done</span></span></code></pre>
+<pre><code><span><span class="co">## Start data import from 4 files ... done</span></span></code></pre>
 <p>With that we have now full access to all imported spectra variables
 that we list below.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -169,24 +170,28 @@ that we list below.</p>
 <span><span class="co">## [13] "precursorCharge"         "collisionEnergy"        </span></span>
 <span><span class="co">## [15] "isolationWindowLowerMz"  "isolationWindowTargetMz"</span></span>
 <span><span class="co">## [17] "isolationWindowUpperMz"  "TITLE"                  </span></span>
-<span><span class="co">## [19] "RAWFILE"                 "CLUSTER_ID"</span></span></code></pre>
+<span><span class="co">## [19] "RAWFILE"                 "CLUSTER_ID"             </span></span>
+<span><span class="co">## [21] "MSLEVEL"</span></span></code></pre>
 <p>Besides default spectra variables, such as <code>msLevel</code>,
 <code>rtime</code>, <code>precursorMz</code>, we also have additional
 spectra variables such as the <code>TITLE</code> of each spectrum in the
 mgf file.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sps</span><span class="op">$</span><span class="va">rtime</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 1028.000 1117.000 1127.000 2678.940 2373.511 2511.030       NA  162.070</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] 1028.000 1117.000 1127.000 2678.940 2373.511 2511.030       NA  162.070</span></span>
+<span><span class="co">##  [9] 1028.000 1028.000</span></span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sps</span><span class="op">$</span><span class="va">TITLE</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "File193 Spectrum1719 scans: 2162"                                                         </span></span>
-<span><span class="co">## [2] "File193 Spectrum1944 scans: 2406"                                                         </span></span>
-<span><span class="co">## [3] "File193 Spectrum1968 scans: 2432"                                                         </span></span>
-<span><span class="co">## [4] "mzspec:PXD004732:01650b_BC2-TUM_first_pool_53_01_01-3xHCD-1h-R2:scan:41840:WNQLQAFWGTGK/2"</span></span>
-<span><span class="co">## [5] "mzspec:PXD002084:TCGA-AA-A01D-01A-23_W_VU_20121106_A0218_5I_R_FR15:scan:5209:DLTDYLMK/2"  </span></span>
-<span><span class="co">## [6] "mzspec:MSV000080679:j11962_C1orf144:scan:10671:DLTDYLMK/2"                                </span></span>
-<span><span class="co">## [7] "CCMSLIB00000840351"                                                                       </span></span>
-<span><span class="co">## [8] "blank_2-A,1_01_29559.812.812.1"</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] "File193 Spectrum1719 scans: 2162"                                                         </span></span>
+<span><span class="co">##  [2] "File193 Spectrum1944 scans: 2406"                                                         </span></span>
+<span><span class="co">##  [3] "File193 Spectrum1968 scans: 2432"                                                         </span></span>
+<span><span class="co">##  [4] "mzspec:PXD004732:01650b_BC2-TUM_first_pool_53_01_01-3xHCD-1h-R2:scan:41840:WNQLQAFWGTGK/2"</span></span>
+<span><span class="co">##  [5] "mzspec:PXD002084:TCGA-AA-A01D-01A-23_W_VU_20121106_A0218_5I_R_FR15:scan:5209:DLTDYLMK/2"  </span></span>
+<span><span class="co">##  [6] "mzspec:MSV000080679:j11962_C1orf144:scan:10671:DLTDYLMK/2"                                </span></span>
+<span><span class="co">##  [7] "CCMSLIB00000840351"                                                                       </span></span>
+<span><span class="co">##  [8] "blank_2-A,1_01_29559.812.812.1"                                                           </span></span>
+<span><span class="co">##  [9] "File193 Spectrum1719 scans: 2162"                                                         </span></span>
+<span><span class="co">## [10] "File193 Spectrum1719 scans: 2162"</span></span></code></pre>
 <p>By default, fields in the mgf file are mapped to spectra variable
 names using the mapping returned by the
 <code>spectraVariableMapping</code> function:</p>
@@ -215,24 +220,26 @@ additional mappings. Below we add the mapping of the mgf field
 method, or the <code>Spectra</code> constructor.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">fls</span>, source <span class="op">=</span> <span class="fu"><a href="../reference/MsBackendMgf.html">MsBackendMgf</a></span><span class="op">(</span><span class="op">)</span>, mapping <span class="op">=</span> <span class="va">map</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Start data import from 3 files ... done</span></span></code></pre>
+<pre><code><span><span class="co">## Start data import from 4 files ... done</span></span></code></pre>
 <p>We can now access the spectrum’s title with the newly created spectra
 variable <code>"spectrumName"</code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sps</span><span class="op">$</span><span class="va">spectrumName</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "File193 Spectrum1719 scans: 2162"                                                         </span></span>
-<span><span class="co">## [2] "File193 Spectrum1944 scans: 2406"                                                         </span></span>
-<span><span class="co">## [3] "File193 Spectrum1968 scans: 2432"                                                         </span></span>
-<span><span class="co">## [4] "mzspec:PXD004732:01650b_BC2-TUM_first_pool_53_01_01-3xHCD-1h-R2:scan:41840:WNQLQAFWGTGK/2"</span></span>
-<span><span class="co">## [5] "mzspec:PXD002084:TCGA-AA-A01D-01A-23_W_VU_20121106_A0218_5I_R_FR15:scan:5209:DLTDYLMK/2"  </span></span>
-<span><span class="co">## [6] "mzspec:MSV000080679:j11962_C1orf144:scan:10671:DLTDYLMK/2"                                </span></span>
-<span><span class="co">## [7] "CCMSLIB00000840351"                                                                       </span></span>
-<span><span class="co">## [8] "blank_2-A,1_01_29559.812.812.1"</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] "File193 Spectrum1719 scans: 2162"                                                         </span></span>
+<span><span class="co">##  [2] "File193 Spectrum1944 scans: 2406"                                                         </span></span>
+<span><span class="co">##  [3] "File193 Spectrum1968 scans: 2432"                                                         </span></span>
+<span><span class="co">##  [4] "mzspec:PXD004732:01650b_BC2-TUM_first_pool_53_01_01-3xHCD-1h-R2:scan:41840:WNQLQAFWGTGK/2"</span></span>
+<span><span class="co">##  [5] "mzspec:PXD002084:TCGA-AA-A01D-01A-23_W_VU_20121106_A0218_5I_R_FR15:scan:5209:DLTDYLMK/2"  </span></span>
+<span><span class="co">##  [6] "mzspec:MSV000080679:j11962_C1orf144:scan:10671:DLTDYLMK/2"                                </span></span>
+<span><span class="co">##  [7] "CCMSLIB00000840351"                                                                       </span></span>
+<span><span class="co">##  [8] "blank_2-A,1_01_29559.812.812.1"                                                           </span></span>
+<span><span class="co">##  [9] "File193 Spectrum1719 scans: 2162"                                                         </span></span>
+<span><span class="co">## [10] "File193 Spectrum1719 scans: 2162"</span></span></code></pre>
 <p>In addition we can also access the m/z and intensity values of each
 spectrum.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## NumericList of length 8</span></span>
+<pre><code><span><span class="co">## NumericList of length 10</span></span>
 <span><span class="co">## [[1]] 102.0548 103.00494 103.03531 ... 1388.58691 1405.59729 1406.57666</span></span>
 <span><span class="co">## [[2]] 101.07074 102.05486 103.00227 ... 1331.56726 1348.58496 1349.59241</span></span>
 <span><span class="co">## [[3]] 102.05556 103.00014 115.05058 ... 1333.599 1334.61304 1335.64368</span></span>
@@ -240,10 +247,12 @@ spectrum.</p>
 <span><span class="co">## [[5]] 130.164459228516 144.150299072266 ... 1019.23852539062 1020.52404785156</span></span>
 <span><span class="co">## [[6]] 110.070594787598 120.080627441406 ... 887.756652832031 998.447387695312</span></span>
 <span><span class="co">## [[7]] 51.022404 57.033543 57.060638 ... 636.130188 660.481445 753.358521</span></span>
-<span><span class="co">## [[8]] numeric(0)</span></span></code></pre>
+<span><span class="co">## [[8]] numeric(0)</span></span>
+<span><span class="co">## [[9]] 102.0548 103.00494 103.03531 ... 1388.58691 1405.59729 1406.57666</span></span>
+<span><span class="co">## [[10]] 102.0548 103.00494 103.03531 ... 1388.58691 1405.59729 1406.57666</span></span></code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">intensity</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## NumericList of length 8</span></span>
+<pre><code><span><span class="co">## NumericList of length 10</span></span>
 <span><span class="co">## [[1]] 753.738 385.376 315.441 413.206 ... 3038.73 2016.43 1146.04 704.175</span></span>
 <span><span class="co">## [[2]] 1228.93 1424.66 1550.9 1455.45 ... 7380.41 4960.92 5743.83 1780.76</span></span>
 <span><span class="co">## [[3]] 1340.44 1714.76 1938.82 1450.36 2019 ... 5323.02 2265.43 4768.14 1532.12</span></span>
@@ -251,7 +260,9 @@ spectrum.</p>
 <span><span class="co">## [[5]] 14.1766004562378 18.5806427001953 ... 22.7096385955811 14.864013671875</span></span>
 <span><span class="co">## [[6]] 1748.57495117188 8689.9951171875 ... 2907.08422851562 2663.30908203125</span></span>
 <span><span class="co">## [[7]] 65.219513 178.758606 13.01786 119.898499 ... 22.05921 30.57095 14.11111</span></span>
-<span><span class="co">## [[8]] numeric(0)</span></span></code></pre>
+<span><span class="co">## [[8]] numeric(0)</span></span>
+<span><span class="co">## [[9]] 753.738 385.376 315.441 413.206 ... 3038.73 2016.43 1146.04 704.175</span></span>
+<span><span class="co">## [[10]] 753.738 385.376 315.441 413.206 ... 3038.73 2016.43 1146.04 704.175</span></span></code></pre>
 <p>The <code>MsBackendMgf</code> backend allows also to export data in
 mgf format. Below we export the data to a temporary file. We hence call
 the <code>export</code> function on our <code>Spectra</code> object
@@ -363,12 +374,12 @@ can be used.</p>
 <span><span class="co">## [13] R6_2.5.1            knitr_1.42          MASS_7.3-58.2      </span></span>
 <span><span class="co">## [16] bookdown_0.32       desc_1.4.2          rprojroot_2.0.3    </span></span>
 <span><span class="co">## [19] bslib_0.4.2         rlang_1.0.6         cachem_1.0.6       </span></span>
-<span><span class="co">## [22] stringi_1.7.12      xfun_0.36           MsCoreUtils_1.11.3 </span></span>
+<span><span class="co">## [22] stringi_1.7.12      xfun_0.37           MsCoreUtils_1.11.4 </span></span>
 <span><span class="co">## [25] fs_1.6.0            sass_0.4.5          memoise_2.0.1      </span></span>
 <span><span class="co">## [28] cli_3.6.0           pkgdown_2.0.7.9000  magrittr_2.0.3     </span></span>
-<span><span class="co">## [31] digest_0.6.31       clue_0.3-63         lifecycle_1.0.3    </span></span>
+<span><span class="co">## [31] digest_0.6.31       clue_0.3-64         lifecycle_1.0.3    </span></span>
 <span><span class="co">## [34] vctrs_0.5.2         evaluate_0.20       glue_1.6.2         </span></span>
-<span><span class="co">## [37] codetools_0.2-18    ragg_1.2.5          rmarkdown_2.20     </span></span>
+<span><span class="co">## [37] codetools_0.2-19    ragg_1.2.5          rmarkdown_2.20     </span></span>
 <span><span class="co">## [40] purrr_1.0.1         tools_4.3.0         htmltools_0.5.4</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
