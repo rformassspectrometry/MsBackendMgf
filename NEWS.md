@@ -1,5 +1,9 @@
 # MsBackendMgf 1.7
 
+## Changes in 1.7.5
+
+- Support import of MS levels from MGF files.
+
 ## Changes in 1.7.4
 
 - Fix bug in import when m/z values are not sorted.
