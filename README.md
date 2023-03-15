@@ -2,7 +2,7 @@
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check-bioc](https://github.com/RforMassSpectrometry/MsBackendMgf/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/RforMassSpectrometry/MsBackendMgf/actions?query=workflow%3AR-CMD-check-bioc)
-[![codecov.io](http://codecov.io/github/rformassspectrometry/MsBackendMgf/coverage.svg?branch=devel)](http://codecov.io/github/rformassspectrometry/MsBackendMgf?branch=devel)
+[![codecov](https://codecov.io/gh/rformassspectrometry/MsBackendMgf/branch/devel/graph/badge.svg?token=R1VB6BmWAK)](https://codecov.io/gh/rformassspectrometry/MsBackendMgf)
 [![license](https://img.shields.io/badge/license-Artistic--2.0-brightgreen.svg)](https://opensource.org/licenses/Artistic-2.0)
 [![years in bioc](http://bioconductor.org/shields/years-in-bioc/MsBackendMgf.svg)](https://bioconductor.org/packages/release/bioc/html/MsBackendMgf.html)
 [![Ranking by downloads](http://bioconductor.org/shields/downloads/release/MsBackendMgf.svg)](https://bioconductor.org/packages/stats/bioc/MsBackendMgf/)
