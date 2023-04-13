@@ -2,7 +2,7 @@
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check-bioc](https://github.com/RforMassSpectrometry/MsBackendMgf/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/RforMassSpectrometry/MsBackendMgf/actions?query=workflow%3AR-CMD-check-bioc)
-[![codecov](https://codecov.io/gh/rformassspectrometry/MsBackendMgf/branch/devel/graph/badge.svg?token=R1VB6BmWAK)](https://codecov.io/gh/rformassspectrometry/MsBackendMgf)
+[![codecov](https://codecov.io/gh/rformassspectrometry/MsBackendMgf/branch/main/graph/badge.svg?token=R1VB6BmWAK)](https://codecov.io/gh/rformassspectrometry/MsBackendMgf)
 [![license](https://img.shields.io/badge/license-Artistic--2.0-brightgreen.svg)](https://opensource.org/licenses/Artistic-2.0)
 [![years in bioc](http://bioconductor.org/shields/years-in-bioc/MsBackendMgf.svg)](https://bioconductor.org/packages/release/bioc/html/MsBackendMgf.html)
 [![Ranking by downloads](http://bioconductor.org/shields/downloads/release/MsBackendMgf.svg)](https://bioconductor.org/packages/stats/bioc/MsBackendMgf/)
@@ -18,6 +18,17 @@ import and use MS2 spectrum data from mgf files with the
 
 For more information see the package
 [homepage](https://rformassspectrometry.github.io/MsBackendMgf).
+
+
+# Installation
+
+The package can be installed with
+
+```r
+install.packages("BiocManager")
+BiocManager::install("MsBackendMgf")
+```
+
 
 # Contributions
 
