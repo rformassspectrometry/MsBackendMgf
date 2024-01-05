@@ -22,7 +22,7 @@
 ##'
 ##' @export
 ##'
-##' @importFrom Spectra coreSpectraVariables
+##' @importFrom Spectra coreSpectraVariables spectraVariableMapping
 ##'
 ##' @importFrom S4Vectors DataFrame
 ##'
@@ -43,7 +43,7 @@
 ##'
 ##' readMgf(fls)
 readMgf <- function(f, msLevel = 2L,
-                    mapping = spectraVariableMapping(MsBackendMgf()), ...) {
+                    mapping = Spectra::spectraVariableMapping(MsBackendMgf::MsBackendMgf()), ...) {
     requireNamespace("MsBackendMgf", quietly = TRUE)
     if (length(f) != 1L) {
       stop("Please provide a single mgf file.")
@@ -79,7 +79,9 @@ readMgf <- function(f, msLevel = 2L,
 
     res <- DataFrame(rbindFill(sp))
 
-    spv <- coreSpectraVariables()
+    res <- S4Vectors::DataFrame(MsCoreUtils::rbindFill(sp))
+
+    spv <- Spectra::coreSpectraVariables()
     spv <- spv[!names(spv) %in% c("mz", "intensity")]
     for (i in seq_along(res)) {
         if (all(lengths(res[[i]]) == 1))
@@ -203,7 +205,7 @@ readMgf <- function(f, msLevel = 2L,
 #'
 #' .export_mgf(sps)
 .export_mgf <- function(x, con = stdout(),
-                        mapping = spectraVariableMapping(MsBackendMgf()),
+                        mapping = Spectra::spectraVariableMapping(MsBackendMgf::MsBackendMgf()),
                         exportTitle = TRUE) {
     spv <- spectraVariables(x)
     spd <- spectraData(x, spv[!(spv %in% c("dataOrigin", "dataStorage"))])
