@@ -45,12 +45,17 @@
 readMgf <- function(f, msLevel = 2L,
                     mapping = spectraVariableMapping(MsBackendMgf()), ...) {
     requireNamespace("MsBackendMgf", quietly = TRUE)
-    if (length(f) != 1L)
-        stop("Please provide a single mgf file.")
-    mgf <- scan(file = f, what = "",
-                sep = "\n", quote = "",
-                allowEscapes = FALSE,
-                quiet = TRUE)
+    if (length(f) != 1L) {
+      stop("Please provide a single mgf file.")
+    }
+    mgf <- scan(
+      file = f,
+      what = "",
+      sep = "\n",
+      quote = "",
+      allowEscapes = FALSE,
+      quiet = TRUE
+    )
     ## From http://www.matrixscience.com/help/data_file_help.html#GEN
     ## Comment lines beginning with one of the symbols #;!/ can be
     ## included, but only outside of the BEGIN IONS and END IONS
@@ -89,7 +94,7 @@ readMgf <- function(f, msLevel = 2L,
     if(!"msLevel" %in% colnames(res)) {
       res$msLevel <- as.integer(msLevel)
     }
-    
+
     res
 }
 
@@ -121,8 +126,9 @@ readMgf <- function(f, msLevel = 2L,
                                     simplify = TRUE)
     mode(ms) <- "double"
 
-    if (!length(ms) || length(ms) == 1L)
-        ms <- matrix(numeric(), ncol = 2L)
+    if (!length(ms) || length(ms) == 1L) {
+      ms <- matrix(numeric(), ncol = 2L)
+    }
 
     if(nrow(ms) > 1) {
       if (is.unsorted(ms[, 1L])) {
@@ -140,12 +146,14 @@ readMgf <- function(f, msLevel = 2L,
                                 pattern = " ")[[1L]][seq_len(2)]
 
     ## Use all fields in the MGF renaming the ones specified by mapping.
-    if ("CHARGE" %in% names(desc))
-        desc["CHARGE"] <- .format_charge(desc["CHARGE"])
+    if ("CHARGE" %in% names(desc)) {
+      desc["CHARGE"] <- .format_charge(desc["CHARGE"])
+    }
     idx <- match(names(desc), mapping)
     not_na <- !is.na(idx)
-    if (any(not_na))
-        names(desc)[not_na] <- names(mapping)[idx][not_na]
+    if (any(not_na)) {
+      names(desc)[not_na] <- names(mapping)[idx][not_na]
+    }
     res <- data.frame(matrix(desc, nrow = 1,
                              dimnames = list(NULL, names(desc))))
     res$mz = list(ms[, 1L])
@@ -157,10 +165,13 @@ readMgf <- function(f, msLevel = 2L,
 #'
 #' @noRd
 .format_charge <- function(x) {
-    res <- sub("[+-]", "", x)
-    negs <- grep("-$", x)
-    if (length(negs))
-        res[negs] <- paste0("-", res[negs])
+    res <- sub(pattern = "[+-]",
+               replacement = "",
+               x = x)
+    negs <- grep(pattern = "-$", x = x)
+    if (length(negs)) {
+      res[negs] <- paste0("-", res[negs])
+    }
     res
 }
 
@@ -198,10 +209,14 @@ readMgf <- function(f, msLevel = 2L,
     spd <- spectraData(x, spv[!(spv %in% c("dataOrigin", "dataStorage"))])
     col_not_ok <- !vapply(spd, function(z) is.vector(z) & !is.list(z),
                           logical(1))
-    if (any(col_not_ok))
-        stop("Column(s) ", paste(colnames(spd)[col_not_ok], collapse = ", "),
-             " contain multiple elements per row. Please either drop this ",
-             "column or reduce its elements to a single value per row.")
+    if (any(col_not_ok)) {
+      stop(
+        "Column(s) ",
+        paste(colnames(spd)[col_not_ok], collapse = ", "),
+        " contain multiple elements per row. Please either drop this ",
+        "column or reduce its elements to a single value per row."
+      )
+    }
     idx <- match(colnames(spd), names(mapping))
     colnames(spd)[!is.na(idx)] <- mapping[idx[!is.na(idx)]]
     if (any(colnames(spd) == "CHARGE")) {
@@ -210,19 +225,28 @@ readMgf <- function(f, msLevel = 2L,
         spd$CHARGE <- paste0(abs(spd$CHARGE), sign_char)
         spd$CHARGE[nas] <- ""
     }
-    if (!exportTitle)
-        spd$TITLE <- NULL
+    if (!exportTitle) {
+      spd$TITLE <- NULL
+    }
     l <- nrow(spd)
     tmp <- lapply(colnames(spd), function(z) {
         paste0(z, "=", spd[, z], "\n")
     })
     if (exportTitle && !any(colnames(spd) == "TITLE")) {
-        if (!is.null(spectraNames(x)))
-            title <- paste0("TITLE=", spectraNames(x), "\n")
-        else
-            title <- paste0("TITLE=msLevel ", spd$msLevel, "; retentionTime ",
-                            spd$rtime, "; scanNum ", spd$acquisitionNum, "\n")
-        tmp <- c(list(title), tmp)
+      if (!is.null(spectraNames(x))) {
+        title <- paste0("TITLE=", spectraNames(x), "\n")
+      } else {
+        title <- paste0(
+          "TITLE=msLevel ",
+          spd$msLevel,
+          "; retentionTime ",
+          spd$rtime,
+          "; scanNum ",
+          spd$acquisitionNum,
+          "\n"
+        )
+      }
+      tmp <- c(list(title), tmp)
     }
     pks <- vapply(peaksData(x), function(z)
         paste0(paste0(z[, 1], " ", z[, 2], "\n"), collapse = ""),
