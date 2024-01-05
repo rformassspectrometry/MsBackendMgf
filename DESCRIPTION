@@ -35,7 +35,8 @@ Imports:
     IRanges,
     MsCoreUtils,
     methods,
-    stats
+    stats,
+    stringi
 Suggests:
     testthat,
     knitr (>= 1.1.0),

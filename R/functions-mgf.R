@@ -32,6 +32,8 @@
 ##'
 ##' @importFrom methods as
 ##'
+##' @importFrom stringi stri_detect_regex
+##'
 ##' @author Laurent Gatto, Johannes Rainer
 ##'
 ##' @examples
@@ -53,9 +55,13 @@ readMgf <- function(f, msLevel = 2L,
     ## Comment lines beginning with one of the symbols #;!/ can be
     ## included, but only outside of the BEGIN IONS and END IONS
     ## statements that delimit an MS/MS dataset.
-    cmts <- grep("^[#;!/]", mgf)
-    if (length(cmts))
-        mgf <- mgf[-cmts]
+    cmts <-
+      which(stringi::stri_detect_regex(str = mgf,
+                                       pattern = "^[#;!/]") == TRUE)
+
+    if (length(cmts)) {
+      mgf <- mgf[-cmts]
+    }
 
     begin <- grep("BEGIN IONS", mgf) + 1L
     end <- grep("END IONS", mgf) - 1L
@@ -101,15 +107,18 @@ readMgf <- function(f, msLevel = 2L,
 ##' @author Laurent Gatto, Johannes Rainer
 ##'
 ##' @importFrom stats setNames
+##' @importFrom stringi stri_detect_regex stri_split_fixed
 ##'
 ##' @noRd
 .extract_mgf_spectrum <- function(mgf, mapping) {
-    ## grep description
-    desc.idx <- grep("=", mgf)
+  desc.idx <-
+    which(stringi::stri_detect_regex(str = mgf, pattern = "=") == TRUE)
     desc <- mgf[desc.idx]
     spec <- mgf[-desc.idx]
 
-    ms <- do.call(rbind, strsplit(spec, "[[:space:]]+"))
+    ms <- stringi::stri_split_fixed(str = spec,
+                                    pattern = " ",
+                                    simplify = TRUE)
     mode(ms) <- "double"
 
     if (!length(ms) || length(ms) == 1L)
@@ -127,7 +136,8 @@ readMgf <- function(f, msLevel = 2L,
     title <- unname(desc["TITLE"])
 
     desc[c("PEPMASS", "PEPMASSINT")] <-
-        strsplit(desc["PEPMASS"], "[[:space:]]+")[[1L]][seq_len(2)]
+      stringi::stri_split_fixed(str = desc["PEPMASS"],
+                                pattern = " ")[[1L]][seq_len(2)]
 
     ## Use all fields in the MGF renaming the ones specified by mapping.
     if ("CHARGE" %in% names(desc))
