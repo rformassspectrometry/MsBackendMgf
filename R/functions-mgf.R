@@ -68,16 +68,19 @@ readMgf <- function(f, msLevel = 2L,
       mgf <- mgf[-cmts]
     }
 
-    begin <- grep("BEGIN IONS", mgf) + 1L
-    end <- grep("END IONS", mgf) - 1L
-    n <- length(begin)
-    sp <- vector("list", length = n)
+    begin <- grep(pattern = "BEGIN IONS",
+                  x = mgf,
+                  fixed = TRUE) + 1L
 
-    for (i in seq(along = sp))
-        sp[[i]] <- .extract_mgf_spectrum(mgf[begin[i]:end[i]],
-                                         mapping = mapping)
+    end <- grep(pattern = "END IONS",
+                x = mgf,
+                fixed = TRUE) - 1L
 
-    res <- DataFrame(rbindFill(sp))
+    sp <- mapply(function(b, e) {
+      .extract_mgf_spectrum(mgf = mgf[b:e], mapping = mapping)
+    },
+    begin,
+    end)
 
     res <- S4Vectors::DataFrame(MsCoreUtils::rbindFill(sp))
 
