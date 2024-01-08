@@ -83,9 +83,126 @@ readMgf <- function(f, msLevel = 2L,
     if(!"msLevel" %in% colnames(res)) {
       res$msLevel <- as.integer(msLevel)
     }
-    
+
     res
 }
+
+readMgf2 <- function(f, msLevel = 2L,
+                    mapping = spectraVariableMapping(MsBackendMgf()),
+                    nlines = 100000, BPPARAM = SerialParam(), ...) {
+    requireNamespace("MsBackendMgf", quietly = TRUE)
+    if (length(f) != 1L)
+        stop("Please provide a single mgf file.")
+    if (nlines < 1)
+        stop("'nlines' has to be an integer > 1.")
+    keep_reading <- TRUE
+    nskip <- 0L
+    sp <- list()
+    while (keep_reading) {
+        mgf <- scan(file = f, what = "",
+                    sep = "\n", quote = "",
+                    allowEscapes = FALSE,
+                    skip = nskip,
+                    nlines = nlines,
+                    quiet = TRUE,
+                    blank.lines.skip = FALSE)
+        message("length(mgf) ", length(mgf), " nlines ",
+                nlines, " nskip ", nskip)
+        if (length(mgf) < nlines)
+            keep_reading <- FALSE
+
+        begin <- grep("BEGIN IONS", mgf) + 1L
+        end <- grep("END IONS", mgf) - 1L
+        if (!length(end))
+            stop("Could not find 'END IONS'. ",
+                 "Consider increasing the value for 'nlines'")
+        nskip <- nskip + end[length(end)] + 1L
+        begin <- begin[seq_along(end)]
+        ## This append operation is very costly; need an alternative.
+        sp <- c(sp, bpmapply(FUN = function(i, j, mgf, mapping) {
+            .extract_mgf_spectrum(mgf[i:j], mapping = mapping)
+        }, begin, end, MoreArgs = list(mgf = mgf, mapping = mapping),
+        SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM))
+    }
+    res <- DataFrame(rbindFill(sp))
+
+    spv <- coreSpectraVariables()
+    spv <- spv[!names(spv) %in% c("mz", "intensity")]
+    for (i in seq_along(res)) {
+        if (all(lengths(res[[i]]) == 1))
+            res[[i]] <- unlist(res[[i]])
+        if (any(col <- names(spv) == colnames(res)[i]))
+            res[[i]] <- as(res[[i]], spv[col][1])
+    }
+
+    res$mz <- IRanges::NumericList(res$mz, compress = FALSE)
+    res$intensity <- IRanges::NumericList(res$intensity, compress = FALSE)
+    res$dataOrigin <- f
+    if(!"msLevel" %in% colnames(res)) {
+      res$msLevel <- as.integer(msLevel)
+    }
+
+    res
+}
+
+readMgf3 <- function(f, msLevel = 2L,
+                    mapping = spectraVariableMapping(MsBackendMgf()),
+                    nlines = 100000, BPPARAM = SerialParam(), ...) {
+    requireNamespace("MsBackendMgf", quietly = TRUE)
+    if (length(f) != 1L)
+        stop("Please provide a single mgf file.")
+    if (nlines < 1)
+        stop("'nlines' has to be an integer > 1.")
+    keep_reading <- TRUE
+    nskip <- 0L
+    sp <- list()
+    while (keep_reading) {
+        mgf <- scan(file = f, what = "",
+                    sep = "\n", quote = "",
+                    allowEscapes = FALSE,
+                    skip = nskip,
+                    nlines = nlines,
+                    quiet = TRUE,
+                    blank.lines.skip = FALSE)
+        message("length(mgf) ", length(mgf), " nlines ",
+                nlines, " nskip ", nskip)
+        if (length(mgf) < nlines)
+            keep_reading <- FALSE
+
+        begin <- grep("BEGIN IONS", mgf) + 1L
+        end <- grep("END IONS", mgf) - 1L
+        if (!length(end))
+            stop("Could not find 'END IONS'. ",
+                 "Consider increasing the value for 'nlines'")
+        nskip <- nskip + end[length(end)] + 1L
+        begin <- begin[seq_along(end)]
+        ## This append operation is very costly; need an alternative.
+        sp[[(length(sp) + 1L)]] <- bpmapply(FUN = function(i, j, mgf, mapping) {
+            .extract_mgf_spectrum(mgf[i:j], mapping = mapping)
+        }, begin, end, MoreArgs = list(mgf = mgf, mapping = mapping),
+        SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM)
+    }
+    res <- DataFrame(rbindFill(unlist(sp, recursive = FALSE, use.names = FALSE)))
+
+    spv <- coreSpectraVariables()
+    spv <- spv[!names(spv) %in% c("mz", "intensity")]
+    for (i in seq_along(res)) {
+        if (all(lengths(res[[i]]) == 1))
+            res[[i]] <- unlist(res[[i]])
+        if (any(col <- names(spv) == colnames(res)[i]))
+            res[[i]] <- as(res[[i]], spv[col][1])
+    }
+
+    res$mz <- IRanges::NumericList(res$mz, compress = FALSE)
+    res$intensity <- IRanges::NumericList(res$intensity, compress = FALSE)
+    res$dataOrigin <- f
+    if(!"msLevel" %in% colnames(res)) {
+      res$msLevel <- as.integer(msLevel)
+    }
+
+    res
+}
+
 
 ##' @description
 ##'
