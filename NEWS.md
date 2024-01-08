@@ -1,3 +1,14 @@
+# MsBackendMgf 1.11
+
+## Changes in 1.11.1
+
+- Small runtime improvements in MGF importer.
+
+## Changes in 1.11.0
+
+- Bioconductor 3.19 developmental branch.
+
+
 # MsBackendMgf 1.7
 
 ## Changes in 1.7.5

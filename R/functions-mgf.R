@@ -53,12 +53,12 @@ readMgf <- function(f, msLevel = 2L,
     ## Comment lines beginning with one of the symbols #;!/ can be
     ## included, but only outside of the BEGIN IONS and END IONS
     ## statements that delimit an MS/MS dataset.
-    cmts <- grep("^[#;!/]", mgf)
+    cmts <- grep("^[#;!/]", mgf, perl = TRUE)
     if (length(cmts))
         mgf <- mgf[-cmts]
 
-    begin <- grep("BEGIN IONS", mgf) + 1L
-    end <- grep("END IONS", mgf) - 1L
+    begin <- grep("BEGIN IONS", mgf, fixed = TRUE) + 1L
+    end <- grep("END IONS", mgf, fixed = TRUE) - 1L
     n <- length(begin)
     sp <- vector("list", length = n)
 
@@ -222,11 +222,11 @@ readMgf3 <- function(f, msLevel = 2L,
 ##' @noRd
 .extract_mgf_spectrum <- function(mgf, mapping) {
     ## grep description
-    desc.idx <- grep("=", mgf)
+    desc.idx <- grep("=", mgf, fixed = TRUE)
     desc <- mgf[desc.idx]
     spec <- mgf[-desc.idx]
 
-    ms <- do.call(rbind, strsplit(spec, "[[:space:]]+"))
+    ms <- do.call(rbind, strsplit(spec, "[[:space:]]+", perl = TRUE))
     mode(ms) <- "double"
 
     if (!length(ms) || length(ms) == 1L)
@@ -244,7 +244,7 @@ readMgf3 <- function(f, msLevel = 2L,
     title <- unname(desc["TITLE"])
 
     desc[c("PEPMASS", "PEPMASSINT")] <-
-        strsplit(desc["PEPMASS"], "[[:space:]]+")[[1L]][seq_len(2)]
+        strsplit(desc["PEPMASS"], "[[:space:]]+", perl = TRUE)[[1L]][c(1L, 2L)]
 
     ## Use all fields in the MGF renaming the ones specified by mapping.
     if ("CHARGE" %in% names(desc))
@@ -260,12 +260,14 @@ readMgf3 <- function(f, msLevel = 2L,
     res
 }
 
-#' Convert a MGF charge string to an integer.
+#' Format MGF charge string into an integer compatible format.
 #'
+#' @param x `character`
+#' @return `character`, charge without +/- at the end but - as prefix if needed
 #' @noRd
 .format_charge <- function(x) {
-    res <- sub("[+-]", "", x)
-    negs <- grep("-$", x)
+    res <- sub("[+-]", "", x, perl = TRUE)
+    negs <- which(endsWith(x, "-"))
     if (length(negs))
         res[negs] <- paste0("-", res[negs])
     res
