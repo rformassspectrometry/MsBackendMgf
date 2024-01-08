@@ -2,9 +2,25 @@
 % Please edit documentation in R/functions-mgf.R
 \name{readMgf}
 \alias{readMgf}
+\alias{readMgfSplit}
 \title{Reading MGF files}
 \usage{
-readMgf(f, msLevel = 2L, mapping = spectraVariableMapping(MsBackendMgf()), ...)
+readMgf(
+  f,
+  msLevel = 2L,
+  mapping = spectraVariableMapping(MsBackendMgf()),
+  ...,
+  BPPARAM = SerialParam()
+)
+
+readMgfSplit(
+  f,
+  msLevel = 2L,
+  mapping = spectraVariableMapping(MsBackendMgf()),
+  nlines = 1e+05,
+  BPPARAM = SerialParam(),
+  ...
+)
 }
 \arguments{
 \item{f}{\code{character(1)} with the path to an mgf file.}
@@ -15,6 +31,12 @@ readMgf(f, msLevel = 2L, mapping = spectraVariableMapping(MsBackendMgf()), ...)
 variables.}
 
 \item{...}{Additional parameters, currently ignored.}
+
+\item{BPPARAM}{parallel processing setup that should be used. Only the
+parsing of the imported MGF file is performed in parallel.}
+
+\item{nlines}{for \code{readMgfSplit}: \code{integer(1)} with the number of lines
+that should be imported and parsed in each iteration.}
 }
 \value{
 A \code{DataFrame} with each row containing the data from one spectrum
@@ -24,6 +46,11 @@ and \code{"intensity"} in a list representation.
 \description{
 The \code{readMgf} function imports the data from a file in MGF format reading
 all specified fields and returning the data as a \code{\link[=DataFrame]{DataFrame()}}.
+
+For very large MGF files the \code{readMgfSplit} function might be used instead.
+In contrast to the \code{readMgf} functions, \code{readMgfSplit} reads only \code{nlines}
+lines from an MGF file at once reducing thus the memory demand (at the cost
+of a lower performance, compared to \code{readMgf}).
 }
 \examples{
 
@@ -33,5 +60,5 @@ fls <- dir(system.file("extdata", package = "MsBackendMgf"),
 readMgf(fls)
 }
 \author{
-Laurent Gatto, Johannes Rainer
+Laurent Gatto, Johannes Rainer, Sebastian Gibb
 }

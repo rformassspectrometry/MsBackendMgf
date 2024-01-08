@@ -2,11 +2,13 @@
 
 export(MsBackendMgf)
 export(readMgf)
+export(readMgfSplit)
 exportClasses(MsBackendMgf)
 exportMethods(backendInitialize)
 exportMethods(export)
 exportMethods(spectraVariableMapping)
 importClassesFrom(Spectra,MsBackendDataFrame)
+importFrom(BiocParallel,SerialParam)
 importFrom(BiocParallel,bpparam)
 importFrom(IRanges,NumericList)
 importFrom(MsCoreUtils,rbindFill)
