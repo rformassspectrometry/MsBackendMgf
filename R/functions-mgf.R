@@ -43,7 +43,7 @@
 ##'
 ##' @importFrom methods as
 ##'
-##' @importFrom BiocParallel SerialParam
+##' @importFrom BiocParallel SerialParam bpmapply
 ##'
 ##' @author Laurent Gatto, Johannes Rainer, Sebastian Gibb
 ##'
@@ -71,10 +71,9 @@ readMgf <- function(f, msLevel = 2L,
     begin <- grep("BEGIN IONS", mgf, fixed = TRUE) + 1L
     end <- grep("END IONS", mgf, fixed = TRUE) - 1L
 
-    sp <- bplapply(seq_along(begin), FUN = function(i)
-        .extract_mgf_spectrum(mgf[begin[i]:end[i]]), BPPARAM = BPPARAM)
-
-    res <- rbindFill(sp)
+    res <- rbindFill(bpmapply(begin, end, FUN = function(b, e, mgf)
+        .extract_mgf_spectrum(mgf[b:e]), MoreArgs = list(mgf = mgf),
+        SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM))
 
     if ("CHARGE" %in% colnames(res))
         res$CHARGE <- .format_charge(res$CHARGE)
@@ -192,9 +191,8 @@ readMgfSplit <- function(f, msLevel = 2L,
     ## grep description
     desc.idx <- grep("=", mgf, fixed = TRUE)
     desc <- mgf[desc.idx]
-    spec <- mgf[-desc.idx]
 
-    ms <- do.call(rbind, strsplit(spec, "[[:space:]]+", perl = TRUE))
+    ms <- do.call(rbind, strsplit(mgf[-desc.idx], "[[:space:]]+", perl = TRUE))
     mode(ms) <- "double"
 
     if (!length(ms) || length(ms) == 1L)
