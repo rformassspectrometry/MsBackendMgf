@@ -163,6 +163,7 @@ jobs:
             CXXFLAGS = "-w",
             CPPFLAGS = "-w"),
             {
+            BiocManager::install("BiocParallel", update = TRUE)
             BiocManager::install("RforMassSpectrometry/ProtGenerics", update = TRUE)
             BiocManager::install("RforMassSpectrometry/MsCoreUtils", update = TRUE)
             BiocManager::install("RforMassSpectrometry/Spectra", update = TRUE)
