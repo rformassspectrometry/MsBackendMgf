@@ -157,6 +157,7 @@ jobs:
 
       - name: Install dependencies pass 1
         run: |
+          BiocManager::install("withr")
           withr::with_makevars(
           c(CFLAGS = "-w",
             CXXFLAGS = "-w",
