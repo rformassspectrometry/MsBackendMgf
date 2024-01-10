@@ -185,6 +185,7 @@ jobs:
 
             message(paste('****', Sys.time(), 'force installation of selected packages ****'))
             BiocManager::install(c("BiocStyle", "rmarkdown", "magick"), update = TRUE)
+            BiocManager::install(c("MsCoreUtils"), update = TRUE)
 
             ## For running the checks
             message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
