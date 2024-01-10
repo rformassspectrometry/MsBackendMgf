@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Description and usage of MsBackendMgf">
 <meta property="og:description" content="MsBackendMgf">
@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">MsBackendMgf</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.11.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,22 +95,23 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Package</strong>: <em><a href="https://bioconductor.org/packages/3.17/MsBackendMgf" class="external-link">MsBackendMgf</a></em><br><strong>Authors</strong>: RforMassSpectrometry Package Maintainer [cre],
+</script><p><strong>Package</strong>: <em><a href="https://bioconductor.org/packages/3.19/MsBackendMgf" class="external-link">MsBackendMgf</a></em><br><strong>Authors</strong>: RforMassSpectrometry Package Maintainer [cre],
 Laurent Gatto [aut] (<a href="https://orcid.org/0000-0002-1520-2268" class="external-link uri">https://orcid.org/0000-0002-1520-2268</a>), Johannes Rainer
 [aut] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Sebastian Gibb
 [aut] (<a href="https://orcid.org/0000-0001-7406-4443" class="external-link uri">https://orcid.org/0000-0001-7406-4443</a>), Michael Witting
-[ctb] (<a href="https://orcid.org/0000-0002-1462-4426" class="external-link uri">https://orcid.org/0000-0002-1462-4426</a>)<br><strong>Last modified:</strong> 2023-04-13 06:38:35.028322<br><strong>Compiled</strong>: Thu Apr 13 06:42:02 2023</p>
+[ctb] (<a href="https://orcid.org/0000-0002-1462-4426" class="external-link uri">https://orcid.org/0000-0002-1462-4426</a>), Adriano Rutz
+[ctb] (<a href="https://orcid.org/0000-0003-0443-9902" class="external-link uri">https://orcid.org/0000-0003-0443-9902</a>)<br><strong>Last modified:</strong> 2024-01-10 10:17:18.431701<br><strong>Compiled</strong>: Wed Jan 10 10:30:33 2024</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <em><a href="https://bioconductor.org/packages/3.17/Spectra" class="external-link">Spectra</a></em>
+<p>The <em><a href="https://bioconductor.org/packages/3.19/Spectra" class="external-link">Spectra</a></em>
 package provides a central infrastructure for the handling of Mass
 Spectrometry (MS) data. The package supports interchangeable use of
 different <em>backends</em> to import MS data from a variety of sources
-(such as mzML files). The <code>MsBackendMgf</code> package allows the
-import of MS/MS data from mgf (<a href="http://www.matrixscience.com/help/data_file_help.html" class="external-link">Mascot
+(such as mzML files). The <em><a href="https://bioconductor.org/packages/3.19/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
+package allows the import of MS/MS data from mgf (<a href="http://www.matrixscience.com/help/data_file_help.html" class="external-link">Mascot
 Generic Format</a>) files. This vignette illustrates the usage of the
-<code>MsBackendMgf</code> package.</p>
+<em>MsBackendMgf</em> package.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -120,7 +121,7 @@ Generic Format</a>) files. This vignette illustrates the usage of the
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"MsBackendMgf"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"MsBackendMgf"</span><span class="op">)</span></span></code></pre></div>
 <p>This will install this package and all eventually missing
 dependencies.</p>
 </div>
@@ -146,16 +147,9 @@ and define the paths to the mgf files.</p>
 objects. Below we create a <code>Spectra</code> with the data from these
 mgf files. To this end we provide the file names and specify to use a
 <code><a href="../reference/MsBackendMgf.html">MsBackendMgf()</a></code> backend as <em>source</em> to enable data
-import. Note that below we also disable parallel processing by
-specifically <em>registering</em> the serial processing as the default.
-See <code><a href="https://rdrr.io/pkg/BiocParallel/man/register.html" class="external-link">?bpparam</a></code> for more details on parallel processing
-options with the <em><a href="https://bioconductor.org/packages/3.17/BiocParallel" class="external-link">BiocParallel</a></em>
-package.</p>
+import.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Bioconductor/BiocParallel" class="external-link">BiocParallel</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/register.html" class="external-link">register</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html" class="external-link">SerialParam</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">fls</span>, source <span class="op">=</span> <span class="fu"><a href="../reference/MsBackendMgf.html">MsBackendMgf</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">fls</span>, source <span class="op">=</span> <span class="fu"><a href="../reference/MsBackendMgf.html">MsBackendMgf</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Start data import from 4 files ... done</span></span></code></pre>
 <p>With that we have now full access to all imported spectra variables
 that we list below.</p>
@@ -334,13 +328,30 @@ can be used.</p>
 <span><span class="co">## [10] "115.08686 588.273" "120.08063 800.016" "124.10555 526.761"</span></span></code></pre>
 </div>
 <div class="section level2">
+<h2 id="parallel-processing">Parallel processing<a class="anchor" aria-label="anchor" href="#parallel-processing"></a>
+</h2>
+<p>The <em>MsBackendMgf</em> package supports parallel processing for
+data import. Parallel processing can be enabled by providing the
+parallel processing setup to the <code>backendInitialize</code> function
+(or the <code>readMgf</code> function) with the <code>BPPARAM</code>
+parameter. By default (with <code>BPPARAM = SerialParam()</code>)
+parallel processing is disabled. If enabled, and data import is
+performed on a single file, the extraction of spectra information on the
+imported MGF file is performed in parallel. If data is to be imported
+from multiple files, the import is performed in parallel on a per-file
+basis (i.e. in parallel from the different files). Generally, the
+performance gain through parallel processing is only moderate and it is
+only suggested if a large number of files need to be processed, or if
+the MGF file is very large (e.g. containing over 100,000 spectra).</p>
+</div>
+<div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.3.0 beta (2023-04-06 r84184)</span></span>
-<span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span><span class="co">## Running under: Ubuntu 22.04.2 LTS</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2024-01-03 r85769)</span></span>
+<span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
+<span><span class="co">## Running under: Ubuntu 22.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
@@ -362,25 +373,25 @@ can be used.</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] MsBackendMgf_1.7.5   Spectra_1.9.15       ProtGenerics_1.29.1 </span></span>
-<span><span class="co">## [4] BiocParallel_1.33.12 S4Vectors_0.37.5     BiocGenerics_0.45.3 </span></span>
-<span><span class="co">## [7] BiocStyle_2.27.1    </span></span>
+<span><span class="co">## [1] MsBackendMgf_1.11.1 Spectra_1.13.3      ProtGenerics_1.33.1</span></span>
+<span><span class="co">## [4] BiocParallel_1.37.0 S4Vectors_0.41.3    BiocGenerics_0.49.1</span></span>
+<span><span class="co">## [7] BiocStyle_2.31.0   </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] jsonlite_1.8.4      compiler_4.3.0      BiocManager_1.30.20</span></span>
-<span><span class="co">##  [4] stringr_1.5.0       parallel_4.3.0      cluster_2.1.4      </span></span>
-<span><span class="co">##  [7] jquerylib_0.1.4     IRanges_2.33.1      systemfonts_1.0.4  </span></span>
-<span><span class="co">## [10] textshaping_0.3.6   yaml_2.3.7          fastmap_1.1.1      </span></span>
-<span><span class="co">## [13] R6_2.5.1            knitr_1.42          MASS_7.3-58.4      </span></span>
-<span><span class="co">## [16] bookdown_0.33       desc_1.4.2          rprojroot_2.0.3    </span></span>
-<span><span class="co">## [19] bslib_0.4.2         rlang_1.1.0         cachem_1.0.7       </span></span>
-<span><span class="co">## [22] stringi_1.7.12      xfun_0.38           MsCoreUtils_1.11.6 </span></span>
-<span><span class="co">## [25] fs_1.6.1            sass_0.4.5          memoise_2.0.1      </span></span>
-<span><span class="co">## [28] cli_3.6.1           pkgdown_2.0.7.9000  magrittr_2.0.3     </span></span>
-<span><span class="co">## [31] digest_0.6.31       clue_0.3-64         lifecycle_1.0.3    </span></span>
-<span><span class="co">## [34] vctrs_0.6.1         evaluate_0.20       glue_1.6.2         </span></span>
-<span><span class="co">## [37] codetools_0.2-19    ragg_1.2.5          rmarkdown_2.21     </span></span>
-<span><span class="co">## [40] purrr_1.0.1         tools_4.3.0         htmltools_0.5.5</span></span></code></pre>
+<span><span class="co">##  [1] jsonlite_1.8.8         compiler_4.4.0         BiocManager_1.30.22   </span></span>
+<span><span class="co">##  [4] stringr_1.5.1          parallel_4.4.0         cluster_2.1.6         </span></span>
+<span><span class="co">##  [7] jquerylib_0.1.4        systemfonts_1.0.5      IRanges_2.37.0        </span></span>
+<span><span class="co">## [10] textshaping_0.3.7      yaml_2.3.8             fastmap_1.1.1         </span></span>
+<span><span class="co">## [13] R6_2.5.1               knitr_1.45             MASS_7.3-60.1         </span></span>
+<span><span class="co">## [16] bookdown_0.37          desc_1.4.3             bslib_0.6.1           </span></span>
+<span><span class="co">## [19] rlang_1.1.2            cachem_1.0.8           stringi_1.8.3         </span></span>
+<span><span class="co">## [22] xfun_0.41              MsCoreUtils_1.15.2     fs_1.6.3              </span></span>
+<span><span class="co">## [25] sass_0.4.8             memoise_2.0.1          cli_3.6.2             </span></span>
+<span><span class="co">## [28] pkgdown_2.0.7.9000     magrittr_2.0.3         digest_0.6.33         </span></span>
+<span><span class="co">## [31] MetaboCoreUtils_1.11.1 clue_0.3-65            lifecycle_1.0.4       </span></span>
+<span><span class="co">## [34] vctrs_0.6.5            evaluate_0.23          glue_1.7.0            </span></span>
+<span><span class="co">## [37] codetools_0.2-19       ragg_1.2.7             rmarkdown_2.25        </span></span>
+<span><span class="co">## [40] purrr_1.0.2            tools_4.4.0            htmltools_0.5.7</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
