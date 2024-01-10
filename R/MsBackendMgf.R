@@ -50,6 +50,12 @@ NULL
 #'     for the expected format and examples below or description above for
 #'     details.
 #'
+#' @param nlines for `backendInitialize`: `integer(1)` defining the number of
+#'     lines that should be imported and processed from the MGF file(s).
+#'     By default (`nlines = -1L`) the full file is imported and processed at
+#'     once. If set to a positive integer, the data is imported and processed
+#'     *chunk-wise* using [readMgfSplit()].
+#'
 #' @param exportTitle `logical(1)` whether the *TITLE* field should be included
 #'     in the exported MGF file. If `TRUE` (the default) a `spectraVariable`
 #'     called `"TITLE"` will be used, if no such variable is present either the
@@ -61,8 +67,12 @@ NULL
 #'     should be exported.
 #'
 #' @param BPPARAM Parameter object defining the parallel processing
-#'     setup to import data in parallel. Defaults to `BPPARAM =
-#'     bpparam()`. See [bpparam()] for more information.
+#'     setup. If parallel processing is enabled (with `BPPARAM` different than
+#'     `SerialParam()`, the default) and length of `files` is larger than one,
+#'     import is performed in parallel on a per-file basis. If data is to be
+#'     imported from a single file (i.e., length of `files` is one), parsing
+#'     of the imported file is performed in parallel. See also [SerialParam()]
+#'     for information on available parallel processing setup options.
 #'
 #' @param ... Currently ignored.
 #'
@@ -83,10 +93,6 @@ NULL
 #' library(BiocParallel)
 #' fls <- dir(system.file("extdata", package = "MsBackendMgf"),
 #'     full.names = TRUE, pattern = "mgf$")
-#'
-#' ## Parallel processing setup: disabling parallel processing by registering
-#' ## serial processing. See ?bbparam for details and other options
-#' register(SerialParam())
 #'
 #' ## Create an MsBackendMgf backend and import data from test mgf files.
 #' be <- backendInitialize(MsBackendMgf(), fls)
@@ -146,7 +152,7 @@ setClass("MsBackendMgf",
 
 #' @importMethodsFrom Spectra backendInitialize spectraData<- $<- $
 #'
-#' @importFrom BiocParallel bpparam
+#' @importFrom BiocParallel SerialParam
 #'
 #' @importMethodsFrom BiocParallel bplapply
 #'
@@ -157,13 +163,16 @@ setClass("MsBackendMgf",
 #' @rdname MsBackendMgf
 setMethod("backendInitialize", signature = "MsBackendMgf",
           function(object, files, mapping = spectraVariableMapping(object),
-                   ..., BPPARAM = bpparam()) {
+                   nlines = -1L, ..., BPPARAM = SerialParam()) {
               if (missing(files) || !length(files))
                   stop("Parameter 'files' is mandatory for ", class(object))
               if (!is.character(files))
                   stop("Parameter 'files' is expected to be a character vector",
                        " with the files names from where data should be",
                        " imported")
+              if (!is.numeric(nlines))
+                  stop("'nlines' needs to be an integer")
+              nlines <- as.integer(nlines)
               files <- normalizePath(files)
               if (any(!file.exists(files)))
                   stop("file(s) ",
@@ -172,11 +181,17 @@ setMethod("backendInitialize", signature = "MsBackendMgf",
               ## Import data and rbind.
               message("Start data import from ", length(files), " files ... ",
                       appendLF = FALSE)
-              res <- bplapply(files, FUN = readMgf,
-                              mapping = mapping,
-                              BPPARAM = BPPARAM)
+              if (nlines > 0)
+                  FUN <- readMgfSplit
+              else FUN <- readMgf
+              if (length(files) > 1) {
+                  res <- bplapply(files, FUN = FUN, mapping = mapping,
+                                  nlines = nlines, BPPARAM = BPPARAM)
+                  res <- do.call(rbindFill, res)
+              } else
+                  res <- FUN(files, mapping = mapping, nlines = nlines,
+                             BPPARAM = BPPARAM)
               message("done")
-              res <- do.call(rbindFill, res)
               spectraData(object) <- res
               object$dataStorage <- "<memory>"
               object$centroided <- TRUE

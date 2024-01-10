@@ -12,8 +12,9 @@
   object,
   files,
   mapping = spectraVariableMapping(object),
+  nlines = -1L,
   ...,
-  BPPARAM = bpparam()
+  BPPARAM = SerialParam()
 )
 
 MsBackendMgf()
@@ -42,10 +43,21 @@ the field names in the MGF file. See output of \code{spectraVariableMapping()}
 for the expected format and examples below or description above for
 details.}
 
+\item{nlines}{for \code{backendInitialize}: \code{integer(1)} defining the number of
+lines that should be imported and processed from the MGF file(s).
+By default (\code{nlines = -1L}) the full file is imported and processed at
+once. If set to a positive integer, the data is imported and processed
+\emph{chunk-wise} using \code{\link[=readMgfSplit]{readMgfSplit()}}.}
+
 \item{...}{Currently ignored.}
 
 \item{BPPARAM}{Parameter object defining the parallel processing
-setup to import data in parallel. Defaults to \code{BPPARAM = bpparam()}. See \code{\link[=bpparam]{bpparam()}} for more information.}
+setup. If parallel processing is enabled (with \code{BPPARAM} different than
+\code{SerialParam()}, the default) and length of \code{files} is larger than one,
+import is performed in parallel on a per-file basis. If data is to be
+imported from a single file (i.e., length of \code{files} is one), parsing
+of the imported file is performed in parallel. See also \code{\link[=SerialParam]{SerialParam()}}
+for information on available parallel processing setup options.}
 
 \item{format}{for \code{spectraVariableMapping}: \code{character(1)} defining the
 format to be used. Currently only \code{format = "mgf"} is supported.}
@@ -97,10 +109,6 @@ MGF dialects) with the \code{mapping} parameter.
 library(BiocParallel)
 fls <- dir(system.file("extdata", package = "MsBackendMgf"),
     full.names = TRUE, pattern = "mgf$")
-
-## Parallel processing setup: disabling parallel processing by registering
-## serial processing. See ?bbparam for details and other options
-register(SerialParam())
 
 ## Create an MsBackendMgf backend and import data from test mgf files.
 be <- backendInitialize(MsBackendMgf(), fls)
