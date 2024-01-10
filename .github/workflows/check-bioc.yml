@@ -22,7 +22,8 @@
 
 on:
   push:
-  pull_request:
+    paths-ignore:
+      - 'README.md'
 
 name: R-CMD-check-bioc
 
@@ -52,9 +53,9 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { os: ubuntu-latest, r: 'devel', bioc: '3.17', cont: "bioconductor/bioconductor_docker:devel", rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest" }
-          - { os: macOS-latest, r: 'next', bioc: '3.17'}
-          - { os: windows-latest, r: 'next', bioc: '3.17'}
+          - { os: ubuntu-latest, r: 'devel', bioc: '3.19', cont: "bioconductor/bioconductor_docker:devel", rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest" }
+          - { os: macOS-latest, r: 'devel', bioc: '3.19'}
+          - { os: windows-latest, r: 'devel', bioc: '3.19'}
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
@@ -156,33 +157,43 @@ jobs:
 
       - name: Install dependencies pass 1
         run: |
-          ## Try installing the package dependencies in steps. First the local
-          ## dependencies, then any remaining dependencies to avoid the
-          ## issues described at
-          ## https://stat.ethz.ch/pipermail/bioc-devel/2020-April/016675.html
-          ## https://github.com/r-lib/remotes/issues/296
-          ## Ideally, all dependencies should get installed in the first pass.
-          BiocManager::install("RforMassSpectrometry/ProtGenerics", update = TRUE)
-          BiocManager::install("RforMassSpectrometry/Spectra", update = TRUE)
-
-          ## Pass #1 at installing dependencies
-          message(paste('****', Sys.time(), 'pass number 1 at installing dependencies: local dependencies ****'))
-          remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE)
+          BiocManager::install("withr")
+          withr::with_makevars(
+          c(CFLAGS = "-w",
+            CXXFLAGS = "-w",
+            CPPFLAGS = "-w"),
+            {
+            BiocManager::install("BiocParallel", update = TRUE)
+            BiocManager::install("RforMassSpectrometry/ProtGenerics", update = TRUE)
+            BiocManager::install("RforMassSpectrometry/MsCoreUtils", update = TRUE)
+            BiocManager::install("RforMassSpectrometry/Spectra", update = TRUE)
+            remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = FALSE, upgrade = TRUE)
+            },
+            assignment = "+="
+          )
         continue-on-error: true
         shell: Rscript {0}
 
       - name: Install dependencies pass 2
         run: |
-          ## Pass #2 at installing dependencies
-          message(paste('****', Sys.time(), 'pass number 2 at installing dependencies: any remaining dependencies ****'))
-          remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE)
+          withr::with_makevars(
+          c(CFLAGS = "-w",
+            CXXFLAGS = "-w",
+            CPPFLAGS = "-w"),
+            {
+            ## Pass #2 at installing dependencies
+            message(paste('****', Sys.time(), 'pass number 2 at installing dependencies: any remaining dependencies ****'))
+            remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE)
 
-          message(paste('****', Sys.time(), 'force installation of selected packages ****'))
-          BiocManager::install(c("BiocStyle", "rmarkdown", "magick"), update = TRUE)
+            message(paste('****', Sys.time(), 'force installation of selected packages ****'))
+            BiocManager::install(c("BiocStyle", "rmarkdown", "magick"), update = TRUE)
 
-          ## For running the checks
-          message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
-          BiocManager::install(c("BiocCheck", "rcmdcheck"), update = TRUE)
+            ## For running the checks
+            message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
+            BiocManager::install(c("BiocCheck", "rcmdcheck"), update = TRUE)
+            },
+            assignment = "+="
+          )
         shell: Rscript {0}
 
       - name: Install BiocGenerics

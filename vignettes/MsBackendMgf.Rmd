@@ -30,10 +30,10 @@ library(BiocStyle)
 The `r Biocpkg("Spectra")` package provides a central infrastructure for the
 handling of Mass Spectrometry (MS) data. The package supports
 interchangeable use of different *backends* to import MS data from a
-variety of sources (such as mzML files). The `MsBackendMgf` package
-allows the import of MS/MS data from mgf ([Mascot Generic
+variety of sources (such as mzML files). The `r Biocpkg("MsBackendMgf")`
+package allows the import of MS/MS data from mgf ([Mascot Generic
 Format](http://www.matrixscience.com/help/data_file_help.html))
-files. This vignette illustrates the usage of the `MsBackendMgf`
+files. This vignette illustrates the usage of the *MsBackendMgf*
 package.
 
 # Installation
@@ -69,15 +69,9 @@ fls
 MS data can be accessed and analyzed through `Spectra` objects. Below
 we create a `Spectra` with the data from these mgf files. To this end
 we provide the file names and specify to use a `MsBackendMgf()`
-backend as *source* to enable data import. Note that below we also disable
-parallel processing by specifically *registering* the serial processing as the
-default. See `?bpparam` for more details on parallel processing options with the
-`r Biocpkg("BiocParallel")` package.
+backend as *source* to enable data import.
 
 ```{r import}
-library(BiocParallel)
-register(SerialParam())
-
 sps <- Spectra(fls, source = MsBackendMgf())
 ```
 
@@ -187,6 +181,21 @@ sps_ex <- selectSpectraVariables(sps, c("mz", "intensity", "rtime",
 export(sps_ex, backend = MsBackendMgf(), file = fl, exportTitle = FALSE)
 readLines(fl)[1:12]
 ```
+
+# Parallel processing
+
+The *MsBackendMgf* package supports parallel processing for data
+import. Parallel processing can be enabled by providing the parallel processing
+setup to the `backendInitialize` function (or the `readMgf` function) with the
+`BPPARAM` parameter. By default (with `BPPARAM = SerialParam()`) parallel
+processing is disabled. If enabled, and data import is performed on a single
+file, the extraction of spectra information on the imported MGF file is
+performed in parallel. If data is to be imported from multiple files, the import
+is performed in parallel on a per-file basis (i.e. in parallel from the
+different files). Generally, the performance gain through parallel processing is
+only moderate and it is only suggested if a large number of files need to be
+processed, or if the MGF file is very large (e.g. containing over 100,000
+spectra).
 
 # Session information
 

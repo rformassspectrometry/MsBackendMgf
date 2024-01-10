@@ -12,8 +12,12 @@ test_that("backendInitialize,MsBackendMgf works", {
     expect_identical(res1$msLevel, rep(2L, n1))
     expect_identical(lengths(res1$mz), c(14L, 21L, 14L))
 
+    res1_b <- backendInitialize(be, fls[1], nlines = 30)
+    expect_equal(res1, res1_b)
+
     res2 <- backendInitialize(be, fls[2])
     n2 <- length(res2) ## 4
+    expect_equal(n2, 4)
 
     ## Import multiple files.
     res_all <- backendInitialize(be, fls)
@@ -26,13 +30,12 @@ test_that("backendInitialize,MsBackendMgf works", {
                        rep(normalizePath(fls[2]), n2)))
     expect_true(is.integer(res_all@spectraData$msLevel))
 
-    ## TODO: Import with failing file.
-    ## TODO: Import with failing file and nonStop = TRUE
-
     ## errors
     expect_error(backendInitialize(be), "'files' is mandatory")
     expect_error(backendInitialize(be, 4), "expected to be a character")
     expect_error(backendInitialize(be, "a"), "a not found")
+    expect_error(backendInitialize(be, fls[1], nlines = "a"), "integer")
+    expect_error(backendInitialize(be, "a"), "not found")
 })
 
 test_that("spectraVariableMapping works", {
@@ -44,22 +47,22 @@ test_that("spectraVariableMapping works", {
 })
 
 test_that("mixed MS level import works", {
-  
+
   fls <- dir(system.file("extdata", package = "MsBackendMgf"),
              full.names = TRUE, pattern = "mgf$")[4]
-  
+
   custom_mapping <- c(rtime = "RTINSECONDS",
                       acquisitionNum = "SCANS",
                       precursorMz = "PEPMASS",
                       precursorIntensity = "PEPMASSINT",
                       precursorCharge = "CHARGE",
                       msLevel = "MSLEVEL")
-  
+
   res <- Spectra(fls,
                  source = MsBackendMgf(),
                  backend = MsBackendDataFrame(),
                  mapping = custom_mapping)
-  
+
   expect_identical(length(res), 2L)
   expect_identical(res$msLevel, c(1L, 2L))
 })

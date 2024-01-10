@@ -23,9 +23,9 @@ SCANS=2162
 1406.57666 704.175
 END IONS
 
+## this one as precursor mz and intensity
 BEGIN IONS
 TITLE=File193 Spectrum1944 scans: 2406
-## this one as precursor mz and intensity
 PEPMASS=787.82825 880650.40000
 CHARGE=2+
 RTINSECONDS=1117
