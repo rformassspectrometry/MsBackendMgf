@@ -54,15 +54,18 @@
 ##'
 ##' readMgf(fls)
 readMgf <- function(f, msLevel = 2L,
-                     mapping = spectraVariableMapping(MsBackendMgf()), ...,
-                     BPPARAM = SerialParam()) {
+                    mapping = spectraVariableMapping(MsBackendMgf()), ...,
+                    BPPARAM = SerialParam()) {
     requireNamespace("MsBackendMgf", quietly = TRUE)
     if (length(f) != 1L)
         stop("Please provide a single mgf file.")
+    ## Note: using readLines instead has some performance advantages
+    ## (few seconds) for very large files
     mgf <- scan(file = f, what = "",
                 sep = "\n", quote = "",
                 allowEscapes = FALSE,
                 quiet = TRUE)
+
     ## From http://www.matrixscience.com/help/data_file_help.html#GEN
     ## Comment lines beginning with one of the symbols #;!/ can be
     ## included, but only outside of the BEGIN IONS and END IONS
@@ -192,11 +195,13 @@ readMgfSplit <- function(f, msLevel = 2L,
     desc.idx <- grep("=", mgf, fixed = TRUE)
     desc <- mgf[desc.idx]
 
-    ms <- do.call(rbind, strsplit(mgf[-desc.idx], "[[:space:]]+", perl = TRUE))
-    mode(ms) <- "double"
-
-    if (!length(ms) || length(ms) == 1L)
+    spec <- strsplit(mgf[-desc.idx], "[[:space:]]+", perl = TRUE)
+    if (!length(spec) || length(spec[[1L]]) == 1L)
         ms <- matrix(numeric(), ncol = 2L)
+    else
+        ms <- matrix(
+            as.double(unlist(spec, use.names = FALSE, recursive = FALSE)),
+            ncol = length(spec[[1L]]), byrow = TRUE)
 
     if(nrow(ms) > 1 && is.unsorted(ms[, 1L]))
         ms <- ms[order(ms[, 1L]), , drop = FALSE]
@@ -210,10 +215,11 @@ readMgfSplit <- function(f, msLevel = 2L,
 
     res <- as.data.frame.matrix(matrix(desc, nrow = 1,
                                        dimnames = list(NULL, names(desc))))
-    res$mz = list(ms[, 1L])
-    res$intensity = list(ms[, 2L])
+    res$mz <- list(ms[, 1L])
+    res$intensity <- list(ms[, 2L])
     res
 }
+
 
 #' Format MGF charge string into an integer compatible format.
 #'

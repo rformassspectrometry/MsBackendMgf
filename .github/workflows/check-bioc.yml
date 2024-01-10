@@ -164,9 +164,9 @@ jobs:
             CPPFLAGS = "-w"),
             {
             BiocManager::install("RforMassSpectrometry/ProtGenerics", update = TRUE)
+            BiocManager::install("RforMassSpectrometry/MsCoreUtils", update = TRUE)
             BiocManager::install("RforMassSpectrometry/Spectra", update = TRUE)
-            BiocManager::install(c("MsCoreUtils"), update = TRUE)
-            remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE)
+            remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = FALSE, upgrade = TRUE)
             },
             assignment = "+="
           )
