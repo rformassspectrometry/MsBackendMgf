@@ -165,6 +165,7 @@ jobs:
             {
             BiocManager::install("RforMassSpectrometry/ProtGenerics", update = TRUE)
             BiocManager::install("RforMassSpectrometry/Spectra", update = TRUE)
+            BiocManager::install(c("MsCoreUtils"), update = TRUE)
             remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE)
             },
             assignment = "+="
@@ -185,7 +186,6 @@ jobs:
 
             message(paste('****', Sys.time(), 'force installation of selected packages ****'))
             BiocManager::install(c("BiocStyle", "rmarkdown", "magick"), update = TRUE)
-            BiocManager::install(c("MsCoreUtils"), update = TRUE)
 
             ## For running the checks
             message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
