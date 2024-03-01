@@ -150,9 +150,11 @@ setClass("MsBackendMgf",
                                readonly = FALSE,
                                version = "0.1"))
 
-#' @importMethodsFrom Spectra backendInitialize spectraData<- $<- $
+#' @importMethodsFrom Spectra spectraData<- $<- $
 #'
 #' @importFrom BiocParallel SerialParam
+#'
+#' @importMethodsFrom ProtGenerics backendInitialize
 #'
 #' @importMethodsFrom BiocParallel bplapply
 #'

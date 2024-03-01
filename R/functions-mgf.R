@@ -248,7 +248,9 @@ readMgfSplit <- function(f, msLevel = 2L,
 #'
 #' @author Johannes Rainer
 #'
-#' @importMethodsFrom Spectra spectraVariables spectraNames peaksData spectraData
+#' @importMethodsFrom Spectra spectraVariables spectraNames spectraData
+#'
+#' @importMethodsFrom ProtGenerics peaksData
 #'
 #' @noRd
 #'

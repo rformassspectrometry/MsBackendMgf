@@ -1,5 +1,10 @@
 # MsBackendMgf 1.11
 
+## Changes in 1.11.2
+
+- Import generic methods from `ProtGenerics`. Requires `ProtGenerics` version
+  1.35.3.
+
 ## Changes in 1.11.1
 
 - Small runtime improvements in MGF importer.
