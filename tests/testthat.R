@@ -1,6 +1,9 @@
 library(testthat)
 library(MsBackendMgf)
 
+fls <- dir(system.file("extdata", package = "MsBackendMgf"),
+           full.names = TRUE, pattern = "mgf$")[1:2]
+
 test_check("MsBackendMgf")
 
 ## Run tests defined in test suites from the Spectra package.

@@ -156,6 +156,8 @@ setClass("MsBackendMgf",
 #'
 #' @importMethodsFrom ProtGenerics backendInitialize
 #'
+#' @importMethodsFrom Spectra backendInitialize
+#'
 #' @importMethodsFrom BiocParallel bplapply
 #'
 #' @importFrom methods validObject

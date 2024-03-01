@@ -108,3 +108,9 @@ test_that("export,MsBackendMgf works", {
     sps$fail <- IRanges::NumericList(sps$mz, compress = FALSE)
     expect_error(export(MsBackendMgf(), sps, file = fl), "multiple elements")
 })
+
+test_that("Spectra works with MsBackendMgf", {
+    s <- Spectra(fls, source = MsBackendMgf())
+    be <- backendInitialize(MsBackendMgf(), fls)
+    expect_equal(be$mz, s$mz)
+})
