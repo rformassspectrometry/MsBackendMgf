@@ -1,33 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://rformassspectrometry.github.io/MsBackendMgf/404.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/MsBackendMgf/articles/MsBackendMgf.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/MsBackendMgf/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/MsBackendMgf/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/MsBackendMgf/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/MsBackendMgf/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/MsBackendMgf/reference/MsBackendMgf.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/MsBackendMgf/reference/hidden_aliases.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/MsBackendMgf/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/MsBackendMgf/reference/readMgf.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://rformassspectrometry.github.io/MsBackendMgf/404.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/MsBackendMgf/articles/MsBackendMgf.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/MsBackendMgf/articles/index.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/MsBackendMgf/authors.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/MsBackendMgf/index.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/MsBackendMgf/news/index.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/MsBackendMgf/reference/MsBackendMgf.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/MsBackendMgf/reference/hidden_aliases.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/MsBackendMgf/reference/index.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/MsBackendMgf/reference/readMgf.html</loc></url>
 </urlset>
+
