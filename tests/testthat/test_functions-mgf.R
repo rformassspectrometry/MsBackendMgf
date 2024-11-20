@@ -41,6 +41,8 @@ test_that("readMgfSplit works", {
                full.names = TRUE, pattern = "mgf$")
 
     expect_error(readMgfSplit(fls), "Please provide a single mgf file.")
+    expect_error(readMgfSplit(fls[1], n = -3), "has to be an integer")
+    expect_error(readMgfSplit(fls[1], n = 3), "Consider increasing the value")
 
     res1 <- readMgfSplit(fls[1])
     cns <- c("rtime", "acquisitionNum", "precursorMz", "precursorIntensity",
@@ -90,14 +92,19 @@ test_that(".extract_mgf_spectrum works", {
     end <- grep("END IONS", mgf) - 1L
     n <- length(begin)
 
-    res <- MsBackendMgf:::.extract_mgf_spectrum(mgf[begin[1]:end[1]])
+    res <- .extract_mgf_spectrum(mgf[begin[1]:end[1]])
     expect_true(is.data.frame(res))
     expect_equal(names(res), c("TITLE", "PEPMASS", "CHARGE",
                                "RTINSECONDS", "SCANS", "PEPMASSINT",
                                "mz", "intensity"))
     expect_true(is.na(res$PEPMASSINT))
 
-    res <- MsBackendMgf:::.extract_mgf_spectrum(mgf[begin[2]:end[2]])
+    with_mocked_bindings(
+        ".is_unsorted" = function(...) TRUE,
+        code = expect_equal(res, .extract_mgf_spectrum(mgf[begin[1]:end[1]]))
+    )
+
+    res <- .extract_mgf_spectrum(mgf[begin[2]:end[2]])
     expect_true(is.data.frame(res))
     expect_equal(names(res), c("TITLE", "PEPMASS", "CHARGE",
                                "RTINSECONDS", "SCANS", "PEPMASSINT",
@@ -108,4 +115,14 @@ test_that(".extract_mgf_spectrum works", {
 test_that(".format_charge works", {
     res <- .format_charge(c("4+", "3-", NA, "45"))
     expect_equal(res, c("4", "-3", NA_character_, "45"))
+})
+
+test_that(".is_unsorted works", {
+    x <- cbind(1:3, 1:3)
+    expect_false(.is_unsorted(x))
+
+    x <- cbind(c(1, 43, 2), 1:3)
+    expect_true(.is_unsorted(x))
+
+    expect_false(.is_unsorted(x[integer(), , drop = FALSE]))
 })
