@@ -100,14 +100,16 @@ test_that("export,MsBackendMgf works", {
     expect_true(length(grep("TITLE", res)) == 0)
 
     spectraNames(sps) <- NULL
+    sps$TITLE <- NULL
     export(MsBackendMgf(), sps, file = fl, exportTitle = TRUE)
     res <- readLines(fl)
-    expect_true(length(grep("TITLE=msLevel", res)) == 0)
+    expect_true(length(grep("TITLE=msLevel", res)) > 0)
 
     spectraNames(sps) <- paste0("yes", seq_along(sps))
+    sps$TITLE <- NULL
     export(MsBackendMgf(), sps, file = fl, exportTitle = TRUE)
     res <- readLines(fl)
-    expect_true(length(grep("TITLE=yes", res)) == 0)
+    expect_true(length(grep("TITLE=yes", res)) > 0)
 
     expect_error(export(MsBackendMgf(), file = fl), "missing")
     expect_error(export(MsBackendMgf(), x = spd, file = fl), "spectra data to")

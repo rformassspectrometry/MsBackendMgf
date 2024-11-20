@@ -285,16 +285,16 @@ readMgfSplit <- function(f, msLevel = 2L,
         spd$CHARGE <- paste0(abs(spd$CHARGE), sign_char)
         spd$CHARGE[nas] <- ""
     }
-    if (!exportTitle)
+    if (!exportTitle && any(colnames(spd) %in% "TITLE"))
         spd$TITLE <- NULL
     l <- nrow(spd)
     tmp <- lapply(colnames(spd), function(z) {
         paste0(z, "=", spd[, z], "\n")
     })
-    if (exportTitle && !any(colnames(spd) == "TITLE")) {
+    if (exportTitle && !any(colnames(spd) %in% "TITLE")) {
         sn <- spectraNames(x)
-        if (!is.null(sn) && any(sn != as.character(seq_along(x))))
-            title <- paste0("TITLE=", spectraNames(x), "\n")
+        if (any(sn != as.character(seq_along(x))))
+            title <- paste0("TITLE=", sn, "\n")
         else
             title <- paste0("TITLE=msLevel ", spd$msLevel, "; retentionTime ",
                             spd$rtime, "; scanNum ", spd$acquisitionNum, "\n")
