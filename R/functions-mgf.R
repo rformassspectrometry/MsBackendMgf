@@ -203,7 +203,7 @@ readMgfSplit <- function(f, msLevel = 2L,
             as.double(unlist(spec, use.names = FALSE, recursive = FALSE)),
             ncol = length(spec[[1L]]), byrow = TRUE)
 
-    if(nrow(ms) > 1 && is.unsorted(ms[, 1L]))
+    if(.is_unsorted(ms))
         ms <- ms[order(ms[, 1L]), , drop = FALSE]
 
     r <- regexpr("=", desc, fixed = TRUE)
@@ -220,6 +220,9 @@ readMgfSplit <- function(f, msLevel = 2L,
     res
 }
 
+.is_unsorted <- function(x) {
+    nrow(x) && is.unsorted(x[, 1L])
+}
 
 #' Format MGF charge string into an integer compatible format.
 #'
@@ -289,7 +292,8 @@ readMgfSplit <- function(f, msLevel = 2L,
         paste0(z, "=", spd[, z], "\n")
     })
     if (exportTitle && !any(colnames(spd) == "TITLE")) {
-        if (!is.null(spectraNames(x)))
+        sn <- spectraNames(x)
+        if (!is.null(sn) && any(sn != as.character(seq_along(x))))
             title <- paste0("TITLE=", spectraNames(x), "\n")
         else
             title <- paste0("TITLE=msLevel ", spd$msLevel, "; retentionTime ",
