@@ -1,5 +1,9 @@
 # MsBackendMgf 1.15
 
+## Changes in 1.15.2
+
+- Fix missing links in the documentation.
+
 ## Changes in 1.15.1
 
 - Complete unit test coverage.

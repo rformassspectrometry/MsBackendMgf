@@ -11,8 +11,8 @@ NULL
 #' from/to files in Mascot Generic Format
 #' ([mgf](http://www.matrixscience.com/help/data_file_help.html))
 #' files. After initial import, the full MS data is kept in
-#' memory. `MsBackendMgf` extends the [MsBackendDataFrame()] backend
-#' directly and supports thus the [applyProcessing()] function to make
+#' memory. `MsBackendMgf` extends the [Spectra::MsBackendDataFrame()] backend
+#' directly and supports thus the [Spectra::applyProcessing()] function to make
 #' data manipulations persistent.
 #'
 #' New objects are created with the `MsBackendMgf` function. The
@@ -63,16 +63,17 @@ NULL
 #'     be generated including the MS level, retention time and acquisition
 #'     number of the spectrum.
 #'
-#' @param x for `export`: an instance of [Spectra()] class with the data that
-#'     should be exported.
+#' @param x for `export`: an instance of [Spectra::Spectra()] class with the
+#'     data that should be exported.
 #'
 #' @param BPPARAM Parameter object defining the parallel processing
 #'     setup. If parallel processing is enabled (with `BPPARAM` different than
 #'     `SerialParam()`, the default) and length of `files` is larger than one,
 #'     import is performed in parallel on a per-file basis. If data is to be
 #'     imported from a single file (i.e., length of `files` is one), parsing
-#'     of the imported file is performed in parallel. See also [SerialParam()]
-#'     for information on available parallel processing setup options.
+#'     of the imported file is performed in parallel. See also
+#'     [BiocParallel::SerialParam()] for information on available parallel
+#'     processing setup options.
 #'
 #' @param ... Currently ignored.
 #'
