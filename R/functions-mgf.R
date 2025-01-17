@@ -3,7 +3,7 @@
 ##' @description
 ##'
 ##' The `readMgf` function imports the data from a file in MGF format reading
-##' all specified fields and returning the data as a [DataFrame()].
+##' all specified fields and returning the data as a [S4Vectors::DataFrame()].
 ##'
 ##' For very large MGF files the `readMgfSplit` function might be used instead.
 ##' In contrast to the `readMgf` functions, `readMgfSplit` reads only `nlines`

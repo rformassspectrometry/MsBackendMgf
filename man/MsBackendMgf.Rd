@@ -56,14 +56,15 @@ setup. If parallel processing is enabled (with \code{BPPARAM} different than
 \code{SerialParam()}, the default) and length of \code{files} is larger than one,
 import is performed in parallel on a per-file basis. If data is to be
 imported from a single file (i.e., length of \code{files} is one), parsing
-of the imported file is performed in parallel. See also \code{\link[=SerialParam]{SerialParam()}}
-for information on available parallel processing setup options.}
+of the imported file is performed in parallel. See also
+\code{\link[BiocParallel:SerialParam-class]{BiocParallel::SerialParam()}} for information on available parallel
+processing setup options.}
 
 \item{format}{for \code{spectraVariableMapping}: \code{character(1)} defining the
 format to be used. Currently only \code{format = "mgf"} is supported.}
 
-\item{x}{for \code{export}: an instance of \code{\link[=Spectra]{Spectra()}} class with the data that
-should be exported.}
+\item{x}{for \code{export}: an instance of \code{\link[Spectra:Spectra]{Spectra::Spectra()}} class with the
+data that should be exported.}
 
 \item{file}{\code{character(1)} with the (full) file name to which the data
 should be exported.}
@@ -83,8 +84,8 @@ The \code{MsBackendMgf} class supports import and export of MS/MS spectra data
 from/to files in Mascot Generic Format
 (\href{http://www.matrixscience.com/help/data_file_help.html}{mgf})
 files. After initial import, the full MS data is kept in
-memory. \code{MsBackendMgf} extends the \code{\link[=MsBackendDataFrame]{MsBackendDataFrame()}} backend
-directly and supports thus the \code{\link[=applyProcessing]{applyProcessing()}} function to make
+memory. \code{MsBackendMgf} extends the \code{\link[Spectra:MsBackend]{Spectra::MsBackendDataFrame()}} backend
+directly and supports thus the \code{\link[Spectra:addProcessing]{Spectra::applyProcessing()}} function to make
 data manipulations persistent.
 
 New objects are created with the \code{MsBackendMgf} function. The

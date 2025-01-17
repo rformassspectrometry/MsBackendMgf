@@ -45,7 +45,7 @@ and \code{"intensity"} in a list representation.
 }
 \description{
 The \code{readMgf} function imports the data from a file in MGF format reading
-all specified fields and returning the data as a \code{\link[=DataFrame]{DataFrame()}}.
+all specified fields and returning the data as a \code{\link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame()}}.
 
 For very large MGF files the \code{readMgfSplit} function might be used instead.
 In contrast to the \code{readMgf} functions, \code{readMgfSplit} reads only \code{nlines}
