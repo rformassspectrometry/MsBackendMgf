@@ -3,8 +3,8 @@
 from/to files in Mascot Generic Format
 (mgf)
 files. After initial import, the full MS data is kept in
-memory. MsBackendMgf extends the MsBackendDataFrame() backend
-directly and supports thus the applyProcessing() function to make
+memory. MsBackendMgf extends the Spectra::MsBackendDataFrame() backend
+directly and supports thus the Spectra::applyProcessing() function to make
 data manipulations persistent.
 New objects are created with the MsBackendMgf function. The
 backendInitialize method has to be subsequently called to
@@ -23,8 +23,8 @@ MGF dialects) with the mapping parameter."><meta property="og:description" conte
 from/to files in Mascot Generic Format
 (mgf)
 files. After initial import, the full MS data is kept in
-memory. MsBackendMgf extends the MsBackendDataFrame() backend
-directly and supports thus the applyProcessing() function to make
+memory. MsBackendMgf extends the Spectra::MsBackendDataFrame() backend
+directly and supports thus the Spectra::applyProcessing() function to make
 data manipulations persistent.
 New objects are created with the MsBackendMgf function. The
 backendInitialize method has to be subsequently called to
@@ -47,7 +47,7 @@ MGF dialects) with the mapping parameter."><meta property="og:image" content="ht
 
     <a class="navbar-brand me-2" href="../index.html">MsBackendMgf</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.15.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.15.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,8 +78,8 @@ MGF dialects) with the mapping parameter."><meta property="og:image" content="ht
 from/to files in Mascot Generic Format
 (<a href="http://www.matrixscience.com/help/data_file_help.html" class="external-link">mgf</a>)
 files. After initial import, the full MS data is kept in
-memory. <code>MsBackendMgf</code> extends the <code>MsBackendDataFrame()</code> backend
-directly and supports thus the <code>applyProcessing()</code> function to make
+memory. <code>MsBackendMgf</code> extends the <code><a href="https://rdrr.io/pkg/Spectra/man/MsBackend.html" class="external-link">Spectra::MsBackendDataFrame()</a></code> backend
+directly and supports thus the <code><a href="https://rdrr.io/pkg/ProtGenerics/man/processingQueue.html" class="external-link">Spectra::applyProcessing()</a></code> function to make
 data manipulations persistent.</p>
 <p>New objects are created with the <code>MsBackendMgf</code> function. The
 <code>backendInitialize</code> method has to be subsequently called to
@@ -165,8 +165,9 @@ setup. If parallel processing is enabled (with <code>BPPARAM</code> different th
 <code><a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html" class="external-link">SerialParam()</a></code>, the default) and length of <code>files</code> is larger than one,
 import is performed in parallel on a per-file basis. If data is to be
 imported from a single file (i.e., length of <code>files</code> is one), parsing
-of the imported file is performed in parallel. See also <code><a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html" class="external-link">SerialParam()</a></code>
-for information on available parallel processing setup options.</p></dd>
+of the imported file is performed in parallel. See also
+<code><a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html" class="external-link">BiocParallel::SerialParam()</a></code> for information on available parallel
+processing setup options.</p></dd>
 
 
 <dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
@@ -175,8 +176,8 @@ format to be used. Currently only <code>format = "mgf"</code> is supported.</p><
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>for <code>export</code>: an instance of <code>Spectra()</code> class with the data that
-should be exported.</p></dd>
+<dd><p>for <code>export</code>: an instance of <code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra::Spectra()</a></code> class with the
+data that should be exported.</p></dd>
 
 
 <dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
