@@ -54,7 +54,8 @@
 ##'
 ##' readMgf(fls)
 readMgf <- function(f, msLevel = 2L,
-                    mapping = spectraVariableMapping(MsBackendMgf()), ...,
+                    mapping = spectraVariableMapping(MsBackendMgf()),
+                    annotated = FALSE, ...,
                     BPPARAM = SerialParam()) {
     requireNamespace("MsBackendMgf", quietly = TRUE)
     if (length(f) != 1L)
@@ -74,9 +75,21 @@ readMgf <- function(f, msLevel = 2L,
     begin <- grep("BEGIN IONS", mgf, fixed = TRUE) + 1L
     end <- grep("END IONS", mgf, fixed = TRUE) - 1L
 
-    res <- rbindFill(bpmapply(begin, end, FUN = function(b, e, mgf)
-        .extract_mgf_spectrum(mgf[b:e]), MoreArgs = list(mgf = mgf),
-        SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM))
+    if (annotated) fun_extract_mgf <- .extract_mgf_spectrum_with_annotations
+    else fun_extract_mgf <- .extract_mgf_spectrum
+
+    res <- bpmapply(begin, end, FUN = function(b, e, mgf)
+        fun_extract_mgf(mgf[b:e]), MoreArgs = list(mgf = mgf),
+        SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM)
+    res <- rbindFill(res)
+    if (annotated) {
+        p <- as.factor(rep(seq_len(nrow(res)), lengths(res$mz)))
+        anns <- rbindFill(res$ann_mat)
+        res$ann_mat <- NULL
+        for (a in colnames(anns))
+            res <- do.call(
+                "$<-", list(res, name = a, value = unname(split(anns[[a]], p))))
+    }
 
     if ("CHARGE" %in% colnames(res))
         res$CHARGE <- .format_charge(res$CHARGE)
@@ -220,6 +233,74 @@ readMgfSplit <- function(f, msLevel = 2L,
     res
 }
 
+#' @title Process MGF files with peak annotations
+#'
+#' @description
+#'
+#' Import MS data from MGF files that provide also annotations for individual
+#' mass peaks.
+#'
+#' Expected format of the peak information:
+#'
+#' - lines with peak information are expected to start with a number (no white
+#'   space)
+#' - each line is expected to represent one mass peak
+#' - the first two elements per line are expected to be the m/z and intensity
+#'   values
+#' - all following elements represent peak annotation/metadata. For multiple
+#'   spectra, they are assumed to be in the same order, i.e., if 3 annotations
+#'   are provided for a peak, they are expected to be in the order
+#'   annotation_1<white space>annotation_2<white space>annotation_3 for all
+#'   spectra. And it is expected that all are provided.
+#' - annotations are interpreted as character strings.
+#'
+#' @author Johannes Rainer and Corey Broeckling
+#'
+#' @noRd
+.extract_mgf_spectrum_with_annotations <- function(mgf) {
+    mz <- numeric()
+    int <- numeric()
+    ann <- as.data.frame(matrix(NA_character_, ncol = 0, nrow = 0))
+    ## find peaks
+    pks_idx <- grep("^[0-9]", mgf)
+    l <- length(pks_idx)
+    if (l) {
+        pks <- strsplit(mgf[pks_idx], "[[:space:]]+", perl = TRUE)
+        ls <- lengths(pks)
+        ml <- max(ls)
+        if (ml > 2) {
+            mli <- 3:ml
+            ann <- as.data.frame(
+                do.call(rbind, lapply(pks, function(z) z[mli])))
+        } else
+            ann <- as.data.frame(matrix(NA_character_, ncol = 0, nrow = l))
+        mz <- as.numeric(vapply(pks, `[`, NA_character_, 1L, USE.NAMES = FALSE))
+        int <-as.numeric(vapply(pks, `[`, NA_character_, 2L, USE.NAMES = FALSE))
+        if (is.unsorted(mz)) {
+            idx <- order(mz)
+            mz <- mz[idx]
+            int <- int[idx]
+        }
+        mgf <- mgf[-pks_idx]
+    }
+    ## grep description
+    desc <- grep("=", mgf, fixed = TRUE, value = TRUE)
+
+    r <- regexpr("=", desc, fixed = TRUE)
+    desc <- setNames(substring(desc, r + 1L, nchar(desc)),
+                     substring(desc, 1L, r - 1L))
+
+    desc[c("PEPMASS", "PEPMASSINT")] <-
+        strsplit(desc["PEPMASS"], "[[:space:]]+", perl = TRUE)[[1L]][c(1L, 2L)]
+
+    res <- as.data.frame.matrix(matrix(desc, nrow = 1,
+                                       dimnames = list(NULL, names(desc))))
+    res$mz <- list(mz)
+    res$intensity <- list(int)
+    res$ann_mat <- list(ann)
+    res
+}
+
 .is_unsorted <- function(x) {
     nrow(x) && is.unsorted(x[, 1L])
 }
@@ -307,4 +388,87 @@ readMgfSplit <- function(f, msLevel = 2L,
                             tmp, list(pks), list(rep_len("END IONS\n", l))))
     tmp[grep("=NA\n", tmp)] <- ""
     writeLines(apply(tmp, 1, paste0, collapse = ""), con = con)
+}
+
+################################################################################
+## FIORA STUFF PROVIDED BY COREY BROECKLING
+.extract_fiora_mgf_spectrum <- function(mgf) {
+  desc.idx <- 1:grep("COMMENT=", mgf, fixed = TRUE)
+  desc <- mgf[desc.idx]
+
+  spec <- strsplit(mgf[-desc.idx], "[[:space:]]+", perl = TRUE)
+  spec <- as.data.frame(do.call(rbind, spec))
+  ann <- spec[,3]
+  spec <- matrix(as.numeric(unlist(spec[,c(1:2)])),nrow=nrow(spec))
+
+  ann <- strsplit(ann, "//", perl = TRUE)
+  ann <- as.data.frame(do.call(rbind, ann))
+
+  if(.is_unsorted(ms))
+    ms <- ms[order(ms[, 1L]), , drop = FALSE]
+
+  r <- regexpr("=", desc, fixed = TRUE)
+  desc <- setNames(substring(desc, r + 1L, nchar(desc)),
+                   substring(desc, 1L, r - 1L))
+
+  desc[c("PEPMASS", "PEPMASSINT")] <-
+    strsplit(desc["PEPMASS"], "[[:space:]]+", perl = TRUE)[[1L]][c(1L, 2L)]
+
+  res <- as.data.frame.matrix(matrix(desc, nrow = 1,
+                                     dimnames = list(NULL, names(desc))))
+  res$mz <- list(ms[, 1L])
+  res$intensity <- list(ms[, 2L])
+  res$fragment.smiles <- list(ann[,1L])
+  res$fragment.ion.type <- list(ann[,2L])
+  res
+}
+
+readFioraMgf <- function(f = paste0(mgf.dir, "/", mgf.files[i]), msLevel = 2L,
+                    mapping = spectraVariableMapping(MsBackendFioraMgf()), ...,
+                    BPPARAM = SerialParam()) {
+  requireNamespace("MsBackendFioraMgf", quietly = TRUE)
+  if (length(f) != 1L)
+    stop("Please provide a single mgf file.")
+  ## Note: using readLines instead has some performance advantages
+  ## (few seconds) for very large files
+  mgf <- scan(file = f, what = "",
+              sep = "\n", quote = "",
+              allowEscapes = FALSE,
+              quiet = TRUE)
+
+  begin <- grep("BEGIN IONS", mgf, fixed = TRUE) + 1L
+  end <- grep("END IONS", mgf, fixed = TRUE) - 1L
+
+  res <-  MsCoreUtils::rbindFill(bpmapply(begin, end, FUN = function(b, e, mgf)
+    .extract_fiora_mgf_spectrum(mgf[b:e]), MoreArgs = list(mgf = mgf),
+    SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM))
+
+  if ("CHARGE" %in% colnames(res))
+    res$CHARGE <- .format_charge(res$CHARGE)
+
+  idx <- match(colnames(res), mapping)
+  not_na <- !is.na(idx)
+  if (any(not_na))
+    colnames(res)[not_na] <- names(mapping)[idx][not_na]
+
+  spv <- coreSpectraVariables()
+  spv <- spv[!names(spv) %in% c("mz", "intensity")]
+  for (i in seq_along(res)) {
+    if (all(lengths(res[[i]]) == 1))
+      res[[i]] <- unlist(res[[i]])
+    if (any(col <- names(spv) == colnames(res)[i]))
+      res[[i]] <- as(res[[i]], spv[col][1])
+  }
+
+  res <- as(res, "DataFrame")
+  res$mz <- IRanges::NumericList(res$mz, compress = FALSE)
+  res$intensity <- IRanges::NumericList(res$intensity, compress = FALSE)
+  res$dataOrigin <- f
+  if(!"msLevel" %in% colnames(res)) {
+    res$msLevel <- as.integer(msLevel)
+  }
+
+  res
+
+
 }
