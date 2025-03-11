@@ -1,6 +1,6 @@
 Package: MsBackendMgf
 Title: Mass Spectrometry Data Backend for Mascot Generic Format (mgf) Files
-Version: 1.15.2
+Version: 1.15.3
 Authors@R:
     c(person(given = "RforMassSpectrometry Package Maintainer",
              email = "maintainer@rformassspectrometry.org",
@@ -24,7 +24,10 @@ Authors@R:
       person(given = "Adriano", family = "Rutz",
              comment = c(ORCID = "0000-0003-0443-9902"),
 	     email = "rutz@imsb.biol.ethz.ch",
-	     role = "ctb"))
+	     role = "ctb"),
+	     person(given = "Corey", family = "Broeckling",
+	     comment = c(ORCID = "0000-0002-6158-827X"),
+	     email = "Corey.Broeckling@ColoState.edu", role = "ctb"))
 Description: Mass spectrometry (MS) data backend supporting import and
 	     export of MS/MS spectra data from Mascot Generic Format
 	     (mgf) files. Objects defined in this package are supposed to be

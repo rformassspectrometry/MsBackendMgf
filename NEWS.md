@@ -1,5 +1,9 @@
 # MsBackendMgf 1.15
 
+## Changes in 1.15.3
+
+- Add support for peak annotations in MGF files.
+
 ## Changes in 1.15.2
 
 - Fix missing links in the documentation.

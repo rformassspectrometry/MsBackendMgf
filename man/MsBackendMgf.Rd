@@ -6,7 +6,9 @@
 \alias{backendInitialize,MsBackendMgf-method}
 \alias{spectraVariableMapping,MsBackendMgf-method}
 \alias{export,MsBackendMgf-method}
-\title{MS data backend for mgf files}
+\alias{backendInitialize,MsBackendAnnotatedMgf-method}
+\alias{MsBackendAnnotatedMgf}
+\title{MS data backend for MGF files}
 \usage{
 \S4method{backendInitialize}{MsBackendMgf}(
   object,
@@ -29,6 +31,16 @@ MsBackendMgf()
   exportTitle = TRUE,
   ...
 )
+
+\S4method{backendInitialize}{MsBackendAnnotatedMgf}(
+  object,
+  files,
+  mapping = spectraVariableMapping(object),
+  ...,
+  BPPARAM = SerialParam()
+)
+
+MsBackendAnnotatedMgf()
 }
 \arguments{
 \item{object}{Instance of \code{MsBackendMgf} class.}
@@ -36,15 +48,16 @@ MsBackendMgf()
 \item{files}{\code{character} with the (full) file name(s) of the mgf file(s)
 from which MS/MS data should be imported.}
 
-\item{mapping}{for \code{backendInitialize} and \code{export}: named \code{character} vector
-allowing to specify how fields from the MGF file should be renamed. Names
-are supposed to be the spectra variable name and values of the vector
-the field names in the MGF file. See output of \code{spectraVariableMapping()}
-for the expected format and examples below or description above for
-details.}
+\item{mapping}{for \code{backendInitialize()} and \code{export}: named \code{character}
+vector allowing to specify how fields from the MGF file should be
+renamed. Names are supposed to be the spectra variable name and
+values of the vector the field names in the MGF file. See output of
+\code{spectraVariableMapping()} for the expected format and examples
+below or description above for details.}
 
-\item{nlines}{for \code{backendInitialize}: \code{integer(1)} defining the number of
-lines that should be imported and processed from the MGF file(s).
+\item{nlines}{for \code{backendInitialize()} of \code{MsBackendMgf}: \code{integer(1)}
+defining the number of lines that should be imported and processed
+from the MGF file(s).
 By default (\code{nlines = -1L}) the full file is imported and processed at
 once. If set to a positive integer, the data is imported and processed
 \emph{chunk-wise} using \code{\link[=readMgfSplit]{readMgfSplit()}}.}
@@ -60,10 +73,10 @@ of the imported file is performed in parallel. See also
 \code{\link[BiocParallel:SerialParam-class]{BiocParallel::SerialParam()}} for information on available parallel
 processing setup options.}
 
-\item{format}{for \code{spectraVariableMapping}: \code{character(1)} defining the
+\item{format}{for \code{spectraVariableMapping()}: \code{character(1)} defining the
 format to be used. Currently only \code{format = "mgf"} is supported.}
 
-\item{x}{for \code{export}: an instance of \code{\link[Spectra:Spectra]{Spectra::Spectra()}} class with the
+\item{x}{for \code{export()}: an instance of \code{\link[Spectra:Spectra]{Spectra::Spectra()}} class with the
 data that should be exported.}
 
 \item{file}{\code{character(1)} with the (full) file name to which the data
@@ -88,17 +101,33 @@ memory. \code{MsBackendMgf} extends the \code{\link[Spectra:MsBackend]{Spectra::
 directly and supports thus the \code{\link[Spectra:addProcessing]{Spectra::applyProcessing()}} function to make
 data manipulations persistent.
 
-New objects are created with the \code{MsBackendMgf} function. The
-\code{backendInitialize} method has to be subsequently called to
-initialize the object and import MS/MS data from (one or more) mgf
-files.
+The \code{MsBackendAnnotatedMgf} class supports import of data from MGF files
+that provide, in addition to the \emph{m/z} and intensity values, also
+additional annotations/metadata for each mass peak. For such MGF files it
+is expected that each line contains information from a single mass peak,
+separated by a white space (blank). The first two elements are expected to
+be the peak's \emph{m/z} and intensity values, while each additional element is
+considered an annotation for this specific peak. See examples below for the
+format of a supported MGF file. The \code{backendInitialize()} method of
+\code{MsBackendAnnotatedMgf} does not support parameter \code{nlines}. Also, import
+of data can be considerably slower compared to the standard \code{MsBackendMgf}
+backend, because of the additionally required parsing of peak annotations.
+Peaks information in MGF files are not named, thus, additional peaks
+annotations are named using the standard naming convention for column named
+of data frames: the first peaks annotation is called \code{"V1"}, the second (if
+available) \code{"V2"} and so on.
+
+New objects are created with the \code{MsBackendMgf()} or
+\code{MsBackendAnnotatedMgf()} function. The \code{backendInitialize()} method has to
+be subsequently called to initialize the object and import the MS/MS data
+from (one or more) MGF files.
 
 The \code{MsBackendMgf} backend provides an \code{export} method that allows to export
 the data from the \code{Spectra} object (parameter \code{x}) to a file in mgf format.
 See the package vignette for details and examples.
 
 Default mappings from fields in the MGF file to spectra variable names are
-provided by the \code{spectraVariableMapping} function. This function returns a
+provided by the \code{spectraVariableMapping()} function. This function returns a
 named character vector were names are the spectra variable names and the
 values the respective field names in the MGF files. This named character
 vector is submitted to the import and export function with parameter
@@ -159,7 +188,40 @@ sps$spectrum_idx <- seq_along(sps)
 ## This new spectra variable will also be exported to the mgf file:
 export(sps, backend = MsBackendMgf(), file = out_file, map = map)
 readLines(out_file, n = 20)
+
+####
+## Annotated MGF
+
+## An example of a supported annotated MGF file
+fl <- system.file("extdata", "xfiora.mgf", package = "MsBackendMgf")
+
+## Lines with peak data start with a numeric and information is
+## separated by a whitespace. The first two elements are the peak's m/z
+## and intensity while any additional information is considered as
+## annotation. Information for each peak is provided in one line.
+readLines(fl)
+
+## Importing the data using an `MsBackendAnnotatedMgf`
+ba <- backendInitialize(MsBackendAnnotatedMgf(), fl)
+ba
+
+## An additional peaks variable is available.
+peaksVariables(ba)
+
+ba$V1
+
+## The length of such peaks variables is the same as the length of the
+## m/z or intensity values, i.e. each peak has one value (with the value
+## being `NA` if missing).
+length(ba$V1[[1L]])
+length(ba$mz[[1L]])
+
+## Extracting the peaks data from a `Spectra` with a `MsBackendAnnotatedMgf`
+s <- Spectra(ba)
+pd <- peaksData(s, peaksVariables(ba))[[1L]]
+head(pd)
+class(pd)
 }
 \author{
-Laurent Gatto and Johannes Rainer
+Laurent Gatto, Corey Broeckling and Johannes Rainer
 }

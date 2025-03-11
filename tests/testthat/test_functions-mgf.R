@@ -187,6 +187,7 @@ test_that("readMgf works with annotated = TRUE", {
     expect_equal(res$mz[[1L]], res$mz[[2L]])
     expect_true(is.na(res$V1[[1L]][6]))
     expect_equal(res$V1[[1L]][-6L], res$V1[[2L]][-6L])
+    expect_equal(metadata(res), list("V1"))
 
     ## Manually defining
     mgf <- c("BEGIN IONS",
@@ -217,5 +218,6 @@ test_that("readMgf works with annotated = TRUE", {
     expect_equal(res$V2, list(c("b", NA, NA, NA),
                               c(NA_character_, NA_character_),
                               c(NA_character_, NA_character_, NA_character_)))
+    expect_equal(metadata(res), list(c("V1", "V2")))
     file.remove(tf)
 })
