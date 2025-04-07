@@ -1,9 +1,9 @@
-pandoc: 3.6.1
+pandoc: 3.6.3
 pkgdown: 2.1.1.9000
-pkgdown_sha: 6615322cb2ce15b1effcecf894123c88fa10b9c9
+pkgdown_sha: 66477c0dbb4f4925ec872cf64d5eaa316cc70bac
 articles:
   MsBackendMgf: MsBackendMgf.html
-last_built: 2025-01-17T08:05Z
+last_built: 2025-04-07T06:15Z
 urls:
   reference: https://rformassspectrometry.github.io/MsBackendMgf/reference
   article: https://rformassspectrometry.github.io/MsBackendMgf/articles

@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">MsBackendMgf</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.15.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.15.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,8 @@ Laurent Gatto [aut] (ORCID: <a href="https://orcid.org/0000-0002-1520-2268" clas
 [aut] (ORCID: <a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Sebastian Gibb
 [aut] (ORCID: <a href="https://orcid.org/0000-0001-7406-4443" class="external-link uri">https://orcid.org/0000-0001-7406-4443</a>), Michael Witting
 [ctb] (ORCID: <a href="https://orcid.org/0000-0002-1462-4426" class="external-link uri">https://orcid.org/0000-0002-1462-4426</a>), Adriano Rutz
-[ctb] (ORCID: <a href="https://orcid.org/0000-0003-0443-9902" class="external-link uri">https://orcid.org/0000-0003-0443-9902</a>)<br><strong>Last modified:</strong> 2025-01-17 07:55:16.035788<br><strong>Compiled</strong>: Fri Jan 17 08:05:12 2025</p>
+[ctb] (ORCID: <a href="https://orcid.org/0000-0003-0443-9902" class="external-link uri">https://orcid.org/0000-0003-0443-9902</a>), Corey Broeckling
+[ctb] (ORCID: <a href="https://orcid.org/0000-0002-6158-827X" class="external-link uri">https://orcid.org/0000-0002-6158-827X</a>)<br><strong>Last modified:</strong> 2025-04-07 06:06:01.649901<br><strong>Compiled</strong>: Mon Apr 7 06:15:08 2025</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -117,7 +118,8 @@ and define the paths to the mgf files.</p>
 <pre><code><span><span class="co">## [1] "/__w/_temp/Library/MsBackendMgf/extdata/spectra.mgf"             </span></span>
 <span><span class="co">## [2] "/__w/_temp/Library/MsBackendMgf/extdata/spectra2.mgf"            </span></span>
 <span><span class="co">## [3] "/__w/_temp/Library/MsBackendMgf/extdata/spectra3_empty_peaks.mgf"</span></span>
-<span><span class="co">## [4] "/__w/_temp/Library/MsBackendMgf/extdata/spectra4.mgf"</span></span></code></pre>
+<span><span class="co">## [4] "/__w/_temp/Library/MsBackendMgf/extdata/spectra4.mgf"            </span></span>
+<span><span class="co">## [5] "/__w/_temp/Library/MsBackendMgf/extdata/xfiora.mgf"</span></span></code></pre>
 <p>MS data can be accessed and analyzed through <code>Spectra</code>
 objects. Below we create a <code>Spectra</code> with the data from these
 mgf files. To this end we provide the file names and specify to use a
@@ -125,22 +127,120 @@ mgf files. To this end we provide the file names and specify to use a
 import.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">fls</span>, source <span class="op">=</span> <span class="fu"><a href="../reference/MsBackendMgf.html">MsBackendMgf</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Start data import from 4 files ... done</span></span></code></pre>
+<pre><code><span><span class="co">## Start data import from 5 files ... done</span></span></code></pre>
 <p>With that we have now full access to all imported spectra variables
 that we list below.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "msLevel"                 "rtime"                  </span></span>
-<span><span class="co">##  [3] "acquisitionNum"          "scanIndex"              </span></span>
-<span><span class="co">##  [5] "dataStorage"             "dataOrigin"             </span></span>
-<span><span class="co">##  [7] "centroided"              "smoothed"               </span></span>
-<span><span class="co">##  [9] "polarity"                "precScanNum"            </span></span>
-<span><span class="co">## [11] "precursorMz"             "precursorIntensity"     </span></span>
-<span><span class="co">## [13] "precursorCharge"         "collisionEnergy"        </span></span>
-<span><span class="co">## [15] "isolationWindowLowerMz"  "isolationWindowTargetMz"</span></span>
-<span><span class="co">## [17] "isolationWindowUpperMz"  "TITLE"                  </span></span>
-<span><span class="co">## [19] "RAWFILE"                 "CLUSTER_ID"             </span></span>
-<span><span class="co">## [21] "MSLEVEL"</span></span></code></pre>
+<pre><code><span><span class="co">##   [1] "msLevel"                                            </span></span>
+<span><span class="co">##   [2] "rtime"                                              </span></span>
+<span><span class="co">##   [3] "acquisitionNum"                                     </span></span>
+<span><span class="co">##   [4] "scanIndex"                                          </span></span>
+<span><span class="co">##   [5] "dataStorage"                                        </span></span>
+<span><span class="co">##   [6] "dataOrigin"                                         </span></span>
+<span><span class="co">##   [7] "centroided"                                         </span></span>
+<span><span class="co">##   [8] "smoothed"                                           </span></span>
+<span><span class="co">##   [9] "polarity"                                           </span></span>
+<span><span class="co">##  [10] "precScanNum"                                        </span></span>
+<span><span class="co">##  [11] "precursorMz"                                        </span></span>
+<span><span class="co">##  [12] "precursorIntensity"                                 </span></span>
+<span><span class="co">##  [13] "precursorCharge"                                    </span></span>
+<span><span class="co">##  [14] "collisionEnergy"                                    </span></span>
+<span><span class="co">##  [15] "isolationWindowLowerMz"                             </span></span>
+<span><span class="co">##  [16] "isolationWindowTargetMz"                            </span></span>
+<span><span class="co">##  [17] "isolationWindowUpperMz"                             </span></span>
+<span><span class="co">##  [18] "TITLE"                                              </span></span>
+<span><span class="co">##  [19] "RAWFILE"                                            </span></span>
+<span><span class="co">##  [20] "CLUSTER_ID"                                         </span></span>
+<span><span class="co">##  [21] "MSLEVEL"                                            </span></span>
+<span><span class="co">##  [22] "SMILES"                                             </span></span>
+<span><span class="co">##  [23] "PRECURSORTYPE"                                      </span></span>
+<span><span class="co">##  [24] "COLLISIONENERGY"                                    </span></span>
+<span><span class="co">##  [25] "INSTRUMENTTYPE"                                     </span></span>
+<span><span class="co">##  [26] "COMMENT"                                            </span></span>
+<span><span class="co">##  [27] "906.5854755900899 0.24612045288085938 CC/C"         </span></span>
+<span><span class="co">##  [28] "804.48101052209 0.003057875670492649 C"             </span></span>
+<span><span class="co">##  [29] "888.575459486 0.002360690850764513 CC/C"            </span></span>
+<span><span class="co">##  [30] "887.56708587409 0.02812790870666504 CC/C"           </span></span>
+<span><span class="co">##  [31] "790.4653604580899 0.0010008384706452489 CC/C"       </span></span>
+<span><span class="co">##  [32] "887.56708587409 0.002026958856731653 CC/C"          </span></span>
+<span><span class="co">##  [33] "887.56708587409 0.0032752526458352804 CC/C"         </span></span>
+<span><span class="co">##  [34] "678.4129309620901 0.0013166849967092276 CC/C"       </span></span>
+<span><span class="co">##  [35] "339.25298602008996 0.03245394676923752 CCCCCC@H/C"  </span></span>
+<span><span class="co">##  [36] "568.33976602209 0.14936257898807526 CC/C"           </span></span>
+<span><span class="co">##  [37] "357.26355070408994 0.003117065876722336 CCCCCC@H/C" </span></span>
+<span><span class="co">##  [38] "550.32920133809 0.012815228663384914 CC/C"          </span></span>
+<span><span class="co">##  [39] "578.3457939059999 0.002960008103400469 CCCCCC@H/C"  </span></span>
+<span><span class="co">##  [40] "577.33742029409 0.030111582949757576 CCCCCC@H/C"    </span></span>
+<span><span class="co">##  [41] "329.24750671609 0.002531866542994976 CC/C"          </span></span>
+<span><span class="co">##  [42] "725.5350810960899 0.0012065907940268517 CC/C"       </span></span>
+<span><span class="co">##  [43] "724.527804644 0.0018646189710125327 CC/C"           </span></span>
+<span><span class="co">##  [44] "723.51943103209 0.038313210010528564 CC/C"          </span></span>
+<span><span class="co">##  [45] "183.06604455800002 0.005070459563285112 CN+(C)CCOP("</span></span>
+<span><span class="co">##  [46] "819.4817733339099 0.001787053421139717 CC/C"        </span></span>
+<span><span class="co">##  [47] "846.50469985 0.003967077471315861 CC/C"             </span></span>
+<span><span class="co">##  [48] "596.35581001009 0.055958326905965805 CCCCCC@H/C"    </span></span>
+<span><span class="co">##  [49] "311.23694203209004 0.015817463397979736 CC/C"       </span></span>
+<span><span class="co">##  [50] "283.24202741209 0.0027298536151647568 CC/C"         </span></span>
+<span><span class="co">##  [51] "255.21072728408998 0.0011316784657537937 C"         </span></span>
+<span><span class="co">##  [52] "662.3663746940899 0.0015134515706449747 CCCCCC@H/C" </span></span>
+<span><span class="co">##  [53] "241.19507722008998 0.0017022188985720277 CC/C"      </span></span>
+<span><span class="co">##  [54] "676.38202475809 0.0012113102711737156 C"            </span></span>
+<span><span class="co">##  [55] "674.3663746940899 0.0030237638857215643 C"          </span></span>
+<span><span class="co">##  [56] "229.19507722008998 0.004923875909298658 C/C"        </span></span>
+<span><span class="co">##  [57] "690.39767482209 0.007068068254739046 C/C"           </span></span>
+<span><span class="co">##  [58] "688.38202475809 0.0011182071175426245 C/C"          </span></span>
+<span><span class="co">##  [59] "217.19507722008998 0.004412529990077019 C"          </span></span>
+<span><span class="co">##  [60] "215.17942715609 0.00425428943708539 C"              </span></span>
+<span><span class="co">##  [61] "213.16377709209 0.0066286781802773476 C"            </span></span>
+<span><span class="co">##  [62] "702.3976748220899 0.005614385008811951 CC/C"        </span></span>
+<span><span class="co">##  [63] "201.16377709209 0.004419034346938133 CC/C"          </span></span>
+<span><span class="co">##  [64] "718.4289749500899 0.002718859352171421 C"           </span></span>
+<span><span class="co">##  [65] "716.41332488609 0.002932032337412238 C"             </span></span>
+<span><span class="co">##  [66] "714.3976748220899 0.00470602186396718 C"            </span></span>
+<span><span class="co">##  [67] "189.16377709209 0.006993195042014122 C/C"           </span></span>
+<span><span class="co">##  [68] "187.14812702809 0.0015772052574902773 C/C"          </span></span>
+<span><span class="co">##  [69] "730.42897495009 0.006089580710977316 C/C"           </span></span>
+<span><span class="co">##  [70] "728.41332488609 0.0011209301883354783 C/C"          </span></span>
+<span><span class="co">##  [71] "177.16377709209 0.0047977156937122345 C"            </span></span>
+<span><span class="co">##  [72] "175.14812702809 0.0039370497688651085 C"            </span></span>
+<span><span class="co">##  [73] "173.13247696409 0.006436163559556007 C"             </span></span>
+<span><span class="co">##  [74] "742.4289749500899 0.0065302494913339615 CC/C"       </span></span>
+<span><span class="co">##  [75] "161.13247696409 0.005028888117522001 CC/C"          </span></span>
+<span><span class="co">##  [76] "758.4602750780899 0.0027850852347910404 C"          </span></span>
+<span><span class="co">##  [77] "756.44462501409 0.0030861366540193558 C"            </span></span>
+<span><span class="co">##  [78] "754.4289749500899 0.004762527532875538 C"           </span></span>
+<span><span class="co">##  [79] "149.13247696409 0.007314636372029781 C/C"           </span></span>
+<span><span class="co">##  [80] "147.11682690009 0.0016508938279002905 C/C"          </span></span>
+<span><span class="co">##  [81] "770.46027507809 0.006089580710977316 C/C"           </span></span>
+<span><span class="co">##  [82] "768.44462501409 0.0011209301883354783 C/C"          </span></span>
+<span><span class="co">##  [83] "137.13247696409 0.0047977156937122345 C"            </span></span>
+<span><span class="co">##  [84] "135.11682690009 0.0039370497688651085 C"            </span></span>
+<span><span class="co">##  [85] "133.10117683609 0.006436163559556007 C"             </span></span>
+<span><span class="co">##  [86] "782.4602750780899 0.0065302494913339615 CC/C"       </span></span>
+<span><span class="co">##  [87] "121.10117683608999 0.005028888117522001 CC/C"       </span></span>
+<span><span class="co">##  [88] "798.4915752060899 0.0027850852347910404 C"          </span></span>
+<span><span class="co">##  [89] "796.47592514209 0.0030861366540193558 C"            </span></span>
+<span><span class="co">##  [90] "794.4602750780899 0.004762527532875538 C"           </span></span>
+<span><span class="co">##  [91] "109.10117683608999 0.007314636372029781 C/C"        </span></span>
+<span><span class="co">##  [92] "107.08552677208999 0.0016508938279002905 C/C"       </span></span>
+<span><span class="co">##  [93] "810.49157520609 0.006118484307080507 C/C"           </span></span>
+<span><span class="co">##  [94] "808.47592514209 0.0010935019236057997 C/C"          </span></span>
+<span><span class="co">##  [95] "97.10117683608999 0.00479193776845932 C"            </span></span>
+<span><span class="co">##  [96] "95.08552677208999 0.00393778458237648 C"            </span></span>
+<span><span class="co">##  [97] "93.06987670808999 0.00646106107160449 C"            </span></span>
+<span><span class="co">##  [98] "822.4915752060899 0.007105632219463587 CC/C"        </span></span>
+<span><span class="co">##  [99] "81.06987670808999 0.0054127830080688 CC/C"          </span></span>
+<span><span class="co">## [100] "838.5228753340899 0.0024260678328573704 C"          </span></span>
+<span><span class="co">## [101] "836.50722527009 0.003049242775887251 C"             </span></span>
+<span><span class="co">## [102] "834.4915752060899 0.004425586201250553 C"           </span></span>
+<span><span class="co">## [103] "69.06987670808999 0.008552799001336098 C/C"         </span></span>
+<span><span class="co">## [104] "67.05422664409 0.0017731321277096868 C/C"           </span></span>
+<span><span class="co">## [105] "850.52287533409 0.00296195806004107 C/C"            </span></span>
+<span><span class="co">## [106] "57.06987670808999 0.002908135997131467 C"           </span></span>
+<span><span class="co">## [107] "55.054226644089994 0.0025195078924298286 C"         </span></span>
+<span><span class="co">## [108] "53.038576580089995 0.0017213564133271575 C"         </span></span>
+<span><span class="co">## [109] "862.5228753340899 0.0011330428533256054 CC/C"</span></span></code></pre>
 <p>Besides default spectra variables, such as <code>msLevel</code>,
 <code>rtime</code>, <code>precursorMz</code>, we also have additional
 spectra variables such as the <code>TITLE</code> of each spectrum in the
@@ -148,7 +248,7 @@ mgf file.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sps</span><span class="op">$</span><span class="va">rtime</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] 1028.000 1117.000 1127.000 2678.940 2373.511 2511.030       NA  162.070</span></span>
-<span><span class="co">##  [9] 1028.000 1028.000</span></span></code></pre>
+<span><span class="co">##  [9] 1028.000 1028.000       NA</span></span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sps</span><span class="op">$</span><span class="va">TITLE</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] "File193 Spectrum1719 scans: 2162"                                                         </span></span>
@@ -160,7 +260,8 @@ mgf file.</p>
 <span><span class="co">##  [7] "CCMSLIB00000840351"                                                                       </span></span>
 <span><span class="co">##  [8] "blank_2-A,1_01_29559.812.812.1"                                                           </span></span>
 <span><span class="co">##  [9] "File193 Spectrum1719 scans: 2162"                                                         </span></span>
-<span><span class="co">## [10] "File193 Spectrum1719 scans: 2162"</span></span></code></pre>
+<span><span class="co">## [10] "File193 Spectrum1719 scans: 2162"                                                         </span></span>
+<span><span class="co">## [11] "PC(PGF1alpha/22:6(4Z,7Z,10Z,13Z,16Z,19Z))"</span></span></code></pre>
 <p>By default, fields in the mgf file are mapped to spectra variable
 names using the mapping returned by the
 <code>spectraVariableMapping</code> function:</p>
@@ -189,7 +290,7 @@ additional mappings. Below we add the mapping of the mgf field
 method, or the <code>Spectra</code> constructor.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">fls</span>, source <span class="op">=</span> <span class="fu"><a href="../reference/MsBackendMgf.html">MsBackendMgf</a></span><span class="op">(</span><span class="op">)</span>, mapping <span class="op">=</span> <span class="va">map</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Start data import from 4 files ... done</span></span></code></pre>
+<pre><code><span><span class="co">## Start data import from 5 files ... done</span></span></code></pre>
 <p>We can now access the spectrum’s title with the newly created spectra
 variable <code>"spectrumName"</code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
@@ -203,12 +304,13 @@ variable <code>"spectrumName"</code>:</p>
 <span><span class="co">##  [7] "CCMSLIB00000840351"                                                                       </span></span>
 <span><span class="co">##  [8] "blank_2-A,1_01_29559.812.812.1"                                                           </span></span>
 <span><span class="co">##  [9] "File193 Spectrum1719 scans: 2162"                                                         </span></span>
-<span><span class="co">## [10] "File193 Spectrum1719 scans: 2162"</span></span></code></pre>
+<span><span class="co">## [10] "File193 Spectrum1719 scans: 2162"                                                         </span></span>
+<span><span class="co">## [11] "PC(PGF1alpha/22:6(4Z,7Z,10Z,13Z,16Z,19Z))"</span></span></code></pre>
 <p>In addition we can also access the m/z and intensity values of each
 spectrum.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## NumericList of length 10</span></span>
+<pre><code><span><span class="co">## NumericList of length 11</span></span>
 <span><span class="co">## [[1]] 102.0548 103.00494 103.03531 ... 1388.58691 1405.59729 1406.57666</span></span>
 <span><span class="co">## [[2]] 101.07074 102.05486 103.00227 ... 1331.56726 1348.58496 1349.59241</span></span>
 <span><span class="co">## [[3]] 102.05556 103.00014 115.05058 ... 1333.599 1334.61304 1335.64368</span></span>
@@ -218,10 +320,12 @@ spectrum.</p>
 <span><span class="co">## [[7]] 51.022404 57.033543 57.060638 ... 636.130188 660.481445 753.358521</span></span>
 <span><span class="co">## [[8]] numeric(0)</span></span>
 <span><span class="co">## [[9]] 102.0548 103.00494 103.03531 ... 1388.58691 1405.59729 1406.57666</span></span>
-<span><span class="co">## [[10]] 102.0548 103.00494 103.03531 ... 1388.58691 1405.59729 1406.57666</span></span></code></pre>
+<span><span class="co">## [[10]] 102.0548 103.00494 103.03531 ... 1388.58691 1405.59729 1406.57666</span></span>
+<span><span class="co">## ...</span></span>
+<span><span class="co">## &lt;1 more element&gt;</span></span></code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">intensity</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## NumericList of length 10</span></span>
+<pre><code><span><span class="co">## NumericList of length 11</span></span>
 <span><span class="co">## [[1]] 753.738 385.376 315.441 413.206 ... 3038.73 2016.43 1146.04 704.175</span></span>
 <span><span class="co">## [[2]] 1228.93 1424.66 1550.9 1455.45 ... 7380.41 4960.92 5743.83 1780.76</span></span>
 <span><span class="co">## [[3]] 1340.44 1714.76 1938.82 1450.36 2019 ... 5323.02 2265.43 4768.14 1532.12</span></span>
@@ -231,7 +335,9 @@ spectrum.</p>
 <span><span class="co">## [[7]] 65.219513 178.758606 13.01786 119.898499 ... 22.05921 30.57095 14.11111</span></span>
 <span><span class="co">## [[8]] numeric(0)</span></span>
 <span><span class="co">## [[9]] 753.738 385.376 315.441 413.206 ... 3038.73 2016.43 1146.04 704.175</span></span>
-<span><span class="co">## [[10]] 753.738 385.376 315.441 413.206 ... 3038.73 2016.43 1146.04 704.175</span></span></code></pre>
+<span><span class="co">## [[10]] 753.738 385.376 315.441 413.206 ... 3038.73 2016.43 1146.04 704.175</span></span>
+<span><span class="co">## ...</span></span>
+<span><span class="co">## &lt;1 more element&gt;</span></span></code></pre>
 <p>The <code>MsBackendMgf</code> backend allows also to export data in
 mgf format. Below we export the data to a temporary file. We hence call
 the <code>export</code> function on our <code>Spectra</code> object
@@ -324,7 +430,7 @@ the MGF file is very large (e.g. containing over 100,000 spectra).</p>
 </h2>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R Under development (unstable) (2025-01-08 r87545)</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2025-03-08 r87910)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
 <span><span class="co">## Running under: Ubuntu 24.04.1 LTS</span></span>
 <span><span class="co">## </span></span>
@@ -348,20 +454,20 @@ the MGF file is very large (e.g. containing over 100,000 spectra).</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] MsBackendMgf_1.15.2 Spectra_1.17.5      BiocParallel_1.41.0</span></span>
-<span><span class="co">## [4] S4Vectors_0.45.2    BiocGenerics_0.53.3 generics_0.1.3     </span></span>
+<span><span class="co">## [1] MsBackendMgf_1.15.3 Spectra_1.17.9      BiocParallel_1.41.5</span></span>
+<span><span class="co">## [4] S4Vectors_0.45.4    BiocGenerics_0.53.6 generics_0.1.3     </span></span>
 <span><span class="co">## [7] BiocStyle_2.35.0   </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] jsonlite_1.8.9         compiler_4.5.0         BiocManager_1.30.25   </span></span>
-<span><span class="co">##  [4] parallel_4.5.0         cluster_2.1.8          jquerylib_0.1.4       </span></span>
-<span><span class="co">##  [7] systemfonts_1.2.0      IRanges_2.41.2         textshaping_0.4.1     </span></span>
-<span><span class="co">## [10] yaml_2.3.10            fastmap_1.2.0          R6_2.5.1              </span></span>
-<span><span class="co">## [13] ProtGenerics_1.39.2    knitr_1.49             htmlwidgets_1.6.4     </span></span>
-<span><span class="co">## [16] MASS_7.3-64            bookdown_0.42          desc_1.4.3            </span></span>
-<span><span class="co">## [19] bslib_0.8.0            rlang_1.1.4            cachem_1.1.0          </span></span>
-<span><span class="co">## [22] xfun_0.50              fs_1.6.5               MsCoreUtils_1.17.3    </span></span>
-<span><span class="co">## [25] sass_0.4.9             cli_3.6.3              pkgdown_2.1.1.9000    </span></span>
+<span><span class="co">##  [1] jsonlite_2.0.0         compiler_4.5.0         BiocManager_1.30.25   </span></span>
+<span><span class="co">##  [4] parallel_4.5.0         cluster_2.1.8.1        jquerylib_0.1.4       </span></span>
+<span><span class="co">##  [7] systemfonts_1.2.2      IRanges_2.41.3         textshaping_1.0.0     </span></span>
+<span><span class="co">## [10] yaml_2.3.10            fastmap_1.2.0          R6_2.6.1              </span></span>
+<span><span class="co">## [13] ProtGenerics_1.39.2    knitr_1.50             htmlwidgets_1.6.4     </span></span>
+<span><span class="co">## [16] MASS_7.3-65            bookdown_0.42          desc_1.4.3            </span></span>
+<span><span class="co">## [19] bslib_0.9.0            rlang_1.1.5            cachem_1.1.0          </span></span>
+<span><span class="co">## [22] xfun_0.52              fs_1.6.5               MsCoreUtils_1.19.2    </span></span>
+<span><span class="co">## [25] sass_0.4.9             cli_3.6.4              pkgdown_2.1.1.9000    </span></span>
 <span><span class="co">## [28] digest_0.6.37          MetaboCoreUtils_1.15.0 lifecycle_1.0.4       </span></span>
 <span><span class="co">## [31] clue_0.3-66            evaluate_1.0.3         codetools_0.2-20      </span></span>
 <span><span class="co">## [34] ragg_1.3.3             rmarkdown_2.29         tools_4.5.0           </span></span>
