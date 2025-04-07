@@ -264,16 +264,16 @@ number of the spectrum.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Bioconductor/BiocParallel" class="external-link">BiocParallel</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">#' Getting the file names of all example MGF files from MsBackendMgf</span></span></span>
 <span class="r-in"><span><span class="va">fls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MsBackendMgf"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    full.names <span class="op">=</span> <span class="cn">TRUE</span>, pattern <span class="op">=</span> <span class="st">"mgf$"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    full.names <span class="op">=</span> <span class="cn">TRUE</span>, pattern <span class="op">=</span> <span class="st">"^spectra(.*).mgf$"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Create an MsBackendMgf backend and import data from test mgf files.</span></span></span>
 <span class="r-in"><span><span class="va">be</span> <span class="op">&lt;-</span> <span class="fu">backendInitialize</span><span class="op">(</span><span class="fu">MsBackendMgf</span><span class="op">(</span><span class="op">)</span>, <span class="va">fls</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Start data import from 5 files ... </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NAs introduced by coercion</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Start data import from 4 files ... </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> done</span>
 <span class="r-in"><span><span class="va">be</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MsBackendMgf with 11 spectra</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MsBackendMgf with 10 spectra</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      msLevel     rtime scanIndex</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1          2   1028.00        NA</span>
@@ -286,13 +286,12 @@ number of the spectrum.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8          2    162.07        NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9          2   1028.00        NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10         2   1028.00        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11         2        NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ... 108 more variables/columns.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  ... 20 more variables/columns.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">be</span><span class="op">$</span><span class="va">msLevel</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 2 2 2 2 2 2 2 2 2 2 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 2 2 2 2 2 2 2 2 2 2</span>
 <span class="r-in"><span><span class="va">be</span><span class="op">$</span><span class="va">intensity</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NumericList of length 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NumericList of length 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]] 753.738 385.376 315.441 413.206 ... 3038.73 2016.43 1146.04 704.175</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]] 1228.93 1424.66 1550.9 1455.45 ... 7380.41 4960.92 5743.83 1780.76</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]] 1340.44 1714.76 1938.82 1450.36 2019 ... 5323.02 2265.43 4768.14 1532.12</span>
@@ -303,10 +302,8 @@ number of the spectrum.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[8]] numeric(0)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[9]] 753.738 385.376 315.441 413.206 ... 3038.73 2016.43 1146.04 704.175</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[10]] 753.738 385.376 315.441 413.206 ... 3038.73 2016.43 1146.04 704.175</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;1 more element&gt;</span>
 <span class="r-in"><span><span class="va">be</span><span class="op">$</span><span class="va">mz</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NumericList of length 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NumericList of length 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]] 102.0548 103.00494 103.03531 ... 1388.58691 1405.59729 1406.57666</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]] 101.07074 102.05486 103.00227 ... 1331.56726 1348.58496 1349.59241</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]] 102.05556 103.00014 115.05058 ... 1333.599 1334.61304 1335.64368</span>
@@ -317,123 +314,22 @@ number of the spectrum.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[8]] numeric(0)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[9]] 102.0548 103.00494 103.03531 ... 1388.58691 1405.59729 1406.57666</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[10]] 102.0548 103.00494 103.03531 ... 1388.58691 1405.59729 1406.57666</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;1 more element&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## The spectra variables that are available; note that not all of them</span></span></span>
 <span class="r-in"><span><span class="co">## have been imported from the MGF files.</span></span></span>
 <span class="r-in"><span><span class="fu">spectraVariables</span><span class="op">(</span><span class="va">be</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "msLevel"                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [2] "rtime"                                              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [3] "acquisitionNum"                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [4] "scanIndex"                                          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [5] "mz"                                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [6] "intensity"                                          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [7] "dataStorage"                                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [8] "dataOrigin"                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [9] "centroided"                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [10] "smoothed"                                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [11] "polarity"                                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [12] "precScanNum"                                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] "precursorMz"                                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [14] "precursorIntensity"                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [15] "precursorCharge"                                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [16] "collisionEnergy"                                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [17] "isolationWindowLowerMz"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [18] "isolationWindowTargetMz"                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] "isolationWindowUpperMz"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [20] "TITLE"                                              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [21] "RAWFILE"                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [22] "CLUSTER_ID"                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [23] "MSLEVEL"                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [24] "SMILES"                                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] "PRECURSORTYPE"                                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [26] "COLLISIONENERGY"                                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [27] "INSTRUMENTTYPE"                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [28] "COMMENT"                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [29] "906.5854755900899 0.24612045288085938 CC/C"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [30] "804.48101052209 0.003057875670492649 C"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] "888.575459486 0.002360690850764513 CC/C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [32] "887.56708587409 0.02812790870666504 CC/C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [33] "790.4653604580899 0.0010008384706452489 CC/C"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [34] "887.56708587409 0.002026958856731653 CC/C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [35] "887.56708587409 0.0032752526458352804 CC/C"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [36] "678.4129309620901 0.0013166849967092276 CC/C"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] "339.25298602008996 0.03245394676923752 CCCCCC@H/C"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [38] "568.33976602209 0.14936257898807526 CC/C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [39] "357.26355070408994 0.003117065876722336 CCCCCC@H/C" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [40] "550.32920133809 0.012815228663384914 CC/C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [41] "578.3457939059999 0.002960008103400469 CCCCCC@H/C"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [42] "577.33742029409 0.030111582949757576 CCCCCC@H/C"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [43] "329.24750671609 0.002531866542994976 CC/C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [44] "725.5350810960899 0.0012065907940268517 CC/C"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [45] "724.527804644 0.0018646189710125327 CC/C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [46] "723.51943103209 0.038313210010528564 CC/C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [47] "183.06604455800002 0.005070459563285112 CN+(C)CCOP("</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [48] "819.4817733339099 0.001787053421139717 CC/C"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] "846.50469985 0.003967077471315861 CC/C"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [50] "596.35581001009 0.055958326905965805 CCCCCC@H/C"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [51] "311.23694203209004 0.015817463397979736 CC/C"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [52] "283.24202741209 0.0027298536151647568 CC/C"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [53] "255.21072728408998 0.0011316784657537937 C"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [54] "662.3663746940899 0.0015134515706449747 CCCCCC@H/C" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] "241.19507722008998 0.0017022188985720277 CC/C"      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [56] "676.38202475809 0.0012113102711737156 C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [57] "674.3663746940899 0.0030237638857215643 C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [58] "229.19507722008998 0.004923875909298658 C/C"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [59] "690.39767482209 0.007068068254739046 C/C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [60] "688.38202475809 0.0011182071175426245 C/C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] "217.19507722008998 0.004412529990077019 C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [62] "215.17942715609 0.00425428943708539 C"              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [63] "213.16377709209 0.0066286781802773476 C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [64] "702.3976748220899 0.005614385008811951 CC/C"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [65] "201.16377709209 0.004419034346938133 CC/C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [66] "718.4289749500899 0.002718859352171421 C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] "716.41332488609 0.002932032337412238 C"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [68] "714.3976748220899 0.00470602186396718 C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [69] "189.16377709209 0.006993195042014122 C/C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [70] "187.14812702809 0.0015772052574902773 C/C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [71] "730.42897495009 0.006089580710977316 C/C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [72] "728.41332488609 0.0011209301883354783 C/C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] "177.16377709209 0.0047977156937122345 C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [74] "175.14812702809 0.0039370497688651085 C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [75] "173.13247696409 0.006436163559556007 C"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] "742.4289749500899 0.0065302494913339615 CC/C"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [77] "161.13247696409 0.005028888117522001 CC/C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [78] "758.4602750780899 0.0027850852347910404 C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] "756.44462501409 0.0030861366540193558 C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [80] "754.4289749500899 0.004762527532875538 C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [81] "149.13247696409 0.007314636372029781 C/C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [82] "147.11682690009 0.0016508938279002905 C/C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [83] "770.46027507809 0.006089580710977316 C/C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [84] "768.44462501409 0.0011209301883354783 C/C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] "137.13247696409 0.0047977156937122345 C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [86] "135.11682690009 0.0039370497688651085 C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [87] "133.10117683609 0.006436163559556007 C"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [88] "782.4602750780899 0.0065302494913339615 CC/C"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [89] "121.10117683608999 0.005028888117522001 CC/C"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [90] "798.4915752060899 0.0027850852347910404 C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] "796.47592514209 0.0030861366540193558 C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [92] "794.4602750780899 0.004762527532875538 C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [93] "109.10117683608999 0.007314636372029781 C/C"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [94] "107.08552677208999 0.0016508938279002905 C/C"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [95] "810.49157520609 0.006118484307080507 C/C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [96] "808.47592514209 0.0010935019236057997 C/C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] "97.10117683608999 0.00479193776845932 C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [98] "95.08552677208999 0.00393778458237648 C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [99] "93.06987670808999 0.00646106107160449 C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [100] "822.4915752060899 0.007105632219463587 CC/C"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [101] "81.06987670808999 0.0054127830080688 CC/C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [102] "838.5228753340899 0.0024260678328573704 C"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [103] "836.50722527009 0.003049242775887251 C"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [104] "834.4915752060899 0.004425586201250553 C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [105] "69.06987670808999 0.008552799001336098 C/C"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [106] "67.05422664409 0.0017731321277096868 C/C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [107] "850.52287533409 0.00296195806004107 C/C"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [108] "57.06987670808999 0.002908135997131467 C"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [109] "55.054226644089994 0.0025195078924298286 C"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [110] "53.038576580089995 0.0017213564133271575 C"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [111] "862.5228753340899 0.0011330428533256054 CC/C"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "msLevel"                 "rtime"                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "acquisitionNum"          "scanIndex"              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "mz"                      "intensity"              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "dataStorage"             "dataOrigin"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "centroided"              "smoothed"               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "polarity"                "precScanNum"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "precursorMz"             "precursorIntensity"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "precursorCharge"         "collisionEnergy"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "isolationWindowLowerMz"  "isolationWindowTargetMz"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "isolationWindowUpperMz"  "TITLE"                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "RAWFILE"                 "CLUSTER_ID"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23] "MSLEVEL"                </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## The variable "TITLE" represents the title of the spectrum defined in the</span></span></span>
 <span class="r-in"><span><span class="co">## MGF file</span></span></span>
@@ -448,7 +344,6 @@ number of the spectrum.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "blank_2-A,1_01_29559.812.812.1"                                                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "File193 Spectrum1719 scans: 2162"                                                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10] "File193 Spectrum1719 scans: 2162"                                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "PC(PGF1alpha/22:6(4Z,7Z,10Z,13Z,16Z,19Z))"                                                </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## The default mapping of MGF fields to spectra variables is provided by</span></span></span>
 <span class="r-in"><span><span class="co">## the spectraVariableMapping function</span></span></span>
@@ -470,8 +365,7 @@ number of the spectrum.</p></dd>
 <span class="r-in"><span><span class="co">## We can then pass this mapping with parameter `mapping` to the</span></span></span>
 <span class="r-in"><span><span class="co">## backendInitialize method:</span></span></span>
 <span class="r-in"><span><span class="va">be</span> <span class="op">&lt;-</span> <span class="fu">backendInitialize</span><span class="op">(</span><span class="fu">MsBackendMgf</span><span class="op">(</span><span class="op">)</span>, <span class="va">fls</span>, mapping <span class="op">=</span> <span class="va">map</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Start data import from 5 files ... </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NAs introduced by coercion</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Start data import from 4 files ... </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> done</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## The title is now available as variable named spectrumName</span></span></span>
@@ -486,7 +380,6 @@ number of the spectrum.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "blank_2-A,1_01_29559.812.812.1"                                                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "File193 Spectrum1719 scans: 2162"                                                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10] "File193 Spectrum1719 scans: 2162"                                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "PC(PGF1alpha/22:6(4Z,7Z,10Z,13Z,16Z,19Z))"                                                </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Next we create a Spectra object with this data</span></span></span>
 <span class="r-in"><span><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu">Spectra</span><span class="op">(</span><span class="va">be</span><span class="op">)</span></span></span>
