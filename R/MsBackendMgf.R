@@ -109,8 +109,9 @@ NULL
 #' @examples
 #'
 #' library(BiocParallel)
+#' #' Getting the file names of all example MGF files from MsBackendMgf
 #' fls <- dir(system.file("extdata", package = "MsBackendMgf"),
-#'     full.names = TRUE, pattern = "mgf$")
+#'     full.names = TRUE, pattern = "^spectra(.*).mgf$")
 #'
 #' ## Create an MsBackendMgf backend and import data from test mgf files.
 #' be <- backendInitialize(MsBackendMgf(), fls)

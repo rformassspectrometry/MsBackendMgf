@@ -28,13 +28,15 @@ library(BiocStyle)
 # Introduction
 
 The `r Biocpkg("Spectra")` package provides a central infrastructure for the
-handling of Mass Spectrometry (MS) data. The package supports
-interchangeable use of different *backends* to import MS data from a
-variety of sources (such as mzML files). The `r Biocpkg("MsBackendMgf")`
-package allows the import of MS/MS data from mgf ([Mascot Generic
-Format](http://www.matrixscience.com/help/data_file_help.html))
-files. This vignette illustrates the usage of the *MsBackendMgf*
-package.
+handling of Mass Spectrometry (MS) data. The package supports interchangeable
+use of different *backends* to import MS data from a variety of sources (such as
+mzML files). The `r Biocpkg("MsBackendMgf")` package allows the import of MS/MS
+data from MGF ([Mascot Generic
+Format](http://www.matrixscience.com/help/data_file_help.html)) files. The
+`MsBackendMgf` backend allows to load and represent data from these *standard*
+MGF files, while the `MsBackendAnnotatedMgf` backend supports import of data
+from MGF files containing also annotations for the individual mass peaks. This
+vignette illustrates the usage of the *MsBackendMgf* package.
 
 # Installation
 
@@ -50,24 +52,25 @@ BiocManager::install("MsBackendMgf")
 This will install this package and all eventually missing dependencies.
 
 
-# Importing MS/MS data from mgf files
+# Importing MS/MS data from MGF files
 
-Mgf files store one to multiple spectra, typically centroided and of
-MS level 2. In our short example below, we load 2 mgf files which are
-provided with this package. Below we first load all required packages
-and define the paths to the mgf files.
+MGF files store one to multiple spectra, typically centroided and of MS
+level 2. In our short example below, we load MGF files which are provided with
+this package. In a next section we also import data from an MGF file containing
+individual peak annotations. Below we first load all required packages and
+define the paths to the MGF files.
 
 ```{r load-libs}
 library(Spectra)
 library(MsBackendMgf)
 
 fls <- dir(system.file("extdata", package = "MsBackendMgf"),
-           full.names = TRUE, pattern = "mgf$")
+           full.names = TRUE, pattern = "^spectra(.*).mgf$")
 fls
 ```
 
 MS data can be accessed and analyzed through `Spectra` objects. Below
-we create a `Spectra` with the data from these mgf files. To this end
+we create a `Spectra` with the data from these MGF files. To this end
 we provide the file names and specify to use a `MsBackendMgf()`
 backend as *source* to enable data import.
 
@@ -84,25 +87,25 @@ spectraVariables(sps)
 
 Besides default spectra variables, such as `msLevel`, `rtime`,
 `precursorMz`, we also have additional spectra variables such as the
-`TITLE` of each spectrum in the mgf file.
+`TITLE` of each spectrum in the MGF file.
 
 ```{r instrument}
 sps$rtime
 sps$TITLE
 ```
 
-By default, fields in the mgf file are mapped to spectra variable names using
-the mapping returned by the `spectraVariableMapping` function:
+By default, fields in the MGF file are mapped to spectra variable names using
+the mapping returned by the `spectraVariableMapping()` function:
 
 ```{r spectravariables}
 spectraVariableMapping(MsBackendMgf())
 ```
 
 The names of this `character` vector are the spectra variable names (such as
-`"rtime"`) and the field in the mgf file that contains that information are the
+`"rtime"`) and the field in the MGF file that contains that information are the
 values (such as `"RTINSECONDS"`). Note that it is also possible to overwrite
-this mapping (e.g. for certain mgf *dialects*) or to add additional
-mappings. Below we add the mapping of the mgf field `"TITLE"` to a spectra
+this mapping (e.g. for certain MGF *dialects*) or to add additional
+mappings. Below we add the mapping of the MGF field `"TITLE"` to a spectra
 variable called `"spectrumName"`.
 
 ```{r map}
@@ -110,8 +113,8 @@ map <- c(spectrumName = "TITLE", spectraVariableMapping(MsBackendMgf()))
 map
 ```
 
-We can then pass this mapping to the `backendInitialize` method, or the
-`Spectra` constructor.
+We can then pass this mapping to the `backendInitialize()` method, or the
+`Spectra()` constructor.
 
 ```{r import2}
 sps <- Spectra(fls, source = MsBackendMgf(), mapping = map)
@@ -132,12 +135,12 @@ mz(sps)
 intensity(sps)
 ```
 
-The `MsBackendMgf` backend allows also to export data in mgf format. Below we
-export the data to a temporary file. We hence call the `export` function on our
-`Spectra` object specifying `backend = MsBackendMgf()` to use this backend for
-the export of the data. Note that we use again our custom mapping of variables
-such that the spectra variable `"spectrumName"` will be exported as the
-spectrums' title.
+The `MsBackendMgf` backend allows also to export data in MGF format. Below we
+export the data to a temporary file. We hence call the `export()` function on
+our `Spectra` object specifying `backend = MsBackendMgf()` to use this backend
+for the export of the data. Note that we use again our custom mapping of
+variables such that the spectra variable `"spectrumName"` will be exported as
+the spectrums' title.
 
 ```{r export}
 fl <- tempfile()
@@ -167,10 +170,10 @@ did not provide our custom variable mapping this time, the variable
 
 Sometimes it might be required to not export all spectra variables since some
 exported fields might not be recognized/supported by external tools. Using the
-`selectSpectraVariables` function we can reduce our `Spectra` object to export
+`selectSpectraVariables()` function we can reduce our `Spectra` object to export
 to contain only relevant spectra variables. Below we restrict the data to only
 m/z, intensity, retention time, acquisition number, precursor m/z and precursor
-charge and export these to an mgf file. Also, some external tools don't support
+charge and export these to an MGF file. Also, some external tools don't support
 the `"TITLE"` field in the MGF file. To disable export of the spectrum ID/title
 `exportTitle = FALSE` can be used.
 
@@ -182,12 +185,61 @@ export(sps_ex, backend = MsBackendMgf(), file = fl, exportTitle = FALSE)
 readLines(fl)[1:12]
 ```
 
+## Annotated MGF files
+
+Variants of MGF files can also contain annotations for the individual mass
+peaks. These files are expected to contain one line per mass peak, with the
+first two elements being the mass peak's *m/z* and intensity values. All
+(eventually present) additional elements are considered *annotations*. The
+`MsBackendAnnotatedMgf` backend can be used to import and represent such files.
+Below we read the first 10 lines of an example annotated MGF file.
+
+```{r}
+fl <- dir(system.file("extdata", package = "MsBackendMgf"),
+          pattern = "fiora", full.names = TRUE)
+readLines(fl, 10)
+```
+
+The last 3 displayed lines show the mass peak content of a MGF spectrum with the
+*m/z*, intensity and an annotation for the mass peak. Such data files can be
+imported using the `MsBackendAnntotatedMgf` backend:
+
+```{r}
+sps_ann <- Spectra(fl, source = MsBackendAnnotatedMgf())
+sps_ann
+```
+
+The peaks annotation have also been imported and are available as additional
+*peaks variables*:
+
+```{r}
+peaksVariables(sps_ann)
+```
+
+The names of the annotations follow the standard R convention of naming columns
+in a `data.frame` if no name is provided, i.e. it consists of `"V"` followed by
+a number. The data can be retrieved with the `peaksData()` function specifying
+the names of the peaks variables to extract. If not provided, `peakData()` will
+only extract the *m/z* and intensity values. Thus, below we call `peaksData()`
+providing the names of all requested variables (columns).
+
+```{r}
+pd <- peaksData(sps_ann, columns = c("mz", "intensity", "V1"))
+```
+
+The peaks data of one spectrum is now represented as a `data.frame`:
+
+```{r}
+pd[[1L]] |>
+    head()
+```
+
 # Parallel processing
 
 The *MsBackendMgf* package supports parallel processing for data
 import. Parallel processing can be enabled by providing the parallel processing
-setup to the `backendInitialize` function (or the `readMgf` function) with the
-`BPPARAM` parameter. By default (with `BPPARAM = SerialParam()`) parallel
+setup to the `backendInitialize()` function (or the `readMgf()` function) with
+the `BPPARAM` parameter. By default (with `BPPARAM = SerialParam()`) parallel
 processing is disabled. If enabled, and data import is performed on a single
 file, the extraction of spectra information on the imported MGF file is
 performed in parallel. If data is to be imported from multiple files, the import
