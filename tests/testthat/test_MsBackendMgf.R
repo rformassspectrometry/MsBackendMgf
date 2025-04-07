@@ -126,3 +126,30 @@ test_that("Spectra works with MsBackendMgf", {
     be <- backendInitialize(MsBackendMgf(), fls)
     expect_equal(be$mz, s$mz)
 })
+
+test_that("MsBackendAnnotatedMgf works", {
+    expect_s4_class(MsBackendAnnotatedMgf(), "MsBackendAnnotatedMgf")
+
+    fls <- dir(system.file("extdata", package = "MsBackendMgf"),
+               full.names = TRUE, pattern = "mgf$")
+    b <- grep("fiora", fls, value = TRUE)
+    be <- backendInitialize(MsBackendAnnotatedMgf(), c(b, b))
+    expect_s4_class(be, "MsBackendAnnotatedMgf")
+    expect_true(length(be) == 2L)
+    expect_equal(be[1]$mz, be[2]$mz)
+    expect_equal(peaksVariables(be), c("mz", "intensity", "V1"))
+    expect_equal(be[1]$V1, be[2]$V1)
+    pks <- peaksData(be, c("mz", "intensity", "V1"))
+    expect_true(is.data.frame(pks[[1L]]))
+    expect_equal(colnames(pks[[1L]]), c("mz", "intensity", "V1"))
+
+    be2 <- backendInitialize(MsBackendAnnotatedMgf(), b)
+    expect_equal(be$V1[[1L]], be2$V1[[1L]])
+    expect_s4_class(be2, "MsBackendAnnotatedMgf")
+    expect_equal(peaksVariables(be2), c("mz", "intensity", "V1"))
+
+    ## errors
+    expect_error(backendInitialize(be), "'files' is mandatory")
+    expect_error(backendInitialize(be, 4), "expected to be a character")
+    expect_error(backendInitialize(be, "a"), "a not found")
+})

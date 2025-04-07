@@ -9,6 +9,7 @@ readMgf(
   f,
   msLevel = 2L,
   mapping = spectraVariableMapping(MsBackendMgf()),
+  annotated = FALSE,
   ...,
   BPPARAM = SerialParam()
 )
@@ -30,27 +31,33 @@ readMgfSplit(
 \item{mapping}{named \code{character} vector to rename mgf fields to spectra
 variables.}
 
+\item{annotated}{For \code{readMgf()}: \code{logical(1)} whether the MGF file
+contains additional peak annotations. See examples below or the
+documentation for \code{\link[=MsBackendAnnotatedMgf]{MsBackendAnnotatedMgf()}} for information on the
+expected format.}
+
 \item{...}{Additional parameters, currently ignored.}
 
 \item{BPPARAM}{parallel processing setup that should be used. Only the
 parsing of the imported MGF file is performed in parallel.}
 
-\item{nlines}{for \code{readMgfSplit}: \code{integer(1)} with the number of lines
+\item{nlines}{for \code{readMgfSplit()}: \code{integer(1)} with the number of lines
 that should be imported and parsed in each iteration.}
 }
 \value{
 A \code{DataFrame} with each row containing the data from one spectrum
 in the MGF file. m/z and intensity values are available in columns \code{"mz"}
-and \code{"intensity"} in a list representation.
+and \code{"intensity"} in a list representation. For \code{readMgf()} with
+\code{annotated = TRUE} also all peaks annotation columns (named \verb{"V1", etc) are provided in a list representation, with the lengths of elements matching those of }"mz"\code{or}"intensity"`.
 }
 \description{
-The \code{readMgf} function imports the data from a file in MGF format reading
+The \code{readMgf()} function imports the data from a file in MGF format reading
 all specified fields and returning the data as a \code{\link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame()}}.
 
-For very large MGF files the \code{readMgfSplit} function might be used instead.
-In contrast to the \code{readMgf} functions, \code{readMgfSplit} reads only \code{nlines}
-lines from an MGF file at once reducing thus the memory demand (at the cost
-of a lower performance, compared to \code{readMgf}).
+For very large MGF files the \code{readMgfSplit()} function might be used
+instead. In contrast to the \code{readMgf()} functions, \code{readMgfSplit()} reads
+only \code{nlines} lines from an MGF file at once reducing thus the memory
+demand (at the cost of a lower performance, compared to \code{readMgf()}).
 }
 \examples{
 
@@ -58,7 +65,13 @@ fls <- dir(system.file("extdata", package = "MsBackendMgf"),
     full.names = TRUE, pattern = "mgf$")[1L]
 
 readMgf(fls)
+
+## Annotated MGF
+fl <- system.file("extdata", "xfiora.mgf", package = "MsBackendMgf")
+res <- readMgf(fl, annotated = TRUE)
+colnames(res)
+res$V1
 }
 \author{
-Laurent Gatto, Johannes Rainer, Sebastian Gibb
+Laurent Gatto, Johannes Rainer, Sebastian Gibb, Corey Broeckling
 }

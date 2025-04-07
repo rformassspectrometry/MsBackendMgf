@@ -126,3 +126,98 @@ test_that(".is_unsorted works", {
 
     expect_false(.is_unsorted(x[integer(), , drop = FALSE]))
 })
+
+test_that(".extract_mgf_spectrum_with_annotations works", {
+    fls <- dir(system.file("extdata", package = "MsBackendMgf"),
+               full.names = TRUE, pattern = "mgf$")
+    a <- grep("spectra.mgf", fls, value = TRUE)
+    A <- readLines(a)
+    mgf <- A[grep("BEGIN IONS", A)[1L]:grep("END IONS", A)[1L]]
+    res <- .extract_mgf_spectrum_with_annotations(mgf)
+    expect_true(is.data.frame(res))
+    expect_true(length(res$mz) > 0)
+    expect_true(length(res$intensity) > 0)
+    expect_true(is.data.frame(res$ann_mat[[1L]]))
+    expect_true(ncol(res$ann_mat[[1L]]) == 0L)
+    expect_equal(nrow(res$ann_mat[[1L]]), length(res$mz[[1L]]))
+
+    b <- grep("fiora", fls, value = TRUE)
+    B <- readLines(b)
+    mgf <- B[grep("BEGIN IONS", B)[1L]:grep("END IONS", B)[1L]]
+    res <- .extract_mgf_spectrum_with_annotations(mgf)
+    expect_true(is.data.frame(res))
+    expect_true(length(res$mz) > 0)
+    expect_true(length(res$intensity) > 0)
+    expect_true(length(res$ann_mat) > 0)
+    expect_true(is.data.frame(res$ann_mat[[1L]]))
+    expect_equal(length(res$intensity[[1L]]), length(res$mz[[1L]]))
+    expect_equal(length(res$intensity[[1L]]), nrow(res$ann_mat[[1L]]))
+
+    mgf <- c("BEGIN IONS",
+             "TEST=12.3",
+             "1 431.1 a b",
+             "2 343.1 d",
+             "3 313.1",
+             "4 542.1 e",
+             "END IONS")
+    res <- .extract_mgf_spectrum_with_annotations(mgf)
+    expect_true(is.data.frame(res))
+    expect_true(length(res$mz) > 0)
+    expect_true(length(res$intensity) > 0)
+    expect_true(length(res$ann_mat) > 0)
+    expect_true(is.data.frame(res$ann_mat[[1L]]))
+    expect_equal(length(res$intensity[[1L]]), length(res$mz[[1L]]))
+    expect_equal(length(res$intensity[[1L]]), nrow(res$ann_mat[[1L]]))
+    expect_equal(ncol(res$ann_mat[[1L]]), 2)
+})
+
+test_that("readMgf works with annotated = TRUE", {
+    fls <- dir(system.file("extdata", package = "MsBackendMgf"),
+               full.names = TRUE, pattern = "mgf$")
+
+    b <- grep("fiora", fls, value = TRUE)
+    l <- readLines(b)
+    l2 <- c(l, l)
+    l2[13] <- "888.575459486 0.002360690850764513"
+    tf <- tempfile()
+    writeLines(l2, tf)
+    res <- readMgf(tf, annotated = TRUE)
+    expect_s4_class(res, "DataFrame")
+    expect_true(nrow(res) == 2)
+    expect_equal(res$mz[[1L]], res$mz[[2L]])
+    expect_true(is.na(res$V1[[1L]][6]))
+    expect_equal(res$V1[[1L]][-6L], res$V1[[2L]][-6L])
+    expect_equal(metadata(res), list("V1"))
+
+    ## Manually defining
+    mgf <- c("BEGIN IONS",
+             "TITLE=a",
+             "1 431.1 a b",
+             "2 343.1 d",
+             "3 313.1",
+             "4 542.1 e",
+             "END IONS",
+             "BEGIN IONS",
+             "TITLE=b",
+             "1 2 d",
+             "2 2",
+             "END IONS",
+             "BEGIN IONS",
+             "TITLE=c",
+             "1 3",
+             "2 3",
+             "3 3",
+             "END IONS"
+             )
+    writeLines(mgf, tf)
+    res <- readMgf(tf, annotated = TRUE)
+    expect_equal(res$TITLE, c("a", "b", "c"))
+    expect_equal(res$V1, list(c("a", "d", NA, "e"),
+                              c("d", NA),
+                              c(NA_character_, NA_character_, NA_character_)))
+    expect_equal(res$V2, list(c("b", NA, NA, NA),
+                              c(NA_character_, NA_character_),
+                              c(NA_character_, NA_character_, NA_character_)))
+    expect_equal(metadata(res), list(c("V1", "V2")))
+    file.remove(tf)
+})

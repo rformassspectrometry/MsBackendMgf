@@ -2,13 +2,13 @@
 ##'
 ##' @description
 ##'
-##' The `readMgf` function imports the data from a file in MGF format reading
+##' The `readMgf()` function imports the data from a file in MGF format reading
 ##' all specified fields and returning the data as a [S4Vectors::DataFrame()].
 ##'
-##' For very large MGF files the `readMgfSplit` function might be used instead.
-##' In contrast to the `readMgf` functions, `readMgfSplit` reads only `nlines`
-##' lines from an MGF file at once reducing thus the memory demand (at the cost
-##' of a lower performance, compared to `readMgf`).
+##' For very large MGF files the `readMgfSplit()` function might be used
+##' instead. In contrast to the `readMgf()` functions, `readMgfSplit()` reads
+##' only `nlines` lines from an MGF file at once reducing thus the memory
+##' demand (at the cost of a lower performance, compared to `readMgf()`).
 ##'
 ##' @param f `character(1)` with the path to an mgf file.
 ##'
@@ -17,7 +17,12 @@
 ##' @param mapping named `character` vector to rename mgf fields to spectra
 ##'     variables.
 ##'
-##' @param nlines for `readMgfSplit`: `integer(1)` with the number of lines
+##' @param annotated For `readMgf()`: `logical(1)` whether the MGF file
+##'     contains additional peak annotations. See examples below or the
+##'     documentation for [MsBackendAnnotatedMgf()] for information on the
+##'     expected format.
+##'
+##' @param nlines for `readMgfSplit()`: `integer(1)` with the number of lines
 ##'     that should be imported and parsed in each iteration.
 ##'
 ##' @param BPPARAM parallel processing setup that should be used. Only the
@@ -29,7 +34,10 @@
 ##'
 ##' A `DataFrame` with each row containing the data from one spectrum
 ##' in the MGF file. m/z and intensity values are available in columns `"mz"`
-##' and `"intensity"` in a list representation.
+##' and `"intensity"` in a list representation. For `readMgf()` with
+##' `annotated = TRUE` also all peaks annotation columns (named `"V1", etc)
+##' are provided in a list representation, with the lengths of elements
+##' matching those of `"mz"` or `"intensity"`.
 ##'
 ##' @export
 ##'
@@ -45,7 +53,7 @@
 ##'
 ##' @importFrom BiocParallel SerialParam bpmapply
 ##'
-##' @author Laurent Gatto, Johannes Rainer, Sebastian Gibb
+##' @author Laurent Gatto, Johannes Rainer, Sebastian Gibb, Corey Broeckling
 ##'
 ##' @examples
 ##'
@@ -53,8 +61,15 @@
 ##'     full.names = TRUE, pattern = "mgf$")[1L]
 ##'
 ##' readMgf(fls)
+##'
+##' ## Annotated MGF
+##' fl <- system.file("extdata", "xfiora.mgf", package = "MsBackendMgf")
+##' res <- readMgf(fl, annotated = TRUE)
+##' colnames(res)
+##' res$V1
 readMgf <- function(f, msLevel = 2L,
-                    mapping = spectraVariableMapping(MsBackendMgf()), ...,
+                    mapping = spectraVariableMapping(MsBackendMgf()),
+                    annotated = FALSE, ...,
                     BPPARAM = SerialParam()) {
     requireNamespace("MsBackendMgf", quietly = TRUE)
     if (length(f) != 1L)
@@ -74,9 +89,22 @@ readMgf <- function(f, msLevel = 2L,
     begin <- grep("BEGIN IONS", mgf, fixed = TRUE) + 1L
     end <- grep("END IONS", mgf, fixed = TRUE) - 1L
 
-    res <- rbindFill(bpmapply(begin, end, FUN = function(b, e, mgf)
-        .extract_mgf_spectrum(mgf[b:e]), MoreArgs = list(mgf = mgf),
-        SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM))
+    if (annotated) fun_extract_mgf <- .extract_mgf_spectrum_with_annotations
+    else fun_extract_mgf <- .extract_mgf_spectrum
+
+    res <- bpmapply(begin, end, FUN = function(b, e, mgf)
+        fun_extract_mgf(mgf[b:e]), MoreArgs = list(mgf = mgf),
+        SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM)
+    res <- rbindFill(res)
+    if (annotated) {
+        p <- as.factor(rep(seq_len(nrow(res)), lengths(res$mz)))
+        anns <- rbindFill(res$ann_mat)
+        res$ann_mat <- NULL
+        pcol <- colnames(anns)
+        for (a in pcol)
+            res <- do.call(
+                "$<-", list(res, name = a, value = unname(split(anns[[a]], p))))
+    } else pcol <- character()
 
     if ("CHARGE" %in% colnames(res))
         res$CHARGE <- .format_charge(res$CHARGE)
@@ -96,12 +124,13 @@ readMgf <- function(f, msLevel = 2L,
     }
 
     res <- as(res, "DataFrame")
+    if (annotated)
+        res@metadata <- list(pcol)
     res$mz <- IRanges::NumericList(res$mz, compress = FALSE)
     res$intensity <- IRanges::NumericList(res$intensity, compress = FALSE)
     res$dataOrigin <- f
-    if(!"msLevel" %in% colnames(res)) {
+    if(!"msLevel" %in% colnames(res))
       res$msLevel <- as.integer(msLevel)
-    }
 
     res
 }
@@ -217,6 +246,74 @@ readMgfSplit <- function(f, msLevel = 2L,
                                        dimnames = list(NULL, names(desc))))
     res$mz <- list(ms[, 1L])
     res$intensity <- list(ms[, 2L])
+    res
+}
+
+#' @title Process MGF files with peak annotations
+#'
+#' @description
+#'
+#' Import MS data from MGF files that provide also annotations for individual
+#' mass peaks.
+#'
+#' Expected format of the peak information:
+#'
+#' - lines with peak information are expected to start with a number (no white
+#'   space)
+#' - each line is expected to represent one mass peak
+#' - the first two elements per line are expected to be the m/z and intensity
+#'   values
+#' - all following elements represent peak annotation/metadata. For multiple
+#'   spectra, they are assumed to be in the same order, i.e., if 3 annotations
+#'   are provided for a peak, they are expected to be in the order
+#'   annotation_1<white space>annotation_2<white space>annotation_3 for all
+#'   spectra. And it is expected that all are provided.
+#' - annotations are interpreted as character strings.
+#'
+#' @author Johannes Rainer and Corey Broeckling
+#'
+#' @noRd
+.extract_mgf_spectrum_with_annotations <- function(mgf) {
+    mz <- numeric()
+    int <- numeric()
+    ann <- as.data.frame(matrix(NA_character_, ncol = 0, nrow = 0))
+    ## find peaks
+    pks_idx <- grep("^[0-9]", mgf)
+    l <- length(pks_idx)
+    if (l) {
+        pks <- strsplit(mgf[pks_idx], "[[:space:]]+", perl = TRUE)
+        ls <- lengths(pks)
+        ml <- max(ls)
+        if (ml > 2) {
+            mli <- 3:ml
+            ann <- as.data.frame(
+                do.call(rbind, lapply(pks, function(z) z[mli])))
+        } else
+            ann <- as.data.frame(matrix(NA_character_, ncol = 0, nrow = l))
+        mz <- as.numeric(vapply(pks, `[`, NA_character_, 1L, USE.NAMES = FALSE))
+        int <-as.numeric(vapply(pks, `[`, NA_character_, 2L, USE.NAMES = FALSE))
+        if (is.unsorted(mz)) {
+            idx <- order(mz)
+            mz <- mz[idx]
+            int <- int[idx]
+        }
+        mgf <- mgf[-pks_idx]
+    }
+    ## grep description
+    desc <- grep("=", mgf, fixed = TRUE, value = TRUE)
+
+    r <- regexpr("=", desc, fixed = TRUE)
+    desc <- setNames(substring(desc, r + 1L, nchar(desc)),
+                     substring(desc, 1L, r - 1L))
+
+    desc[c("PEPMASS", "PEPMASSINT")] <-
+        strsplit(desc["PEPMASS"], "[[:space:]]+", perl = TRUE)[[1L]][c(1L, 2L)]
+
+    res <- as.data.frame.matrix(matrix(desc, nrow = 1,
+                                       dimnames = list(NULL, names(desc))))
+    res$mz <- list(mz)
+    res$intensity <- list(int)
+    res$ann_mat <- list(ann)
     res
 }
 
