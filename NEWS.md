@@ -1,3 +1,11 @@
+# MsBackendMgf 1.19
+
+## Changes in 1.19.1
+
+- Use `data.table::rbindlist()` instead of `MsCoreUtils::rbindFill()` to combine
+  individual spectra's `data.frame`s into a single one. This can have
+  performance improvements, in particular for large MGF files.
+
 # MsBackendMgf 1.15
 
 ## Changes in 1.15.3

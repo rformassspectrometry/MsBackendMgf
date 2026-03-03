@@ -53,6 +53,8 @@
 ##'
 ##' @importFrom BiocParallel SerialParam bpmapply
 ##'
+##' @importFrom data.table rbindlist
+##'
 ##' @author Laurent Gatto, Johannes Rainer, Sebastian Gibb, Corey Broeckling
 ##'
 ##' @examples
@@ -95,7 +97,7 @@ readMgf <- function(f, msLevel = 2L,
     res <- bpmapply(begin, end, FUN = function(b, e, mgf)
         fun_extract_mgf(mgf[b:e]), MoreArgs = list(mgf = mgf),
         SIMPLIFY = FALSE, USE.NAMES = FALSE, BPPARAM = BPPARAM)
-    res <- rbindFill(res)
+    res <- as.data.frame(rbindlist(res, use.names = TRUE, fill = TRUE))
     if (annotated) {
         p <- as.factor(rep(seq_len(nrow(res)), lengths(res$mz)))
         anns <- rbindFill(res$ann_mat)
@@ -214,6 +216,8 @@ readMgfSplit <- function(f, msLevel = 2L,
 ##' @param mgf `character()` of lines defining a spectrum in mgf
 ##'     format.
 ##'
+##' @return `data.frame`
+##'
 ##' @author Laurent Gatto, Johannes Rainer
 ##'
 ##' @importFrom stats setNames
@@ -269,6 +273,8 @@ readMgfSplit <- function(f, msLevel = 2L,
 #'   annotation_1<white space>annotation_2<white space>annotation_3 for all
 #'   spectra. And it is expected that all are provided.
 #' - annotations are interpreted as character strings.
+#'
+#' @return `data.frame`
 #'
 #' @author Johannes Rainer and Corey Broeckling
 #'
