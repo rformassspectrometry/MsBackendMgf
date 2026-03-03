@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">MsBackendMgf</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.19.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.19.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +32,13 @@
       <small>Source: <a href="https://github.com/RforMassSpectrometry/MsBackendMgf/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.19" id="msbackendmgf-119">MsBackendMgf 1.19<a class="anchor" aria-label="anchor" href="#msbackendmgf-119"></a></h2>
+<div class="section level3">
+<h3 id="changes-in-1-19">Changes in 1.19.1<a class="anchor" aria-label="anchor" href="#changes-in-1-19"></a></h3>
+<ul><li>Use <code><a href="https://rdrr.io/pkg/data.table/man/rbindlist.html" class="external-link">data.table::rbindlist()</a></code> instead of <code><a href="https://rdrr.io/pkg/MsCoreUtils/man/rbindFill.html" class="external-link">MsCoreUtils::rbindFill()</a></code> to combine individual spectra’s <code>data.frame</code>s into a single one. This can have performance improvements, in particular for large MGF files.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.15" id="msbackendmgf-115">MsBackendMgf 1.15<a class="anchor" aria-label="anchor" href="#msbackendmgf-115"></a></h2>
 <div class="section level3">

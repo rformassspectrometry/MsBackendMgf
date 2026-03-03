@@ -10,8 +10,8 @@ Michael Witting \[ctb\] (ORCID:
 <https://orcid.org/0000-0002-1462-4426>), Adriano Rutz \[ctb\] (ORCID:
 <https://orcid.org/0000-0003-0443-9902>), Corey Broeckling \[ctb\]
 (ORCID: <https://orcid.org/0000-0002-6158-827X>)\
-**Last modified:** 2026-03-02 14:41:42.922087\
-**Compiled**: Mon Mar 2 14:46:26 2026
+**Last modified:** 2026-03-03 07:17:04.928215\
+**Compiled**: Tue Mar 3 07:20:17 2026
 
 ## Introduction
 
@@ -464,7 +464,7 @@ sessionInfo()
     ## [8] base     
     ## 
     ## other attached packages:
-    ## [1] MsBackendMgf_1.19.0 Spectra_1.21.2      BiocParallel_1.45.0
+    ## [1] MsBackendMgf_1.19.1 Spectra_1.21.2      BiocParallel_1.45.0
     ## [4] S4Vectors_0.49.0    BiocGenerics_0.57.0 generics_0.1.4     
     ## [7] BiocStyle_2.39.0   
     ## 
@@ -479,6 +479,6 @@ sessionInfo()
     ## [22] xfun_0.56              fs_1.6.6               MsCoreUtils_1.23.2    
     ## [25] sass_0.4.10            otel_0.2.0             cli_3.6.5             
     ## [28] pkgdown_2.2.0.9000     digest_0.6.39          MetaboCoreUtils_1.19.2
-    ## [31] lifecycle_1.0.5        clue_0.3-67            evaluate_1.0.5        
-    ## [34] codetools_0.2-20       ragg_1.5.0             rmarkdown_2.30        
-    ## [37] tools_4.6.0            htmltools_0.5.9
+    ## [31] lifecycle_1.0.5        clue_0.3-67            data.table_1.18.2.1   
+    ## [34] evaluate_1.0.5         codetools_0.2-20       ragg_1.5.0            
+    ## [37] rmarkdown_2.30         tools_4.6.0            htmltools_0.5.9

@@ -26,12 +26,12 @@ Source:
 
 Gatto L, Rainer J, Gibb S (2026). *MsBackendMgf: Mass Spectrometry Data
 Backend for Mascot Generic Format (mgf) Files*. R package version
-1.19.0, <https://github.com/RforMassSpectrometry/MsBackendMgf>.
+1.19.1, <https://github.com/RforMassSpectrometry/MsBackendMgf>.
 
     @Manual{,
       title = {MsBackendMgf: Mass Spectrometry Data Backend for Mascot Generic Format (mgf) Files},
       author = {Laurent Gatto and Johannes Rainer and Sebastian Gibb},
       year = {2026},
-      note = {R package version 1.19.0},
+      note = {R package version 1.19.1},
       url = {https://github.com/RforMassSpectrometry/MsBackendMgf},
     }

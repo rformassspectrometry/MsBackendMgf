@@ -1,5 +1,16 @@
 # Changelog
 
+## MsBackendMgf 1.19
+
+### Changes in 1.19.1
+
+- Use
+  [`data.table::rbindlist()`](https://rdrr.io/pkg/data.table/man/rbindlist.html)
+  instead of
+  [`MsCoreUtils::rbindFill()`](https://rdrr.io/pkg/MsCoreUtils/man/rbindFill.html)
+  to combine individual spectra’s `data.frame`s into a single one. This
+  can have performance improvements, in particular for large MGF files.
+
 ## MsBackendMgf 1.15
 
 ### Changes in 1.15.3
