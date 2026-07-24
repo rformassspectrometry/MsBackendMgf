@@ -1,3 +1,10 @@
+# MsBackendMgf 1.20
+
+## Changes in 1.20.1
+
+- Fix compiling the TITLE field for export to MGF (issue
+  [#38](https://github.com/rformassspectrometry/MsBackendMgf/issues/38)).
+
 # MsBackendMgf 1.19
 
 ## Changes in 1.19.1

@@ -153,3 +153,31 @@ test_that("MsBackendAnnotatedMgf works", {
     expect_error(backendInitialize(be, 4), "expected to be a character")
     expect_error(backendInitialize(be, "a"), "a not found")
 })
+
+test_that("MsBackendMgf export compiles TITLE correctly", {
+    ## issue https://github.com/rformassspectrometry/MsBackendMgf/issues/38
+    df <- data.frame(msLevel = c(1L, 2L, 3L, 1L),
+                     rtime = c(12.2, 124.2, 313.2, 342.1))
+    df$mz <- list(c(12.2, 12.4), c(42.1, 431.2, 431.6), c(12.4, 12.9), c(14.2))
+    df$intensity <- list(c(1, 2), c(1, 2, 3), c(1, 2), c(1))
+
+    s <- Spectra(df)
+    f <- tempfile()
+    export(s, MsBackendMgf(), file = f)
+    l <- readLines(f)
+    t <- grep("^TITLE", l, value = TRUE)
+    expect_equal(t[1L], "TITLE=msLevel 1; retentionTime 12.2; scanNum NA")
+    expect_equal(t[2L], "TITLE=msLevel 2; retentionTime 124.2; scanNum NA")
+    expect_equal(t[3L], "TITLE=msLevel 3; retentionTime 313.2; scanNum NA")
+    expect_equal(t[4L], "TITLE=msLevel 1; retentionTime 342.1; scanNum NA")
+
+    s$acquisitionNum <- 1:4
+    f <- tempfile()
+    export(s, MsBackendMgf(), file = f)
+    l <- readLines(f)
+    t <- grep("^TITLE", l, value = TRUE)
+    expect_equal(t[1L], "TITLE=msLevel 1; retentionTime 12.2; scanNum 1")
+    expect_equal(t[2L], "TITLE=msLevel 2; retentionTime 124.2; scanNum 2")
+    expect_equal(t[3L], "TITLE=msLevel 3; retentionTime 313.2; scanNum 3")
+    expect_equal(t[4L], "TITLE=msLevel 1; retentionTime 342.1; scanNum 4")
+})
