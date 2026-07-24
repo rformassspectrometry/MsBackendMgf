@@ -1,5 +1,12 @@
 # Changelog
 
+## MsBackendMgf 1.21
+
+### Changes in 1.21.1
+
+- Fix TITLE of exported MGF file (issue
+  [\#38](https://github.com/rformassspectrometry/MsBackendMgf/issues/38)).
+
 ## MsBackendMgf 1.19
 
 ### Changes in 1.19.1

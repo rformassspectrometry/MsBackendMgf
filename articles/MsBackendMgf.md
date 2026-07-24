@@ -1,7 +1,7 @@
 # Description and usage of MsBackendMgf
 
 **Package**:
-*[MsBackendMgf](https://bioconductor.org/packages/3.23/MsBackendMgf)*\
+*[MsBackendMgf](https://bioconductor.org/packages/3.24/MsBackendMgf)*\
 **Authors**: RforMassSpectrometry Package Maintainer \[cre\], Laurent
 Gatto \[aut\] (ORCID: <https://orcid.org/0000-0002-1520-2268>), Johannes
 Rainer \[aut\] (ORCID: <https://orcid.org/0000-0002-6977-7147>),
@@ -10,17 +10,17 @@ Michael Witting \[ctb\] (ORCID:
 <https://orcid.org/0000-0002-1462-4426>), Adriano Rutz \[ctb\] (ORCID:
 <https://orcid.org/0000-0003-0443-9902>), Corey Broeckling \[ctb\]
 (ORCID: <https://orcid.org/0000-0002-6158-827X>)\
-**Last modified:** 2026-03-03 07:17:04.928215\
-**Compiled**: Tue Mar 3 07:20:17 2026
+**Last modified:** 2026-07-24 08:30:34.761243\
+**Compiled**: Fri Jul 24 08:34:17 2026
 
 ## Introduction
 
-The *[Spectra](https://bioconductor.org/packages/3.23/Spectra)* package
+The *[Spectra](https://bioconductor.org/packages/3.24/Spectra)* package
 provides a central infrastructure for the handling of Mass Spectrometry
 (MS) data. The package supports interchangeable use of different
 *backends* to import MS data from a variety of sources (such as mzML
 files). The
-*[MsBackendMgf](https://bioconductor.org/packages/3.23/MsBackendMgf)*
+*[MsBackendMgf](https://bioconductor.org/packages/3.24/MsBackendMgf)*
 package allows the import of MS/MS data from MGF ([Mascot Generic
 Format](http://www.matrixscience.com/help/data_file_help.md)) files. The
 `MsBackendMgf` backend allows to load and represent data from these
@@ -258,10 +258,10 @@ readLines(fl)[1:12]
     ##  [6] "PEPMASS=816.33826"                     
     ##  [7] "CHARGE=2+"                             
     ##  [8] "TITLE=File193 Spectrum1719 scans: 2162"
-    ##  [9] "102.0548 753.738"                      
-    ## [10] "103.00494 385.376"                     
-    ## [11] "103.03531 315.441"                     
-    ## [12] "115.05001 413.206"
+    ##  [9] "TITLE=File193 Spectrum1719 scans: 2162"
+    ## [10] "102.0548 753.738"                      
+    ## [11] "103.00494 385.376"                     
+    ## [12] "103.03531 315.441"
 
 Note that the `MsBackendMgf` exports all spectra variables as fields in
 the mgf file. To illustrate this we add below a new spectra variable to
@@ -274,18 +274,18 @@ export(sps, backend = MsBackendMgf(), file = fl)
 readLines(fl)[1:12]
 ```
 
-    ##  [1] "BEGIN IONS"                                   
-    ##  [2] "TITLE=msLevel 2; retentionTime ; scanNum "    
-    ##  [3] "msLevel=2"                                    
-    ##  [4] "RTINSECONDS=1028"                             
-    ##  [5] "SCANS=2162"                                   
-    ##  [6] "centroided=TRUE"                              
-    ##  [7] "PEPMASS=816.33826"                            
-    ##  [8] "CHARGE=2+"                                    
-    ##  [9] "spectrumName=File193 Spectrum1719 scans: 2162"
-    ## [10] "new_variable=A"                               
-    ## [11] "102.0548 753.738"                             
-    ## [12] "103.00494 385.376"
+    ##  [1] "BEGIN IONS"                                       
+    ##  [2] "msLevel=2"                                        
+    ##  [3] "RTINSECONDS=1028"                                 
+    ##  [4] "SCANS=2162"                                       
+    ##  [5] "centroided=TRUE"                                  
+    ##  [6] "PEPMASS=816.33826"                                
+    ##  [7] "CHARGE=2+"                                        
+    ##  [8] "spectrumName=File193 Spectrum1719 scans: 2162"    
+    ##  [9] "new_variable=A"                                   
+    ## [10] "TITLE=msLevel 2; retentionTime 1028; scanNum 2162"
+    ## [11] ""                                                 
+    ## [12] "102.0548 753.738"
 
 We can see that also our newly defined variable was exported. Also,
 because we did not provide our custom variable mapping this time, the
@@ -440,7 +440,7 @@ to be processed, or if the MGF file is very large (e.g. containing over
 sessionInfo()
 ```
 
-    ## R Under development (unstable) (2026-03-01 r89508)
+    ## R version 4.6.1 (2026-06-24)
     ## Platform: x86_64-pc-linux-gnu
     ## Running under: Ubuntu 24.04.4 LTS
     ## 
@@ -464,21 +464,21 @@ sessionInfo()
     ## [8] base     
     ## 
     ## other attached packages:
-    ## [1] MsBackendMgf_1.19.1 Spectra_1.21.2      BiocParallel_1.45.0
-    ## [4] S4Vectors_0.49.0    BiocGenerics_0.57.0 generics_0.1.4     
-    ## [7] BiocStyle_2.39.0   
+    ## [1] MsBackendMgf_1.21.1  Spectra_1.23.3       BiocParallel_1.47.0 
+    ## [4] S4Vectors_0.51.5     BiocGenerics_0.59.10 generics_0.1.4      
+    ## [7] BiocStyle_2.41.0    
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] jsonlite_2.0.0         compiler_4.6.0         BiocManager_1.30.27   
-    ##  [4] parallel_4.6.0         cluster_2.1.8.2        jquerylib_0.1.4       
-    ##  [7] systemfonts_1.3.1      IRanges_2.45.0         textshaping_1.0.4     
+    ##  [1] jsonlite_2.0.0         compiler_4.6.1         BiocManager_1.30.27   
+    ##  [4] parallel_4.6.1         cluster_2.1.8.2        jquerylib_0.1.4       
+    ##  [7] systemfonts_1.3.2      IRanges_2.47.2         textshaping_1.0.5     
     ## [10] yaml_2.3.12            fastmap_1.2.0          R6_2.6.1              
-    ## [13] ProtGenerics_1.39.2    knitr_1.51             htmlwidgets_1.6.4     
-    ## [16] MASS_7.3-65            bookdown_0.46          desc_1.4.3            
-    ## [19] bslib_0.10.0           rlang_1.1.7            cachem_1.1.0          
-    ## [22] xfun_0.56              fs_1.6.6               MsCoreUtils_1.23.2    
-    ## [25] sass_0.4.10            otel_0.2.0             cli_3.6.5             
-    ## [28] pkgdown_2.2.0.9000     digest_0.6.39          MetaboCoreUtils_1.19.2
-    ## [31] lifecycle_1.0.5        clue_0.3-67            data.table_1.18.2.1   
-    ## [34] evaluate_1.0.5         codetools_0.2-20       ragg_1.5.0            
-    ## [37] rmarkdown_2.30         tools_4.6.0            htmltools_0.5.9
+    ## [13] ProtGenerics_1.45.0    knitr_1.51             htmlwidgets_1.6.4     
+    ## [16] MASS_7.3-66            bookdown_0.47          desc_1.4.3            
+    ## [19] bslib_0.11.0           rlang_1.3.0            cachem_1.1.0          
+    ## [22] xfun_0.60              fs_2.1.0               MsCoreUtils_1.25.4    
+    ## [25] sass_0.4.10            otel_0.2.0             cli_3.6.6             
+    ## [28] pkgdown_2.2.1.9000     digest_0.6.39          MetaboCoreUtils_1.21.1
+    ## [31] lifecycle_1.0.5        clue_0.3-68            data.table_1.18.4     
+    ## [34] evaluate_1.0.5         codetools_0.2-20       ragg_1.5.2            
+    ## [37] rmarkdown_2.31         tools_4.6.1            htmltools_0.5.9

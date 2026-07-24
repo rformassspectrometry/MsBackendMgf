@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Description and usage of MsBackendMgf • MsBackendMgf</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Description and usage of MsBackendMgf">
 </head>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">MsBackendMgf</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.19.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.21.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,21 +70,21 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Package</strong>: <em><a href="https://bioconductor.org/packages/3.23/MsBackendMgf" class="external-link">MsBackendMgf</a></em><br><strong>Authors</strong>: RforMassSpectrometry Package Maintainer [cre],
+</script><p><strong>Package</strong>: <em><a href="https://bioconductor.org/packages/3.24/MsBackendMgf" class="external-link">MsBackendMgf</a></em><br><strong>Authors</strong>: RforMassSpectrometry Package Maintainer [cre],
 Laurent Gatto [aut] (ORCID: <a href="https://orcid.org/0000-0002-1520-2268" class="external-link uri">https://orcid.org/0000-0002-1520-2268</a>), Johannes Rainer
 [aut] (ORCID: <a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Sebastian Gibb
 [aut] (ORCID: <a href="https://orcid.org/0000-0001-7406-4443" class="external-link uri">https://orcid.org/0000-0001-7406-4443</a>), Michael Witting
 [ctb] (ORCID: <a href="https://orcid.org/0000-0002-1462-4426" class="external-link uri">https://orcid.org/0000-0002-1462-4426</a>), Adriano Rutz
 [ctb] (ORCID: <a href="https://orcid.org/0000-0003-0443-9902" class="external-link uri">https://orcid.org/0000-0003-0443-9902</a>), Corey Broeckling
-[ctb] (ORCID: <a href="https://orcid.org/0000-0002-6158-827X" class="external-link uri">https://orcid.org/0000-0002-6158-827X</a>)<br><strong>Last modified:</strong> 2026-03-03 07:17:04.928215<br><strong>Compiled</strong>: Tue Mar 3 07:20:17 2026</p>
+[ctb] (ORCID: <a href="https://orcid.org/0000-0002-6158-827X" class="external-link uri">https://orcid.org/0000-0002-6158-827X</a>)<br><strong>Last modified:</strong> 2026-07-24 08:30:34.761243<br><strong>Compiled</strong>: Fri Jul 24 08:34:17 2026</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <em><a href="https://bioconductor.org/packages/3.23/Spectra" class="external-link">Spectra</a></em>
+<p>The <em><a href="https://bioconductor.org/packages/3.24/Spectra" class="external-link">Spectra</a></em>
 package provides a central infrastructure for the handling of Mass
 Spectrometry (MS) data. The package supports interchangeable use of
 different <em>backends</em> to import MS data from a variety of sources
-(such as mzML files). The <em><a href="https://bioconductor.org/packages/3.23/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
+(such as mzML files). The <em><a href="https://bioconductor.org/packages/3.24/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
 package allows the import of MS/MS data from MGF (<a href="http://www.matrixscience.com/help/data_file_help.html" class="external-link">Mascot
 Generic Format</a>) files. The <code>MsBackendMgf</code> backend allows
 to load and represent data from these <em>standard</em> MGF files, while
@@ -260,10 +260,10 @@ the title was exported properly.</p>
 <span><span class="co">##  [6] "PEPMASS=816.33826"                     </span></span>
 <span><span class="co">##  [7] "CHARGE=2+"                             </span></span>
 <span><span class="co">##  [8] "TITLE=File193 Spectrum1719 scans: 2162"</span></span>
-<span><span class="co">##  [9] "102.0548 753.738"                      </span></span>
-<span><span class="co">## [10] "103.00494 385.376"                     </span></span>
-<span><span class="co">## [11] "103.03531 315.441"                     </span></span>
-<span><span class="co">## [12] "115.05001 413.206"</span></span></code></pre>
+<span><span class="co">##  [9] "TITLE=File193 Spectrum1719 scans: 2162"</span></span>
+<span><span class="co">## [10] "102.0548 753.738"                      </span></span>
+<span><span class="co">## [11] "103.00494 385.376"                     </span></span>
+<span><span class="co">## [12] "103.03531 315.441"</span></span></code></pre>
 <p>Note that the <code>MsBackendMgf</code> exports all spectra variables
 as fields in the mgf file. To illustrate this we add below a new spectra
 variable to the object and export the data.</p>
@@ -271,18 +271,18 @@ variable to the object and export the data.</p>
 <code class="sourceCode R"><span><span class="va">sps</span><span class="op">$</span><span class="va">new_variable</span> <span class="op">&lt;-</span> <span class="st">"A"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">export</a></span><span class="op">(</span><span class="va">sps</span>, backend <span class="op">=</span> <span class="fu"><a href="../reference/MsBackendMgf.html">MsBackendMgf</a></span><span class="op">(</span><span class="op">)</span>, file <span class="op">=</span> <span class="va">fl</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">fl</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "BEGIN IONS"                                   </span></span>
-<span><span class="co">##  [2] "TITLE=msLevel 2; retentionTime ; scanNum "    </span></span>
-<span><span class="co">##  [3] "msLevel=2"                                    </span></span>
-<span><span class="co">##  [4] "RTINSECONDS=1028"                             </span></span>
-<span><span class="co">##  [5] "SCANS=2162"                                   </span></span>
-<span><span class="co">##  [6] "centroided=TRUE"                              </span></span>
-<span><span class="co">##  [7] "PEPMASS=816.33826"                            </span></span>
-<span><span class="co">##  [8] "CHARGE=2+"                                    </span></span>
-<span><span class="co">##  [9] "spectrumName=File193 Spectrum1719 scans: 2162"</span></span>
-<span><span class="co">## [10] "new_variable=A"                               </span></span>
-<span><span class="co">## [11] "102.0548 753.738"                             </span></span>
-<span><span class="co">## [12] "103.00494 385.376"</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] "BEGIN IONS"                                       </span></span>
+<span><span class="co">##  [2] "msLevel=2"                                        </span></span>
+<span><span class="co">##  [3] "RTINSECONDS=1028"                                 </span></span>
+<span><span class="co">##  [4] "SCANS=2162"                                       </span></span>
+<span><span class="co">##  [5] "centroided=TRUE"                                  </span></span>
+<span><span class="co">##  [6] "PEPMASS=816.33826"                                </span></span>
+<span><span class="co">##  [7] "CHARGE=2+"                                        </span></span>
+<span><span class="co">##  [8] "spectrumName=File193 Spectrum1719 scans: 2162"    </span></span>
+<span><span class="co">##  [9] "new_variable=A"                                   </span></span>
+<span><span class="co">## [10] "TITLE=msLevel 2; retentionTime 1028; scanNum 2162"</span></span>
+<span><span class="co">## [11] ""                                                 </span></span>
+<span><span class="co">## [12] "102.0548 753.738"</span></span></code></pre>
 <p>We can see that also our newly defined variable was exported. Also,
 because we did not provide our custom variable mapping this time, the
 variable <code>"spectrumName"</code> was <strong>not</strong> used as
@@ -404,7 +404,7 @@ of files need to be processed, or if the MGF file is very large
 </h2>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R Under development (unstable) (2026-03-01 r89508)</span></span>
+<pre><code><span><span class="co">## R version 4.6.1 (2026-06-24)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
 <span><span class="co">## Running under: Ubuntu 24.04.4 LTS</span></span>
 <span><span class="co">## </span></span>
@@ -428,24 +428,24 @@ of files need to be processed, or if the MGF file is very large
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] MsBackendMgf_1.19.1 Spectra_1.21.2      BiocParallel_1.45.0</span></span>
-<span><span class="co">## [4] S4Vectors_0.49.0    BiocGenerics_0.57.0 generics_0.1.4     </span></span>
-<span><span class="co">## [7] BiocStyle_2.39.0   </span></span>
+<span><span class="co">## [1] MsBackendMgf_1.21.1  Spectra_1.23.3       BiocParallel_1.47.0 </span></span>
+<span><span class="co">## [4] S4Vectors_0.51.5     BiocGenerics_0.59.10 generics_0.1.4      </span></span>
+<span><span class="co">## [7] BiocStyle_2.41.0    </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] jsonlite_2.0.0         compiler_4.6.0         BiocManager_1.30.27   </span></span>
-<span><span class="co">##  [4] parallel_4.6.0         cluster_2.1.8.2        jquerylib_0.1.4       </span></span>
-<span><span class="co">##  [7] systemfonts_1.3.1      IRanges_2.45.0         textshaping_1.0.4     </span></span>
+<span><span class="co">##  [1] jsonlite_2.0.0         compiler_4.6.1         BiocManager_1.30.27   </span></span>
+<span><span class="co">##  [4] parallel_4.6.1         cluster_2.1.8.2        jquerylib_0.1.4       </span></span>
+<span><span class="co">##  [7] systemfonts_1.3.2      IRanges_2.47.2         textshaping_1.0.5     </span></span>
 <span><span class="co">## [10] yaml_2.3.12            fastmap_1.2.0          R6_2.6.1              </span></span>
-<span><span class="co">## [13] ProtGenerics_1.39.2    knitr_1.51             htmlwidgets_1.6.4     </span></span>
-<span><span class="co">## [16] MASS_7.3-65            bookdown_0.46          desc_1.4.3            </span></span>
-<span><span class="co">## [19] bslib_0.10.0           rlang_1.1.7            cachem_1.1.0          </span></span>
-<span><span class="co">## [22] xfun_0.56              fs_1.6.6               MsCoreUtils_1.23.2    </span></span>
-<span><span class="co">## [25] sass_0.4.10            otel_0.2.0             cli_3.6.5             </span></span>
-<span><span class="co">## [28] pkgdown_2.2.0.9000     digest_0.6.39          MetaboCoreUtils_1.19.2</span></span>
-<span><span class="co">## [31] lifecycle_1.0.5        clue_0.3-67            data.table_1.18.2.1   </span></span>
-<span><span class="co">## [34] evaluate_1.0.5         codetools_0.2-20       ragg_1.5.0            </span></span>
-<span><span class="co">## [37] rmarkdown_2.30         tools_4.6.0            htmltools_0.5.9</span></span></code></pre>
+<span><span class="co">## [13] ProtGenerics_1.45.0    knitr_1.51             htmlwidgets_1.6.4     </span></span>
+<span><span class="co">## [16] MASS_7.3-66            bookdown_0.47          desc_1.4.3            </span></span>
+<span><span class="co">## [19] bslib_0.11.0           rlang_1.3.0            cachem_1.1.0          </span></span>
+<span><span class="co">## [22] xfun_0.60              fs_2.1.0               MsCoreUtils_1.25.4    </span></span>
+<span><span class="co">## [25] sass_0.4.10            otel_0.2.0             cli_3.6.6             </span></span>
+<span><span class="co">## [28] pkgdown_2.2.1.9000     digest_0.6.39          MetaboCoreUtils_1.21.1</span></span>
+<span><span class="co">## [31] lifecycle_1.0.5        clue_0.3-68            data.table_1.18.4     </span></span>
+<span><span class="co">## [34] evaluate_1.0.5         codetools_0.2-20       ragg_1.5.2            </span></span>
+<span><span class="co">## [37] rmarkdown_2.31         tools_4.6.1            htmltools_0.5.9</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -458,7 +458,7 @@ of files need to be processed, or if the MGF file is very large
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.9000.</p>
 </div>
 
     </footer>
