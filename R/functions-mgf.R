@@ -380,6 +380,19 @@ readMgfSplit <- function(f, msLevel = 2L,
         stop("Column(s) ", paste(colnames(spd)[col_not_ok], collapse = ", "),
              " contain multiple elements per row. Please either drop this ",
              "column or reduce its elements to a single value per row.")
+    ## Fix/prepare TITLE
+    if (!exportTitle && any(colnames(spd) %in% "TITLE"))
+        spd$TITLE <- NULL
+    if (exportTitle && !any(colnames(spd) %in% "TITLE")) {
+        sn <- spectraNames(x)
+        if (any(sn != as.character(seq_along(x))))
+            spd$TITLE <- paste0("", sn, "\n")
+        else
+            spd$TITLE <- paste0("msLevel ", spd$msLevel,
+                                "; retentionTime ", spd$rtime,
+                                "; scanNum ", spd$acquisitionNum, "\n")
+    }
+    ## Rename/map fields
     idx <- match(colnames(spd), names(mapping))
     colnames(spd)[!is.na(idx)] <- mapping[idx[!is.na(idx)]]
     if (any(colnames(spd) == "CHARGE")) {
@@ -388,21 +401,10 @@ readMgfSplit <- function(f, msLevel = 2L,
         spd$CHARGE <- paste0(abs(spd$CHARGE), sign_char)
         spd$CHARGE[nas] <- ""
     }
-    if (!exportTitle && any(colnames(spd) %in% "TITLE"))
-        spd$TITLE <- NULL
     l <- nrow(spd)
     tmp <- lapply(colnames(spd), function(z) {
         paste0(z, "=", spd[, z], "\n")
     })
-    if (exportTitle && !any(colnames(spd) %in% "TITLE")) {
-        sn <- spectraNames(x)
-        if (any(sn != as.character(seq_along(x))))
-            title <- paste0("TITLE=", sn, "\n")
-        else
-            title <- paste0("TITLE=msLevel ", spd$msLevel, "; retentionTime ",
-                            spd$rtime, "; scanNum ", spd$acquisitionNum, "\n")
-        tmp <- c(list(title), tmp)
-    }
     pks <- vapply(peaksData(x), function(z)
         paste0(paste0(z[, 1], " ", z[, 2], "\n"), collapse = ""),
         character(1))
